@@ -31,42 +31,54 @@
     <hr>
 
     <form>
-        <h3>Tipo de anuncio</h3>
-        <label for="venta">Venta</label>
-        <input type="radio" id="venta" name="tipo_anuncio" value="venta">
-        <label for="alquiler">Alquiler</label>
-        <input type="radio" id="alquiler" name="tipo_anuncio" value="alquiler">
+        <section>
+            <h3>Tipo de anuncio</h3>
+            <label for="venta">Venta</label>
+            <input type="radio" id="venta" name="tipo_anuncio" value="venta">
+            <label for="alquiler">Alquiler</label>
+            <input type="radio" id="alquiler" name="tipo_anuncio" value="alquiler">
+        </section>
 
-        <h3>Tipo de vivienda</h3>
-        <label for="obra_nueva">Obra nueva</label>
-        <input type="radio" id="obra_nueva" name="tipo_vivienda" value="obra_nueva">
-        <label for="vivienda">Vivienda</label>
-        <input type="radio" id="vivienda" name="tipo_vivienda" value="vivienda">
-        <label for="oficina">Oficina</label>
-        <input type="radio" id="oficina" name="tipo_vivienda" value="oficina">
-        <label for="local">Local</label>
-        <input type="radio" id="local" name="tipo_vivienda" value="local">
-        <label for="garaje">Garaje</label>
-        <input type="radio" id="garaje" name="tipo_vivienda" value="garaje">
+        <section>
+            <h3>Tipo de vivienda</h3>
+            <label for="obra_nueva">Obra nueva</label>
+            <input type="radio" id="obra_nueva" name="tipo_vivienda" value="obra_nueva">
+            <label for="vivienda">Vivienda</label>
+            <input type="radio" id="vivienda" name="tipo_vivienda" value="vivienda">
+            <label for="oficina">Oficina</label>
+            <input type="radio" id="oficina" name="tipo_vivienda" value="oficina">
+            <label for="local">Local</label>
+            <input type="radio" id="local" name="tipo_vivienda" value="local">
+            <label for="garaje">Garaje</label>
+            <input type="radio" id="garaje" name="tipo_vivienda" value="garaje">
+        </section>
 
-        <h3>Ubicación</h3>
-        <label for="ciudad">Ciudad:</label>
-        <input type="text" id="ciudad" name="ciudad">
-        <label for="pais">País:</label>
-        <input type="text" id="pais" name="pais">
+        <section>
+            <h3>Ubicación</h3>
+            <label for="ciudad">Ciudad:</label>
+            <input type="text" id="ciudad" name="ciudad">
+            <label for="pais">País:</label>
+            <input type="text" id="pais" name="pais">
+        </section>
 
-        <h3>Precio (€)</h3>
-        <label for="precio_min">Mínimo:</label>
-        <input type="number" id="precio_min" name="precio_min" min="0" step="1000">
-        <label for="precio_max">Máximo:</label>
-        <input type="number" id="precio_max" name="precio_max" min="0" step="1000">
+        <section>
+            <h3>Precio (€)</h3>
+            <label for="precio_min">Mínimo:</label>
+            <input type="number" id="precio_min" name="precio_min" min="0" step="1000">
+            <label for="precio_max">Máximo:</label>
+            <input type="number" id="precio_max" name="precio_max" min="0" step="1000">
+        </section>
 
-        <h3>Fecha de publicación</h3>
-        <label for="fecha">Desde:</label>
-        <input type="date" id="fecha" name="fecha">
+        <section>
+            <h3>Fecha de publicación</h3>
+            <label for="fecha">Desde:</label>
+            <input type="date" id="fecha" name="fecha">
+        </section>
 
-        <button type="reset">Limpiar</button>
-        <button type="submit">Buscar</button>
+        <section>
+            <button type="reset">Limpiar</button>
+            <button type="submit">Buscar</button>
+        </section>
     </form>
 
     <h2>Resultados de búsqueda</h2>

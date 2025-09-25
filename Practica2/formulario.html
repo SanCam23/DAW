@@ -35,7 +35,8 @@
     <h2>Formulario de búsqueda</h2>
     <hr>
 
-    <form>
+    <!-- Usamos action para enviar a resultados.html -->
+    <form action="resultados.html" method="get">
         <section>
             <h3>Tipo de anuncio</h3>
             <label for="venta">Venta</label>
@@ -80,12 +81,9 @@
             <input type="date" id="fecha" name="fecha">
         </section>
 
-        <section>
-            <button type="reset">Limpiar</button>
-            <a href="resultados.html">
-                <button type="button">Buscar</button>
-            </a>
-        </section>
+        <!-- Botones directamente, sin section -->
+        <button type="reset">Limpiar</button>
+        <button type="submit">Buscar</button>
     </form>
 
     <footer>

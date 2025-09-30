@@ -20,16 +20,15 @@
         </figure>
         <h1>VENTAPLUS</h1>
         <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
+        <!-- Navegación -->
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="formulario.html">Buscar</a></li>
+                <li><a href="index_identificado.html">Iniciar sesión</a></li>
+            </ul>
+        </nav>
     </header>
-
-    <!-- Navegación -->
-    <nav>
-        <ul>
-            <li><a href="formulario.html">Alquilar</a></li>
-            <li><a href="formulario.html">Comprar</a></li>
-            <li><a href="index_identificado.html">Iniciar sesión</a></li>
-        </ul>
-    </nav>
 
     <!-- Pop-up de inicio de sesión -->
     <section id="login-popup">
@@ -45,22 +44,23 @@
         </form>
     </section>
 
-    <!-- Búsqueda rápida -->
-    <section id="busqueda-rapida">
-        <h2>Búsqueda rápida</h2>
-        <form>
-            <label for="ciudad">Introduce la ciudad donde deseas buscar:</label>
-            <input type="text" id="ciudad" name="ciudad" placeholder="Ej. Madrid">
-            <button type="submit">Buscar</button>
-        </form>
-    </section>
-
-
-    <!-- Últimos anuncios -->
+    <!-- Contenido principal -->
     <main>
-        <h2>Últimos anuncios</h2>
-        <ul>
-            <li>
+        <!-- Búsqueda rápida -->
+        <section id="busqueda-rapida">
+            <h2>Búsqueda rápida</h2>
+            <form>
+                <label for="ciudad">Introduce la ciudad donde deseas buscar:</label>
+                <input type="text" id="ciudad" name="ciudad" placeholder="Ej. Madrid">
+                <button type="submit">Buscar</button>
+            </form>
+        </section>
+
+        <!-- Últimos anuncios -->
+        <section id="ultimos-anuncios">
+            <h2>Últimos anuncios</h2>
+
+            <section class="anuncio">
                 <figure>
                     <img src="./img/completo.jpg" alt="Vivienda en Madrid">
                 </figure>
@@ -69,8 +69,9 @@
                 <p>Ciudad: Madrid</p>
                 <p>Precio: 350.000€</p>
                 <a href="anuncio.html">Ver detalle</a>
-            </li>
-            <li>
+            </section>
+
+            <section class="anuncio">
                 <figure>
                     <img src="barcelona.jpg" alt="Piso en Barcelona">
                 </figure>
@@ -79,8 +80,41 @@
                 <p>Ciudad: Barcelona</p>
                 <p>Precio: 180.000€</p>
                 <a href="404.html">Ver detalle</a>
-            </li>
-        </ul>
+            </section>
+
+            <section class="anuncio">
+                <figure>
+                    <img src="sevilla.jpg" alt="Casa en Sevilla">
+                </figure>
+                <h3>Casa en Sevilla</h3>
+                <p>Fecha: 15/08/2025</p>
+                <p>Ciudad: Sevilla</p>
+                <p>Precio: 250.000€</p>
+                <a href="404.html">Ver detalle</a>
+            </section>
+
+            <section class="anuncio">
+                <figure>
+                    <img src="valencia.jpg" alt="Apartamento en Valencia">
+                </figure>
+                <h3>Apartamento en Valencia</h3>
+                <p>Fecha: 01/07/2025</p>
+                <p>Ciudad: Valencia</p>
+                <p>Precio: 220.000€</p>
+                <a href="404.html">Ver detalle</a>
+            </section>
+
+            <section class="anuncio">
+                <figure>
+                    <img src="bilbao.jpg" alt="Estudio en Bilbao">
+                </figure>
+                <h3>Estudio en Bilbao</h3>
+                <p>Fecha: 20/06/2025</p>
+                <p>Ciudad: Bilbao</p>
+                <p>Precio: 120.000€</p>
+                <a href="404.html">Ver detalle</a>
+            </section>
+        </section>
     </main>
 
     <!-- Pie de página -->

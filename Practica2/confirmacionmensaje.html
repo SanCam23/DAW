@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,18 +8,16 @@
     <meta name="keywords" content="viviendas, pisos, casas, alquiler, compra, venta, inmuebles">
     <meta name="author" content="Santino Campessi Lojo">
     <meta name="author" content="Mario Laguna Contreras">
-    <title>Enviar mensaje - VENTAPLUS</title>
+    <title>ConfirmaciónMensaje - VENTAPLUS</title>
 </head>
-
 <body>
-    <!-- Cabecera -->
     <header>
         <figure>
             <img src="logo.png" alt="Logo VENTAPLUS">
         </figure>
         <h1>VENTAPLUS</h1>
         <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
-        <!-- Navegación -->
+
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
@@ -31,36 +28,25 @@
     </header>
 
     <main>
-        <form action="confirmacionmensaje.html">
+        <article>
             <section>
-                <h2>Tipo de mensaje</h2>
-                <label>
-                    <input type="radio" name="tipo" value="informacion" required>
-                    Más información
-                </label><br>
-                <label>
-                    <input type="radio" name="tipo" value="cita">
-                    Solicitar una cita
-                </label><br>
-                <label>
-                    <input type="radio" name="tipo" value="oferta">
-                    Comunicar una oferta
-                </label>
+                <h2>Mensaje enviado correctamente</h2>
+                <p>Tu mensaje ha sido enviado y almacenado en nuestra base de datos.</p>
             </section>
 
             <section>
-                <h2>Escribe tu mensaje</h2>
-                <label for="mensaje">Mensaje:</label><br>
-                <textarea id="mensaje" name="mensaje" rows="6" cols="50" required></textarea>
+                <h3>Datos enviados</h3>
+                <p><strong>Tipo de mensaje:</strong> Solicitar una cita</p>
+                <p><strong>Mensaje:</strong> Estoy interesado en visitar el piso en Madrid el próximo fin de semana.</p>
+                <p><strong>Nombre:</strong> Laura Martínez</p>
+                <p><strong>Correo electrónico:</strong> laura.martinez@example.com</p>
             </section>
-
-            <button type="submit">Enviar mensaje</button>
-        </form>
+        </article>
     </main>
 
     <footer>
         <p>© VENTAPLUS | 2025</p>
     </footer>
-</body>
 
+</body>
 </html>

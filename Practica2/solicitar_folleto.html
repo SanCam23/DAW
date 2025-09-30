@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="VENTAPLUS: portal de anuncios de venta y alquiler de viviendas. Busca tu próximo hogar fácilmente.">
+    <meta name="keywords" content="viviendas, pisos, casas, alquiler, compra, venta, inmuebles">
+    <meta name="author" content="Santino Campessi Lojo">
+    <meta name="author" content="Mario Laguna Contreras">
+    <title>Solicitar Folleto - VENTAPLUS</title>
+</head>
+
+<body>
+    <!-- Cabecera -->
+    <header>
+        <figure>
+            <img src="logo.png" alt="Logo VENTAPLUS">
+        </figure>
+        <h1>VENTAPLUS</h1>
+        <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
+        <!-- Navegación -->
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="formulario.html">Buscar</a></li>
+                <li><a href="index_identificado.html">Iniciar sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+        <h2>Solicitar folleto publicitario</h2>
+        <p>
+            Rellena el siguiente formulario para solicitar un folleto publicitario impreso
+            de uno de tus anuncios. Los campos marcados con * son obligatorios.
+        </p>
+
+        <!-- Tabla de tarifas -->
+        <section>
+            <h3>Tarifas</h3>
+            <table>
+                <caption>Tabla de tarifas para impresión de folletos</caption>
+                <tr>
+                    <th scope="col">Número de páginas</th>
+                    <th scope="col">Número de fotos</th>
+                    <th scope="col">Color/B&N</th>
+                    <th scope="col">Resolución</th>
+                    <th scope="col">Precio (€)</th>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>20</td>
+                    <td>Color</td>
+                    <td>150 DPI</td>
+                    <td>15 €</td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>40</td>
+                    <td>B&N</td>
+                    <td>300 DPI</td>
+                    <td>20 €</td>
+                </tr>
+                <tr>
+                    <td colspan="4">Coste de procesamiento y envío</td>
+                    <td>5 €</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Formulario -->
+        <section>
+            <form action="respuesta_solicitar_folleto.html">
+
+                <fieldset>
+                    <legend>Texto adicional</legend>
+                    <label for="texto">Texto (máx. 4000 caracteres):</label><br>
+                    <textarea id="texto" name="texto" maxlength="4000" rows="6" cols="50"></textarea>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Datos personales</legend>
+                    <label for="nombre">Nombre completo*:</label>
+                    <input type="text" id="nombre" name="nombre" maxlength="200" required><br><br>
+
+                    <label for="email">Correo electrónico*:</label>
+                    <input type="email" id="email" name="email" maxlength="200" required><br><br>
+
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono"><br><br>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Dirección de envío</legend>
+                    <label for="calle">Calle*:</label>
+                    <input type="text" id="calle" name="calle" required><br><br>
+
+                    <label for="numero">Número*:</label>
+                    <input type="text" id="numero" name="numero" required><br><br>
+
+                    <label for="cp">Código postal*:</label>
+                    <input type="text" id="cp" name="cp" required><br><br>
+
+                    <label for="localidad">Localidad*:</label>
+                    <input type="text" id="localidad" name="localidad" required><br><br>
+
+                    <label for="provincia">Provincia*:</label>
+                    <input type="text" id="provincia" name="provincia" required><br><br>
+
+                    <label for="pais">País*:</label>
+                    <select id="pais" name="pais" required>
+                        <option value="">Seleccione</option>
+                        <option value="espana">España</option>
+                        <option value="francia">Francia</option>
+                        <option value="italia">Italia</option>
+                        <option value="alemania">Alemania</option>
+                    </select>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Opciones del folleto</legend>
+                    <label for="color">Color de la portada:</label>
+                    <input type="color" id="color" name="color" value="#000000"><br><br>
+
+                    <label for="copias">Número de copias (1-99):</label>
+                    <input type="number" id="copias" name="copias" min="1" max="99" value="1"><br><br>
+
+                    <label for="resolucion">Resolución de las fotos (150-900 DPI):</label>
+                    <input type="range" id="resolucion" name="resolucion" min="150" max="900" step="150" value="150">
+                    <output for="resolucion">150 DPI</output><br><br>
+
+                    <label for="anuncio">Anuncio a imprimir*:</label>
+                    <select id="anuncio" name="anuncio" required>
+                        <option value="">Seleccione un anuncio</option>
+                        <option value="1">Vivienda en Madrid</option>
+                        <option value="2">Piso en Barcelona</option>
+                        <option value="3">Casa en Sevilla</option>
+                    </select><br><br>
+
+                    <label for="fecha">Fecha de recepción deseada:</label>
+                    <input type="date" id="fecha" name="fecha"><br><br>
+
+                    <label>Impresión a color:</label>
+                    <input type="radio" id="color_si" name="impresion_color" value="color" checked>
+                    <label for="color_si">Color</label>
+                    <input type="radio" id="color_no" name="impresion_color" value="bn">
+                    <label for="color_no">Blanco y negro</label><br><br>
+
+                    <label>¿Mostrar el precio en el folleto?</label>
+                    <input type="checkbox" id="precio" name="mostrar_precio" value="si">
+                    <label for="precio">Sí</label>
+                </fieldset>
+
+
+                <br>
+                <button type="submit">Enviar solicitud</button>
+                <button type="reset">Borrar</button>
+            </form>
+        </section>
+    </main>
+
+
+    <!-- Pie de página -->
+    <footer>
+        <p>© VENTAPLUS | 2025</p>
+    </footer>
+</body>
+
+</html>

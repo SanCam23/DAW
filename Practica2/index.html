@@ -21,25 +21,26 @@
             <figure>
                 <img src="logo.png" alt="Logo">
             </figure>
-            <h1>VENTAPLUS</h1>
-            <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
+
+            <section class="titulo">
+                <h1>VENTAPLUS</h1>
+                <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
+            </section>
         </section>
-        <!-- Navegación -->
 
-        <!-- Checkbox oculto -->
+        <input type="checkbox" id="menu-toggle">
 
-        <!-- Botón hamburguesa (usa label para activar el checkbox) -->
+        <!-- Botón hamburguesa -->
+        <label for="menu-toggle" class="menu-toggle" aria-label="Abrir menú">
+            <i class="icon-th-list"></i>
+        </label>
 
         <nav>
-            <label for="menu-toggle" class="menu-toggle" aria-label="Abrir menú">
-                <i class="icon-th-list"></i>
-            </label>
-            <input type="checkbox" id="menu-toggle">
             <ul>
-                <li><i class="icon-home"></i><a href="index.html">Inicio</a></li>
-                <li><i class="icon-search"></i><a href="formulario.html">Buscar</a></li>
-                <li><i class="icon-login"></i><a href="index_identificado.html">Iniciar sesión</a></li>
-                <li><i class="icon-user-plus"></i><a href="registro.html">Registrarse</a></li>
+                <li><a href="index.html"><i class="icon-home"></i>Inicio</a></li>
+                <li></i><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
+                <li><a href="index_identificado.html"><i class="icon-login"></i>Iniciar sesión</a></li>
+                <li><a href="registro.html"><i class="icon-user-plus"></i>Registrarse</a></li>
             </ul>
         </nav>
     </header>
@@ -62,13 +63,12 @@
     <main>
         <!-- Búsqueda rápida -->
         <section id="busqueda-rapida">
-            <h2>Búsqueda rápida</h2>
             <form action="resultados.html">
-                <label for="ciudad">Introduce la ciudad donde deseas buscar:</label>
-                <input type="text" id="ciudad" name="ciudad" placeholder="Ej. Madrid">
-                <button type="submit">Buscar</button>
+                <input type="text" id="ciudad" name="ciudad" placeholder="Introduce la ciudad donde deseas buscar">
+                <button type="submit"><b><i class="icon-search"></i>Buscar</b></button>
             </form>
         </section>
+
 
         <!-- Últimos anuncios -->
         <section id="ultimos-anuncios">
@@ -87,7 +87,7 @@
 
             <section class="anuncio">
                 <figure>
-                    <img src="barcelona.jpg" alt="Piso en Barcelona">
+                    <img src="./img/barcelona.jpeg" alt="Piso en Barcelona">
                 </figure>
                 <h3>Piso en Barcelona</h3>
                 <p>Fecha: 28/08/2025</p>
@@ -98,7 +98,7 @@
 
             <section class="anuncio">
                 <figure>
-                    <img src="sevilla.jpg" alt="Casa en Sevilla">
+                    <img src="./img/sevilla.jpeg" alt="Casa en Sevilla">
                 </figure>
                 <h3>Casa en Sevilla</h3>
                 <p>Fecha: 15/08/2025</p>
@@ -109,7 +109,7 @@
 
             <section class="anuncio">
                 <figure>
-                    <img src="valencia.jpg" alt="Apartamento en Valencia">
+                    <img src="./img/valencia.jpeg" alt="Apartamento en Valencia">
                 </figure>
                 <h3>Apartamento en Valencia</h3>
                 <p>Fecha: 01/07/2025</p>
@@ -120,7 +120,7 @@
 
             <section class="anuncio">
                 <figure>
-                    <img src="bilbao.jpg" alt="Estudio en Bilbao">
+                    <img src="./img/bilbao.jpeg" alt="Estudio en Bilbao">
                 </figure>
                 <h3>Estudio en Bilbao</h3>
                 <p>Fecha: 20/06/2025</p>

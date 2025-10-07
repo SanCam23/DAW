@@ -1,0 +1,8 @@
+
+.icon-home:before { content: '\e800'; } /* '' */
+.icon-login:before { content: '\e801'; } /* '' */
+.icon-logout:before { content: '\e802'; } /* '' */
+.icon-search:before { content: '\e803'; } /* '' */
+.icon-th-list:before { content: '\e806'; } /* '' */
+.icon-plus-squared:before { content: '\f0fe'; } /* '' */
+.icon-user-plus:before { content: '\f234'; } /* '' */

@@ -11,6 +11,7 @@
     <meta name="author" content="Mario Laguna Contreras">
     <title>Inicio - VENTAPLUS</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="css/fontello.css">
 </head>
 
 <body>
@@ -18,18 +19,27 @@
     <header class="Cabecera">
         <section class="texto">
             <figure>
-                <img src="logo.png" alt="Logo VENTAPLUS">
+                <img src="logo.png" alt="Logo">
             </figure>
             <h1>VENTAPLUS</h1>
             <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
         </section>
         <!-- Navegación -->
+
+        <!-- Checkbox oculto -->
+        <input type="checkbox" id="menu-toggle">
+
+        <!-- Botón hamburguesa (usa label para activar el checkbox) -->
+        <label for="menu-toggle" class="menu-toggle" aria-label="Abrir menú">
+            <i class="icon-th-list"></i>
+        </label>
+
         <nav>
             <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="formulario.html">Buscar</a></li>
-                <li><a href="index_identificado.html">Iniciar sesión</a></li>
-                <li><a href="registro.html">Registrarse</a></li>
+                <li><i class="icon-home"></i><a href="index.html">Inicio</a></li>
+                <li><i class="icon-search"></i><a href="formulario.html">Buscar</a></li>
+                <li><i class="icon-login"></i><a href="index_identificado.html">Iniciar sesión</a></li>
+                <li><i class="icon-user-plus"></i><a href="registro.html">Registrarse</a></li>
             </ul>
         </nav>
     </header>

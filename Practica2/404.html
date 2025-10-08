@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-    
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,21 +10,37 @@
     <meta name="author" content="Santino Campessi Lojo">
     <meta name="author" content="Mario Laguna Contreras">
     <title>404 - Página no encontrada - VENTAPLUS</title>
+    <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="404.css">
+    <link rel="stylesheet" href="css/fontello.css">
 </head>
+
 <body>
     <!-- Cabecera -->
-    <header>
-        <figure>
-            <img src="logo.png" alt="Logo VENTAPLUS">
-        </figure>
-        <h1>VENTAPLUS</h1>
-        <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
-        <!-- Navegación -->
+    <header class="Cabecera">
+        <section class="texto">
+            <figure>
+                <img src="logo.png" alt="Logo">
+            </figure>
+
+            <section class="titulo">
+                <h1>VENTAPLUS</h1>
+                <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
+            </section>
+        </section>
+
+        <input type="checkbox" id="menu-toggle">
+
+        <!-- Botón hamburguesa -->
+        <label for="menu-toggle" class="menu-toggle" aria-label="Abrir menú">
+            <i class="icon-th-list"></i>
+        </label>
+
         <nav>
             <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="formulario.html">Buscar</a></li>
-                <li><a href="index_identificado.html">Iniciar sesión</a></li>
+                <li><a href="index.html"><i class="icon-home"></i>Inicio</a></li>
+                <li></i><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
+                <li><a href="index_identificado.html"><i class="icon-login"></i>Iniciar sesión</a></li>
             </ul>
         </nav>
     </header>
@@ -34,16 +50,6 @@
         <h2>Error 404 — Página no encontrada</h2>
         <hr>
         <p>Lo sentimos, la página que intentas consultar no existe o ha sido movida.</p>
-
-        <p>Si has accedido a un <em>detalle de anuncio</em> y ves este mensaje, puede ser porque esa funcionalidad aún
-        no está implementada o requiere iniciar sesión como usuario registrado.</p>
-
-        <p>Prueba alguna de estas opciones:</p>
-        <ul>
-            <li><a href="index.html">Volver a la página principal</a></li>
-            <li><a href="busqueda.html">Ir a la página de búsqueda</a></li>
-            <li><a href="index.html#login-popup">Iniciar sesión</a> (si necesitas estar registrado)</li>
-        </ul>
     </main>
 
     <!-- Pie de página -->
@@ -51,4 +57,5 @@
         <p>© VENTAPLUS | 2025</p>
     </footer>
 </body>
+
 </html>

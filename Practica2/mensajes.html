@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,20 +10,36 @@
     <meta name="author" content="Santino Campessi Lojo">
     <meta name="author" content="Mario Laguna Contreras">
     <title>Mis mensajes - VENTAPLUS</title>
+    <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="mensajes.css">
+    <link rel="stylesheet" href="css/fontello.css">
 </head>
+
 <body>
-    <header>
-        <figure>
-            <img src="logo.png" alt="Logo VENTAPLUS">
-        </figure>
-        <h1>VENTAPLUS</h1>
-        <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
+    <header class="Cabecera">
+        <section class="texto">
+            <figure>
+                <img src="logo.png" alt="Logo">
+            </figure>
+
+            <section class="titulo">
+                <h1>VENTAPLUS</h1>
+                <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
+            </section>
+        </section>
+
+        <input type="checkbox" id="menu-toggle">
+
+        <!-- Botón hamburguesa -->
+        <label for="menu-toggle" class="menu-toggle" aria-label="Abrir menú">
+            <i class="icon-th-list"></i>
+        </label>
 
         <nav>
             <ul>
-                <li><a href="index_identificado.html">Inicio</a></li>
-                <li><a href="formulario.html">Buscar</a></li>
-                <li><a href="menu_usuario_registrado.html">Mi Perfil</a></li>
+                <li><a href="index.html"><i class="icon-home"></i>Inicio</a></li>
+                <li></i><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
+                <li><a href="menu_usuario_registrado.html"><i class="icon-user"></i>Mi Perfil</a></li>
             </ul>
         </nav>
     </header>
@@ -36,7 +53,8 @@
                 <h3>Mensajes enviados</h3>
                 <article>
                     <p><strong>Tipo de mensaje:</strong> Solicitar una cita</p>
-                    <p><strong>Texto:</strong> Estoy interesado en visitar el piso de Madrid el sábado por la mañana.</p>
+                    <p><strong>Texto:</strong> Estoy interesado en visitar el piso de Madrid el sábado por la mañana.
+                    </p>
                     <p><strong>Fecha:</strong> 15 de septiembre de 2025</p>
                     <p><strong>Receptor:</strong> Agencia Inmobiliaria Soluciones</p>
                 </article>
@@ -73,4 +91,5 @@
         <p>© VENTAPLUS | 2025</p>
     </footer>
 </body>
+
 </html>

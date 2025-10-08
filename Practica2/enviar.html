@@ -10,22 +10,37 @@
     <meta name="author" content="Santino Campessi Lojo">
     <meta name="author" content="Mario Laguna Contreras">
     <title>Enviar mensaje - VENTAPLUS</title>
+    <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="enviar.css">
+    <link rel="stylesheet" href="css/fontello.css">
 </head>
 
 <body>
     <!-- Cabecera -->
-    <header>
-        <figure>
-            <img src="logo.png" alt="Logo VENTAPLUS">
-        </figure>
-        <h1>VENTAPLUS</h1>
-        <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
-        <!-- Navegación -->
+    <header class="Cabecera">
+        <section class="texto">
+            <figure>
+                <img src="logo.png" alt="Logo">
+            </figure>
+
+            <section class="titulo">
+                <h1>VENTAPLUS</h1>
+                <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
+            </section>
+        </section>
+
+        <input type="checkbox" id="menu-toggle">
+
+        <!-- Botón hamburguesa -->
+        <label for="menu-toggle" class="menu-toggle" aria-label="Abrir menú">
+            <i class="icon-th-list"></i>
+        </label>
+
         <nav>
             <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="formulario.html">Buscar</a></li>
-                <li><a href="index_identificado.html">Iniciar sesión</a></li>
+                <li><a href="index.html"><i class="icon-home"></i>Inicio</a></li>
+                <li></i><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
+                <li><a href="index_identificado.html"><i class="icon-login"></i>Iniciar sesión</a></li>
             </ul>
         </nav>
     </header>

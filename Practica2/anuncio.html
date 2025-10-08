@@ -10,88 +10,109 @@
     <meta name="author" content="Santino Campessi Lojo">
     <meta name="author" content="Mario Laguna Contreras">
     <title>Anuncio - VENTAPLUS</title>
+    <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="anuncio.css">
+    <link rel="stylesheet" href="css/fontello.css">
 </head>
 
 <body>
     <!-- Cabecera -->
-    <header>
-        <figure>
-            <img src="logo.png" alt="Logo VENTAPLUS">
-        </figure>
-        <h1>VENTAPLUS</h1>
-        <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
-        <!-- Navegación -->
+    <header class="Cabecera">
+        <section class="texto">
+            <figure>
+                <img src="logo.png" alt="Logo">
+            </figure>
+
+            <section class="titulo">
+                <h1>VENTAPLUS</h1>
+                <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
+            </section>
+        </section>
+
+        <input type="checkbox" id="menu-toggle">
+
+        <!-- Botón hamburguesa -->
+        <label for="menu-toggle" class="menu-toggle" aria-label="Abrir menú">
+            <i class="icon-th-list"></i>
+        </label>
+
         <nav>
             <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="formulario.html">Buscar</a></li>
-                <li><a href="index_identificado.html">Iniciar sesión</a></li>
+                <li><a href="index.html"><i class="icon-home"></i>Inicio</a></li>
+                <li></i><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
+                <li><a href="index_identificado.html"><i class="icon-login"></i>Iniciar sesión</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
         <article>
-            <h2>Anuncio</h2>
+            <!-- Columna izquierda: imagen principal + galería -->
+            <section class="col-izquierda">
+                <h2>Anuncio</h2>
 
-            <!-- Foto principal -->
-            <figure>
-                <img src="./img/completo.jpg" alt="Foto principal del anuncio">
-            </figure>
-
-            <!-- Fotos adicionales -->
-            <section>
-                <h3>Galería de imágenes</h3>
-                <figure>
-                    <img src="./img/salon.jpg" alt="Foto 1 del anuncio">
+                <!-- Foto principal -->
+                <figure class="foto-principal">
+                    <img src="./img/completo.jpg" alt="Foto principal del anuncio">
                 </figure>
-                <figure>
-                    <img src="./img/balcon.jpg" alt="Foto 2 del anuncio">
-                </figure>
+
+                <!-- Galería de imágenes -->
+                <section class="galeria">
+                    <h3>Galería de imágenes</h3>
+                    <figure>
+                        <img src="./img/salon.jpg" alt="Foto 1 del anuncio">
+                    </figure>
+                    <figure>
+                        <img src="./img/balcon.jpg" alt="Foto 2 del anuncio">
+                    </figure>
+                </section>
             </section>
 
-            <!-- Información del anuncio -->
-            <section>
-                <h3>Información general</h3>
-                <p><strong>Piso moderno en Madrid</strong></p>
-                <p>Tipo de anuncio: Venta</p>
-                <p>Tipo de vivienda: Piso</p>
-                <p>Fecha: 23 de septiembre de 2025</p>
-                <p>Ciudad: Madrid</p>
-                <p>País: España</p>
-                <p>Precio: 350.000 €</p>
-            </section>
+            <!-- Columna derecha: información general + descripción + características -->
+            <section class="col-derecha">
+                <section class="info-general">
+                    <h3>Información general</h3>
+                    <p><strong>Piso moderno en Madrid</strong></p>
+                    <p>Tipo de anuncio: Venta</p>
+                    <p>Tipo de vivienda: Piso</p>
+                    <p>Fecha: 23 de septiembre de 2025</p>
+                    <p>Ciudad: Madrid</p>
+                    <p>País: España</p>
+                    <p>Precio: 350.000 €</p>
+                </section>
 
-            <!-- Descripción -->
-            <section>
-                <h3>Descripción</h3>
-                <p>Este piso moderno de 90 m² se encuentra en el centro de Madrid.
-                    Dispone de 2 habitaciones amplias, 2 baños completos, un salón luminoso con grandes ventanales,
-                    cocina equipada con electrodomésticos de alta gama y un pequeño balcón con vistas a la ciudad.
-                    Ideal para familias o profesionales que buscan un piso céntrico y bien comunicado.</p>
-            </section>
+                <section class="descripcion">
+                    <h3>Descripción</h3>
+                    <p>Este piso moderno de 90 m² se encuentra en el centro de Madrid.
+                        Dispone de 2 habitaciones amplias, 2 baños completos, un salón luminoso con grandes ventanales,
+                        cocina equipada con electrodomésticos de alta gama y un pequeño balcón con vistas a la ciudad.
+                        Ideal para familias o profesionales que buscan un piso céntrico y bien comunicado.</p>
+                </section>
 
-            <!-- Características -->
-            <section>
-                <h3>Características</h3>
-                <ul>
-                    <li>2 habitaciones</li>
-                    <li>2 baños</li>
-                    <li>Cocina equipada</li>
-                    <li>Balcón</li>
-                    <li>1 salón</li>
-                </ul>
+                <section class="caracteristicas">
+                    <h3>Características</h3>
+                    <ul>
+                        <li>2 habitaciones</li>
+                        <li>2 baños</li>
+                        <li>Cocina equipada</li>
+                        <li>Balcón</li>
+                        <li>1 salón</li>
+                    </ul>
+                </section>
             </section>
         </article>
 
-        <section>
+        <section class="contacto">
             <h3>Enviar mensaje</h3>
             <p><a href="enviar.html">Ir al formulario de contacto</a></p>
         </section>
     </main>
 
+
+
     <footer>
         <p>© VENTAPLUS | 2025</p>
     </footer>
 </body>
+
 </html>

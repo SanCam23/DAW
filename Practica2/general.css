@@ -50,7 +50,7 @@ header.Cabecera {
         }
     }
 
-    nav {
+    .menu-escritorio {
         ul {
             list-style: none;
             display: flex;
@@ -79,18 +79,10 @@ header.Cabecera {
     }
 }
 
-#menu-toggle {
+.menu-movil {
     display: none;
 }
 
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.8em;
-    cursor: pointer;
-}
 
 /* --------------------------------------------------
    CONTENIDO PRINCIPAL
@@ -109,101 +101,65 @@ footer {
    MEDIA QUERIES
 -------------------------------------------------- */
 
+/* Media query para móviles */
 @media (max-width: 767px) {
-    .menu-toggle {
-        display: block;
-        position: absolute;
-        left: 15px;
-        top: 15px;
-        font-size: 2em;
-        background: none;
-        border: none;
-        color: white;
-        cursor: pointer;
-        z-index: 1000;
-    }
+  .menu-escritorio {
+    display: none;
+  }
 
+  .menu-movil {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+
+    ul {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      margin: 0;
+      list-style: none;
+
+      li {
+        flex: 1;
+
+        &:first-child {
+          text-align: left;
+        }
+
+        &:nth-child(2) {
+          text-align: center;
+        }
+
+        &:last-child {
+          text-align: right;
+        }
+
+        a {
+          display: inline-block;
+          font-size: 1.8em;
+          color: white;
+          text-decoration: none;
+          background: none;
+        }
+      }
+    }
+  }
+
+  header.Cabecera {
     h3 {
-        display: none;
+      display: none;
     }
 
-    header.Cabecera {
-        nav {
-            display: none;
-            position: absolute;
-            top: 60px;
-            left: 15px;
-            width: 85%;
-            max-width: 300px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            animation: fadeOut 0.3s ease-in;
-            z-index: 999;
-        }
-
-        #menu-toggle:checked~nav {
-            display: block;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        nav ul {
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 15px;
-            gap: 10px;
-        }
-
-        nav ul li {
-            width: 100%;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            padding: 8px 0;
-            display: block;
-            width: 100%;
-            background: none;
-            border-radius: 0;
-
-            &:hover {
-                background: none;
-            }
-        }
-
-        .texto {
-            width: 100%;
-            justify-content: center;
-            text-align: center;
-        }
+    .texto {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
     }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeOut {
-        from {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        to {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-    }
+  }
 }
+
+
 
 
 

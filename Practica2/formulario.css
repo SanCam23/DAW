@@ -1,10 +1,10 @@
 body {
-    h2{
+    h2 {
         width: 100%;
         text-align: center;
     }
-    
-    form{
+
+    form {
         max-width: 800px;
         margin: 30px auto;
         padding: 20px;
@@ -15,7 +15,7 @@ body {
         flex-direction: column;
         gap: 20px;
 
-        section{
+        section {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
@@ -23,39 +23,61 @@ body {
             border-bottom: 1px solid #ddd;
             padding-bottom: 10px;
 
-            h3{
+            h3 {
                 flex-basis: 100%;
                 margin-bottom: 5px;
                 font-size: 1.1em;
             }
 
-            label{
+            label {
                 margin-right: 5px;
             }
 
-            input[type="date"]{
+            input[type="date"] {
                 padding: 6px 10px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
             }
 
-            input[type="radio"]{
+            input[type="radio"] {
                 margin-right: 10px;
             }
         }
 
         button {
-                padding: 8px 12px;
-                background-color: #66B266;
-                color: #fff;
-                border: none;
-                cursor: pointer;
-                border-radius: 3px;
-                flex-basis: 100%;
+            padding: 8px 12px;
+            background-color: #66B266;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            flex-basis: 100%;
+            font-size: 1.1em;
 
-                &:hover {
-                    background-color: #0066cc;
-                }
+            &:hover {
+                background-color: #0066cc;
             }
+        }
     }
+}
+
+@media (max-width: 767px) {
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 95%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    form input[type="text"],
+    form input[type="number"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
 }

@@ -1,20 +1,22 @@
-main{
+main {
     max-width: 1200px;
     margin: 20px auto;
     padding: 0 15px;
 
-    #resultados{
+    #resultados {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 25px; 
+        gap: 25px;
 
-        h2{
+        h2 {
             width: 100%;
             text-align: center;
+            font-size: 2em;
+            color: #1b9986;
         }
 
-        article{
+        article {
             flex: 1 1 220px;
             max-width: 250px;
             background-color: #fff;

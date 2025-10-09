@@ -11,7 +11,7 @@ main {
         margin-bottom: 20px;
         text-align: center;
         width: 100%;
-        color: #007a3d;
+            color: #1b9986;
     }
 
     p {
@@ -20,14 +20,13 @@ main {
         color: #333;
     }
 
-    /* Secciones generales */
     section {
         margin-bottom: 35px;
 
         h3 {
             font-size: 1.4em;
-            color: #007a3d;
-            border-bottom: 2px solid #007a3d;
+            color: #10bb82;
+            border-bottom: 2px solid #10bb82;
             padding-bottom: 5px;
             margin-bottom: 15px;
         }
@@ -45,7 +44,7 @@ main {
             }
 
             th {
-                background-color: #007a3d;
+                background-color: #66B266;
                 color: white;
                 padding: 10px;
                 text-align: center;
@@ -62,7 +61,6 @@ main {
             }
         }
 
-        /* Formulario */
         form {
             display: flex;
             flex-direction: column;
@@ -76,7 +74,7 @@ main {
 
                 legend {
                     font-weight: bold;
-                    color: #007a3d;
+                    color: #10bb82;
                     padding: 0 10px;
                 }
 
@@ -119,9 +117,8 @@ main {
                 }
             }
 
-            /* Botones */
             button {
-                background-color: #007a3d;
+                background-color: #66B266;
                 color: white;
                 padding: 12px 20px;
                 border: none;
@@ -147,7 +144,6 @@ main {
     }
 }
 
-/* Tablet */
 @media (min-width: 768px) and (max-width: 991px) {
 
     main {
@@ -186,7 +182,6 @@ main {
     }
 }
 
-/* Móvil */
 @media (max-width: 767px) {
 
     main {

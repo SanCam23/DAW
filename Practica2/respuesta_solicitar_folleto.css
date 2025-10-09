@@ -1,4 +1,4 @@
-main{
+main {
     max-width: 600px;
     margin: 40px auto;
     padding: 30px;
@@ -6,30 +6,40 @@ main{
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
-    h2{
+    h2 {
         font-size: 2em;
         margin-bottom: 20px;
         text-align: center;
         width: 100%;
     }
 
-    p{
+    p {
         margin-bottom: 20px;
         text-align: justify;
     }
 
-    section{
+    a {
+        color: #10bb82;
+        text-decoration: none;
+        font-weight: bold;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    section {
         margin-bottom: 30px;
 
-        h3{
-           font-size: 1.3em;
+        h3 {
+            font-size: 1.3em;
             color: #007a3d;
             border-bottom: 2px solid #007a3d;
             padding-bottom: 5px;
-            margin-bottom: 15px; 
+            margin-bottom: 15px;
         }
 
-        dl{
+        dl {
             display: grid;
             grid-template-columns: 1fr 2fr;
             gap: 10px 20px;
@@ -37,18 +47,18 @@ main{
             padding: 20px;
             border-radius: 8px;
 
-            dt{
+            dt {
                 font-weight: bold;
                 color: #333;
             }
 
-            dd{
+            dd {
                 margin: 0;
                 color: #555;
             }
         }
 
-        a{
+        a {
             display: inline-block;
             text-decoration: none;
             color: #fff;
@@ -56,10 +66,10 @@ main{
             padding: 10px 20px;
             border-radius: 6px;
             transition: background-color 0.3s ease;
-            
-            &:hover{
-                    background-color: #e0e0e0;
-                }
+
+            &:hover {
+                background-color: #e0e0e0;
+            }
         }
 
 
@@ -113,6 +123,7 @@ main{
                 margin-top: 15px;
             }
         }
+
     }
 }
 

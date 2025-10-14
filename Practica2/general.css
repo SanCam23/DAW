@@ -216,3 +216,18 @@ footer {
         }
     }
 }
+
+/* -------------------------------------------
+   MODO OSCURO AUTOMÁTICO 
+------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+    html {
+        filter: invert(1) hue-rotate(180deg);
+        background-color: #111;
+    }
+
+    /* Invertir de nuevo las imágenes y los íconos para que se vean normales */
+    img, video, iframe {
+        filter: invert(1) hue-rotate(180deg);
+    }
+}

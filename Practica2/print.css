@@ -1,0 +1,81 @@
+/* -------------------------------------------
+   Hoja de estilo para impresión - print.css
+------------------------------------------- */
+
+/* Quitar fondos de color y usar texto negro sobre blanco */
+body {
+    background: white;
+    color: black;
+    font-family: "Times New Roman", serif;
+    font-size: 12pt;
+    margin: 2cm;
+}
+
+/* Ocultar elementos que no sirven en papel */
+header,
+nav,
+#login-popup,
+form,
+footer {
+    display: none !important;
+}
+
+/* Mostrar solo el contenido principal */
+main {
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background: none;
+    color: black;
+}
+
+/* Los títulos se imprimen claramente */
+h1, h2, h3 {
+    color: black;
+    font-weight: bold;
+}
+
+/* Imágenes importantes sí, decorativas no */
+.anuncio img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Quitar los botones */
+button, input[type="submit"] {
+    display: none;
+}
+
+/* Mostrar el enlace completo en los "a" */
+a::after {
+    content: " (" attr(href) ")";
+    font-size: 10pt;
+    color: #333;
+}
+
+/* Asegurar saltos de página correctos */
+@page {
+    size: A4;
+    margin: 2cm;
+}
+
+h2 {
+    page-break-before: always; /* Cada sección empieza en nueva hoja */
+}
+
+/* Evitar cortes feos de texto */
+p, h1, h2, h3 {
+    orphans: 3;
+    widows: 3;
+}
+
+/* Añadir el URL de la página al final */
+body::after {
+    content: "Página impresa desde: " attr(data-url);
+    display: block;
+    margin-top: 2cm;
+    font-size: 10pt;
+    text-align: center;
+    color: gray;
+}

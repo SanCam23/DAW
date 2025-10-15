@@ -1,81 +1,200 @@
 /* -------------------------------------------
    Hoja de estilo para impresión - print.css
+   Versión afinada: menú centrado sin margen general
 ------------------------------------------- */
 
-/* Quitar fondos de color y usar texto negro sobre blanco */
+/* General */
 body {
-    background: white;
-    color: black;
-    font-family: "Times New Roman", serif;
+    background: #fff !important;
+    color: #000 !important;
+    font-family: "Times New Roman", Georgia, serif;
     font-size: 12pt;
-    margin: 2cm;
+    line-height: 1.5;
+    margin: 0; /* eliminamos márgenes para aprovechar el espacio */
 }
 
-/* Ocultar elementos que no sirven en papel */
-header,
-nav,
-#login-popup,
-form,
-footer {
-    display: none !important;
+/* Cabecera */
+header.Cabecera {
+    display: flex !important;
+    flex-direction: column; /* apila título y menú */
+    align-items: center; /* centra todo horizontalmente */
+    justify-content: center;
+    flex-wrap: wrap;
+    background: none !important;
+    color: #000 !important;
+    border-bottom: 2px solid #000;
+    padding: 0.5cm 0;
+    margin-bottom: 0.8cm;
 }
 
-/* Mostrar solo el contenido principal */
-main {
-    width: 100%;
-    border: none;
-    box-shadow: none;
-    background: none;
-    color: black;
+/* Logo y título */
+header.Cabecera .texto {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 0.3cm;
 }
 
-/* Los títulos se imprimen claramente */
-h1, h2, h3 {
-    color: black;
+header.Cabecera .texto figure img {
+    max-width: 60px;
+    height: auto;
+}
+
+header.Cabecera .titulo {
+    text-align: center;
+}
+
+header.Cabecera .titulo h1 {
+    font-size: 1.8em;
+    margin: 0;
+    color: #000;
     font-weight: bold;
 }
 
-/* Imágenes importantes sí, decorativas no */
+header.Cabecera .titulo h3 {
+    font-size: 1.1em;
+    margin: 0;
+    font-weight: normal;
+    color: #333;
+}
+
+/* Menú centrado y limpio */
+header.Cabecera .menu-escritorio {
+    display: block !important;
+    width: 100%;
+    text-align: center;
+}
+
+header.Cabecera .menu-escritorio ul {
+    list-style: none;
+    display: inline-flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+header.Cabecera .menu-escritorio ul li a {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 4px 6px;
+    border: 1px solid #000;
+    border-radius: 3px;
+}
+
+/* No mostrar la URL en los enlaces del menú */
+header.Cabecera .menu-escritorio ul li a::after {
+    content: none !important;
+}
+
+/* Ocultar elementos innecesarios */
+nav.menu-movil,
+#login-popup,
+form,
+footer,
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+    display: none !important;
+}
+
+/* Contenido principal */
+main {
+    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #000;
+    padding: 0 1cm; /* pequeño margen lateral solo dentro del main */
+    #busqueda-rapida{
+        display: none;
+    }
+}
+
+/* Anuncios enmarcados */
+.anuncio {
+    display: block;
+    width: 100%;
+    border: 1px solid #000;
+    padding: 4pt; /* más compacto */
+    margin-bottom: 0.5cm;
+    page-break-inside: avoid;
+    font-size: 11pt; /* opcional para ahorrar espacio */
+    a{
+        display: none;
+    }
+}
+
+
+/* Imágenes dentro de anuncios */
 .anuncio img {
     display: block;
     max-width: 100%;
     height: auto;
+    margin-bottom: 0.5em;
 }
 
-/* Quitar los botones */
-button, input[type="submit"] {
-    display: none;
+/* Títulos */
+h1, h2, h3 {
+    color: #000;
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 0.4em;
 }
 
-/* Mostrar el enlace completo en los "a" */
-a::after {
+/* Enlaces: mostrar URL solo en contenido */
+a {
+    color: #000;
+    text-decoration: underline;
+}
+main a::after {
     content: " (" attr(href) ")";
     font-size: 10pt;
-    color: #333;
 }
 
-/* Asegurar saltos de página correctos */
-@page {
-    size: A4;
-    margin: 2cm;
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+th, td {
+    border: 1pt solid #666;
+    padding: 6pt;
+}
+th {
+    background: #eee;
+    font-weight: bold;
 }
 
-h2 {
-    page-break-before: always; /* Cada sección empieza en nueva hoja */
+/* Evitar cortes en imágenes o tablas */
+img, table {
+    page-break-inside: avoid;
 }
 
-/* Evitar cortes feos de texto */
-p, h1, h2, h3 {
-    orphans: 3;
-    widows: 3;
+/* Saltos de página ordenados */
+h1 {
+    page-break-before: always;
+}
+h2, h3 {
+    page-break-after: avoid;
 }
 
-/* Añadir el URL de la página al final */
+/* Pie con la URL del documento */
 body::after {
     content: "Página impresa desde: " attr(data-url);
     display: block;
-    margin-top: 2cm;
     font-size: 10pt;
     text-align: center;
-    color: gray;
+    color: #666;
+    margin-top: 0.8cm;
+}
+
+/* Configuración de página */
+@page {
+    size: A4;
+    margin: 0cm 1.5cm 1.5cm 1.5cm; /* muy ajustado, pero seguro para impresora */
 }

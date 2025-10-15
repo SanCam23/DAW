@@ -1,3 +1,4 @@
+
 /* General */
 body {
     background: #fff !important;
@@ -6,7 +7,7 @@ body {
     font-size: 12pt;
     line-height: 1.5;
     margin: 0;
-    /* eliminamos márgenes para aprovechar el espacio */
+    box-shadow: none !important;
 }
 
 /* Cabecera */
@@ -21,9 +22,9 @@ header.Cabecera {
     border-bottom: 2px solid #000;
     padding: 0.5cm 0;
     margin-bottom: 0.8cm;
+    box-shadow: none !important;
 }
 
-/* Logo y título */
 header.Cabecera .texto {
     display: flex;
     align-items: center;
@@ -55,109 +56,54 @@ header.Cabecera .titulo h3 {
     color: #333;
 }
 
-/* Menú centrado y limpio */
-header.Cabecera .menu-escritorio {
-    display: none;
+/* Menús */
+.menu-escritorio,
+.menu-movil {
+    display: none !important;
 }
 
-
 /* Ocultar elementos innecesarios */
-nav.menu-movil,
-#login-popup,
-form,
 footer,
 button,
-input[type="submit"],
-input[type="button"],
-input[type="reset"] {
+input,
+form {
     display: none !important;
 }
 
 /* Contenido principal */
 main {
     width: 100%;
+    padding: 0 1.5cm;
     background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
     color: #000;
-    padding: 0 1cm;
-
-    #busqueda-rapida {
-        display: none;
-    }
-
-    article {
-        section {
-            border: 1px solid #000;
-        }
-    }
+    box-shadow: none !important;
 }
 
-/* Anuncios enmarcados */
-.anuncio {
-    display: block;
-    width: 100%;
-    border: 1px solid #000;
-    font-size: 11pt;
-
-    /* opcional para ahorrar espacio */
-    a {
-        display: none;
-    }
-
-    img {
-        display: block;
-        max-width: 100%;
-        height: auto;
-        margin-bottom: 0.5em;
-    }
-
-}
-
-/* Títulos */
-h1,
-h2,
-h3 {
-    color: #000 !important;
+main h2 {
+    font-size: 1.4em;
     font-weight: bold;
     margin-top: 1em;
+    page-break-before: auto;
+    color: #000 !important;
 }
 
-/* Tablas */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1em 0;
+main ul {
+    list-style-type: disc;
+    padding-left: 1.5em;
 }
 
-th,
-td {
-    border: 1pt solid #666;
-    padding: 6pt;
+main ul li {
+    margin-bottom: 0.5em;
 }
 
-th {
-    background: #eee;
-    font-weight: bold;
+/* Enlaces */
+main a {
+    color: #000;
+    text-decoration: none;
+    font-weight: normal;
 }
 
-/* Evitar cortes en imágenes o tablas */
-img,
-table {
-    page-break-inside: avoid;
-}
-
-/* Saltos de página ordenados */
-h1 {
-    page-break-before: always;
-}
-
-h2,
-h3 {
-    page-break-after: avoid;
-}
-
-/* Pie con la URL del documento */
+/* Pie con URL */
 body::after {
     content: "Página impresa desde: " attr(data-url);
     display: block;
@@ -171,5 +117,4 @@ body::after {
 @page {
     size: A4;
     margin: 0cm 1.5cm 1.5cm 1.5cm;
-    /* muy ajustado, pero seguro para impresora */
 }

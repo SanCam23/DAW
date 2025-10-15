@@ -6,7 +6,6 @@ body {
     font-size: 12pt;
     line-height: 1.5;
     margin: 0;
-    /* eliminamos márgenes para aprovechar el espacio */
 }
 
 /* Cabecera */
@@ -55,121 +54,102 @@ header.Cabecera .titulo h3 {
     color: #333;
 }
 
-/* Menú centrado y limpio */
-header.Cabecera .menu-escritorio {
-    display: none;
-}
-
-
-/* Ocultar elementos innecesarios */
+/* Ocultar menús, botones y pie */
+nav.menu-escritorio,
 nav.menu-movil,
-#login-popup,
-form,
 footer,
 button,
 input[type="submit"],
-input[type="button"],
-input[type="reset"] {
+input[type="reset"],
+input[type="button"] {
     display: none !important;
 }
 
 /* Contenido principal */
 main {
     width: 100%;
+    max-width: 18cm;
+    margin: 0 auto;
+    padding: 0 1cm 1cm 1cm;
     background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
     color: #000;
-    padding: 0 1cm;
-
-    #busqueda-rapida {
-        display: none;
-    }
-
-    article {
-        section {
-            border: 1px solid #000;
-        }
-    }
 }
 
-/* Anuncios enmarcados */
-.anuncio {
-    display: block;
-    width: 100%;
+/* Formulario */
+form {
     border: 1px solid #000;
-    font-size: 11pt;
-
-    /* opcional para ahorrar espacio */
-    a {
-        display: none;
-    }
-
-    img {
-        display: block;
-        max-width: 100%;
-        height: auto;
-        margin-bottom: 0.5em;
-    }
-
-}
-
-/* Títulos */
-h1,
-h2,
-h3 {
-    color: #000 !important;
-    font-weight: bold;
-    margin-top: 1em;
-}
-
-/* Tablas */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1em 0;
-}
-
-th,
-td {
-    border: 1pt solid #666;
-    padding: 6pt;
-}
-
-th {
-    background: #eee;
-    font-weight: bold;
-}
-
-/* Evitar cortes en imágenes o tablas */
-img,
-table {
+    padding: 1cm;
+    background: #fff;
+    box-shadow: none;
     page-break-inside: avoid;
 }
 
-/* Saltos de página ordenados */
-h1 {
-    page-break-before: always;
+/* Secciones */
+form section {
+    margin-bottom: 1cm;
 }
 
-h2,
-h3 {
-    page-break-after: avoid;
+/* Títulos de secciones */
+form h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    border-bottom: 1px solid #000;
+    padding-bottom: 0.2cm;
+    margin-bottom: 0.5cm;
 }
 
-/* Pie con la URL del documento */
+/* Etiquetas */
+form label {
+    font-weight: normal;
+    color: #000;
+}
+
+/* Radios */
+form input[type="radio"] {
+    margin-right: 6pt;
+}
+
+/* Área de texto */
+form textarea {
+    width: 100%;
+    border: 1px solid #333;
+    padding: 6pt;
+    font-size: 11pt;
+    font-family: "Times New Roman", Georgia, serif;
+    box-sizing: border-box;
+    resize: none;
+}
+
+/* Evitar cortes entre secciones */
+form section {
+    page-break-inside: avoid;
+}
+
+/* Ocultar iconos decorativos */
+.icon-home,
+.icon-user,
+.icon-search {
+    display: none !important;
+}
+
+/* Títulos generales */
+h1, h2, h3 {
+    color: #000;
+    font-weight: bold;
+}
+
+/* Pie de impresión con URL */
 body::after {
     content: "Página impresa desde: " attr(data-url);
     display: block;
     font-size: 10pt;
     text-align: center;
     color: #666;
-    margin-top: 0.8cm;
+    margin-top: 1cm;
 }
 
 /* Configuración de página */
 @page {
     size: A4;
-    margin: 0cm 1.5cm 1.5cm 1.5cm;
-    /* muy ajustado, pero seguro para impresora */
+    margin: 1.5cm;
 }

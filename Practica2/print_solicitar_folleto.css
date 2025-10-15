@@ -1,0 +1,212 @@
+/* General */
+body {
+    background: none !important;
+    color: #000 !important;
+    font-family: "Times New Roman", serif;
+    font-size: 9pt;
+    line-height: 1.2;
+    margin: 0;
+    box-shadow: none !important;
+}
+
+/* Cabecera */
+header.Cabecera {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: none !important;
+    color: #000 !important;
+    border-bottom: 1px solid #000;
+    padding: 0.2cm 0;
+    margin-bottom: 0.3cm;
+}
+
+header.Cabecera .texto {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
+    margin-bottom: 0.2cm;
+}
+
+header.Cabecera .texto figure img {
+    max-width: 40px;
+    height: auto;
+    filter: grayscale(100%);
+}
+
+header.Cabecera .titulo {
+    text-align: center;
+}
+
+header.Cabecera .titulo h1 {
+    font-size: 1.3em;
+    margin: 0;
+    color: #000;
+    font-weight: bold;
+}
+
+header.Cabecera .titulo h3 {
+    font-size: 0.9em;
+    margin: 0;
+    font-weight: normal;
+    color: #444;
+}
+
+/* Menús y elementos innecesarios */
+.menu-escritorio,
+.menu-movil,
+footer,
+button,
+input[type="submit"],
+input[type="reset"],
+form button,
+nav,
+a {
+    display: none !important;
+}
+
+/* Contenido principal */
+main {
+    width: 100%;
+    padding: 0 0.8cm;
+    background: transparent !important;
+    color: #000;
+    box-shadow: none !important;
+}
+
+main h2 {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0.3em 0 0.2em;
+    color: #000 !important;
+}
+
+main h3 {
+    font-size: 1em;
+    font-weight: bold;
+    margin: 0.4em 0 0.2em;
+    border-bottom: 1px solid #000 !important;
+    padding-bottom: 0.1cm;
+    color: #000 !important;
+}
+
+main p {
+    display: none !important; /* Oculta el párrafo introductorio */
+}
+
+/* Tabla de tarifas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.3em 0;
+    font-size: 8.5pt;
+}
+
+caption {
+    font-weight: bold;
+    margin-bottom: 0.2em;
+    color: #000;
+}
+
+th,
+td {
+    border: 1px solid #666;
+    padding: 3pt 4pt;
+    text-align: left;
+    color: #000;
+}
+
+th {
+    background: #eee;
+    font-weight: bold;
+}
+
+/* Formulario */
+form {
+    width: 100%;
+    margin-top: 0.4cm;
+}
+
+fieldset {
+    border: 1px solid #999;
+    padding: 0.4em;
+    margin-bottom: 0.4cm;
+    page-break-inside: avoid;
+    output{
+        color: #000 !important;
+    }
+}
+
+legend {
+    font-weight: bold;
+    color: #000 !important;
+    font-size: 9pt;
+}
+
+label {
+    font-weight: normal;
+    color: #000;
+    display: block;
+    margin-bottom: 2pt;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    font-size: 9pt;
+    padding: 2pt 4pt;
+    border: 1px solid #666;
+    box-sizing: border-box;
+    background: none !important;
+    color: #000;
+    margin-bottom: 4pt;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input[type="color"] {
+    width: 100%;
+    height: 1em;
+    border: none;
+    background: #ccc;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    width: auto;
+    margin-right: 4pt;
+    margin-left: 0;
+}
+
+/* Pie con URL */
+body::after {
+    content: "Página impresa desde: " attr(data-url);
+    display: block;
+    font-size: 8pt;
+    text-align: center;
+    color: #666;
+    margin-top: 0.4cm;
+}
+
+@page:first {
+    margin-top: 0.8cm;
+    margin-right: 0.8cm;
+    margin-bottom: 0.8cm;
+    margin-left: 0.8cm;
+}
+
+
+/* Configuración de página */
+@page {
+    size: A4;
+    margin-top: 1.5cm;
+    margin-right: 0.8cm;
+    margin-bottom: 0.8cm;
+    margin-left: 0.8cm;
+}

@@ -90,7 +90,7 @@ main {
         align-items: center;
     }
     .anuncio {
-        border: 1px solid #000;
+        border: 1px solid #000 !important;
         padding: 10pt;
         margin: 0.1cm auto;
         width: 80%;

@@ -6,61 +6,64 @@ body {
     font-size: 12pt;
     line-height: 1.5;
     margin: 0;
+    &::after {
+        content: "Página impresa desde: " attr(data-url);
+        display: block;
+        font-size: 10pt;
+        text-align: center;
+        color: #666;
+        margin-top: 0.8cm;
+    }
+        header.Cabecera {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        background: none;
+        color: #000;
+        border-bottom: 2px solid #000;
+        padding: 0.5cm 0;
+        margin-bottom: 0.8cm;
+
+        .texto {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 0.3cm;
+
+            figure img {
+                max-width: 60px;
+                height: auto;
+            }
+        }
+
+        .titulo {
+            text-align: center;
+
+            h1 {
+                font-size: 1.8em;
+                margin: 0;
+                color: #000;
+                font-weight: bold;
+            }
+
+            h3 {
+                font-size: 1.1em;
+                margin: 0;
+                font-weight: normal;
+                color: #333;
+            }
+        }
+
+        .menu-escritorio, .menu-movil {
+            display: none;
+        }
+    }
 }
 
-/* Cabecera */
-header.Cabecera {
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    background: none !important;
-    color: #000 !important;
-    border-bottom: 2px solid #000;
-    padding: 0.5cm 0;
-    margin-bottom: 0.8cm;
-}
 
-/* Logo y título */
-header.Cabecera .texto {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 0.3cm;
-}
-
-header.Cabecera .texto figure img {
-    max-width: 60px;
-    height: auto;
-}
-
-header.Cabecera .titulo {
-    text-align: center;
-}
-
-header.Cabecera .titulo h1 {
-    font-size: 1.8em;
-    margin: 0;
-    color: #000;
-    font-weight: bold;
-}
-
-header.Cabecera .titulo h3 {
-    font-size: 1.1em;
-    margin: 0;
-    font-weight: normal;
-    color: #333;
-}
-
-/* Menú centrado y limpio */
-header.Cabecera .menu-escritorio {
-    display: none;
-}
-
-/* Ocultar elementos innecesarios */
-nav.menu-movil,
 #login-popup,
 form,
 footer,
@@ -79,84 +82,62 @@ main {
     box-shadow: none !important;
     color: #000;
     padding: 0 1cm;
-}
-
-#busqueda-rapida {
-    display: none;
-}
-
-/* Anuncios en impresión */
-#ultimos-anuncios {
-    display: block !important;
-    align-items: center;
-}
-
-.anuncio {
-    border: 1px solid #000;
-    padding: 10pt;
-    margin: 0.1cm auto; /* centrado horizontal */
-    width: 80%;
-}
-
-.anuncio:nth-child(4),
-.anuncio:nth-child(5),
-.anuncio:nth-child(6) {
-    margin-top: 1cm;
-}
-
-
-.anuncio h3 {
-    font-size: 14pt;
-    margin-bottom: 0.3cm;
-}
-
-.anuncio p {
-    font-size: 12pt;
-    margin: 0.2cm 0;
-}
-
-.anuncio a {
-    display: none !important;
-}
-
-/* Títulos */
-h1,
-h2,
-h3 {
-    color: #000 !important;
-    font-weight: bold;
-    margin-top: 1em;
-}
-
-/* Evitar cortes en imágenes o tablas */
-img,
-table {
-    page-break-inside: avoid;
-}
-
-/* Saltos de página ordenados */
-h1 {
-    page-break-before: always;
-}
-
-h2,
-h3 {
-    page-break-after: avoid;
-}
-
-/* Pie con la URL del documento */
-body::after {
-    content: "Página impresa desde: " attr(data-url);
-    display: block;
-    font-size: 10pt;
-    text-align: center;
-    color: #666;
-    margin-top: 0.8cm;
+    #busqueda-rapida {
+        display: none;
+    }
+    #ultimos-anuncios {
+        display: block !important;
+        align-items: center;
+    }
+    .anuncio {
+        border: 1px solid #000;
+        padding: 10pt;
+        margin: 0.1cm auto;
+        width: 80%;
+        h3 {
+            font-size: 14pt;
+            margin-bottom: 0.3cm;
+        }
+        
+        p {
+            font-size: 12pt;
+            margin: 0.2cm 0;
+        }
+        
+        a {
+            display: none !important;
+        }
+    }
+    
+    .anuncio:nth-child(4),
+    .anuncio:nth-child(5),
+    .anuncio:nth-child(6) {
+        margin-top: 1cm;
+    }
+    h1,
+    h2,
+    h3 {
+        color: #000 !important;
+        font-weight: bold;
+        margin-top: 1em;
+    }
+    
+    img{
+        page-break-inside: avoid;
+    }
+    
+    h1 {
+        page-break-before: always;
+    }
+    
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
 }
 
 /* Configuración de página */
 @page {
     size: A4;
     margin: 1cm 1.5cm 1.5cm 1.5cm;
-    /* muy ajustado, pero seguro para impresora */
 }

@@ -1,77 +1,79 @@
-/* -------------------------------------------
-   Hoja de estilo para impresión - print.css
-   Página: Respuesta Solicitud Folleto (compacta)
-------------------------------------------- */
-
-/* General */
 body {
     background: none !important;
     color: #000 !important;
     font-family: "Times New Roman", Georgia, serif;
-    font-size: 10pt; /* Más pequeño */
+    font-size: 10pt;
     line-height: 1.3;
     margin: 0;
     box-shadow: none !important;
+
+    &::after {
+        content: "Página impresa desde: " attr(data-url);
+        display: block;
+        font-size: 9pt;
+        text-align: center;
+        color: #666;
+        margin-top: 0.5cm;
+    }
+
+    header.Cabecera {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        background: none;
+        color: #000;
+        border-bottom: 2px solid #000;
+        padding: 0.5cm 0;
+        margin-bottom: 0.8cm;
+
+        .texto {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 0.3cm;
+
+            figure img {
+                max-width: 60px;
+                height: auto;
+            }
+        }
+
+        .titulo {
+            text-align: center;
+
+            h1 {
+                font-size: 1.8em;
+                margin: 0;
+                color: #000;
+                font-weight: bold;
+            }
+
+            h3 {
+                font-size: 1.1em;
+                margin: 0;
+                font-weight: normal;
+                color: #333;
+            }
+        }
+
+        .menu-escritorio,
+        .menu-movil {
+            display: none;
+        }
+    }
 }
 
-/* Cabecera */
-header.Cabecera {
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    background: none !important;
-    color: #000 !important;
-    border-bottom: 1px solid #000;
-    padding: 0.2cm 0;
-    margin-bottom: 0.4cm;
-}
 
-header.Cabecera .texto {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    justify-content: center;
-    margin-bottom: 0.2cm;
-}
-
-header.Cabecera .texto figure img {
-    max-width: 45px;
-    height: auto;
-}
-
-header.Cabecera .titulo {
-    text-align: center;
-}
-
-header.Cabecera .titulo h1 {
-    font-size: 1.4em;
-    margin: 0;
-    color: #000;
-    font-weight: bold;
-}
-
-header.Cabecera .titulo h3 {
-    font-size: 0.95em;
-    margin: 0;
-    font-weight: normal;
-    color: #333;
-}
-
-/* Menús */
-.menu-escritorio,
-.menu-movil {
-    display: none !important;
-}
-
-/* Ocultar elementos innecesarios */
 footer,
 button,
 input,
 form,
 a,
-main > p:first-of-type { /* Oculta el párrafo de agradecimiento */
+main>p:first-of-type {
+    /* Oculta el párrafo de agradecimiento */
     display: none !important;
 }
 
@@ -82,55 +84,50 @@ main {
     background: transparent !important;
     color: #000;
     box-shadow: none !important;
-    section{
-        h3{
+
+    section {
+        h3 {
             color: #000 !important;
+        }
+    }
+
+    h2 {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-top: 0.4em;
+        margin-bottom: 0.3em;
+    }
+
+    h3 {
+        font-size: 1em;
+        font-weight: bold;
+        margin-top: 0.6em;
+        margin-bottom: 0.2em;
+        border-bottom: 1px solid #000 !important;
+        padding-bottom: 0.1cm;
+    }
+
+    p {
+        margin: 0.3em 0;
+    }
+
+    section {
+        dl {
+            margin: 0.4em 0;
+        }
+
+        dt {
+            font-weight: bold;
+            margin-top: 0.2em;
+        }
+
+        dd {
+            margin: 0 0 0.2em 1em;
         }
     }
 }
 
-main h2 {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-top: 0.4em;
-    margin-bottom: 0.3em;
-}
 
-main h3 {
-    font-size: 1em;
-    font-weight: bold;
-    margin-top: 0.6em;
-    margin-bottom: 0.2em;
-    border-bottom: 1px solid #000 !important;
-    padding-bottom: 0.1cm;
-}
-
-main p {
-    margin: 0.3em 0;
-}
-
-dl {
-    margin: 0.4em 0;
-}
-
-dt {
-    font-weight: bold;
-    margin-top: 0.2em;
-}
-
-dd {
-    margin: 0 0 0.2em 1em;
-}
-
-/* Pie con URL */
-body::after {
-    content: "Página impresa desde: " attr(data-url);
-    display: block;
-    font-size: 9pt;
-    text-align: center;
-    color: #666;
-    margin-top: 0.5cm;
-}
 
 /* Configuración de página */
 @page {

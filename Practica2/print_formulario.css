@@ -7,55 +7,48 @@ body {
     line-height: 1.5;
     margin: 0;
     padding: 0;
+
+    header.Cabecera {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        background: none;
+        color: #000;
+        border-bottom: 2px solid #000;
+        padding: 0.5cm 0;
+        margin-bottom: 0.8cm;
+        .texto {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 0.3cm;
+            figure img {
+                max-width: 60px;
+                height: auto;
+            }
+        }
+        .titulo {
+            text-align: center;
+            h1 {
+                font-size: 1.8em;
+                margin: 0;
+                color: #000;
+                font-weight: bold;
+            }
+            h3 {
+                font-size: 1.1em;
+                margin: 0;
+                font-weight: normal;
+                color: #333;
+            }
+        }
+    }
 }
 
-/* Cabecera */
-header.Cabecera {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    background: none;
-    color: #000;
-    border-bottom: 2px solid #000;
-    padding: 0.5cm 0;
-    margin-bottom: 0.8cm;
-}
 
-/* Logo y título */
-header.Cabecera .texto {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 0.3cm;
-}
-
-header.Cabecera .texto figure img {
-    max-width: 60px;
-    height: auto;
-}
-
-header.Cabecera .titulo {
-    text-align: center;
-}
-
-header.Cabecera .titulo h1 {
-    font-size: 1.8em;
-    margin: 0;
-    color: #000;
-    font-weight: bold;
-}
-
-header.Cabecera .titulo h3 {
-    font-size: 1.1em;
-    margin: 0;
-    font-weight: normal;
-    color: #333;
-}
-
-/* Ocultar menús y elementos innecesarios */
 nav.menu-escritorio,
 nav.menu-movil,
 footer,
@@ -66,7 +59,7 @@ input[type="reset"] {
     display: none;
 }
 
-/* FORMULARIO PRINCIPAL - ELIMINAR SOMBRAS Y FONDOS */
+
 form {
     width: 100%;
     max-width: 18cm;
@@ -74,24 +67,26 @@ form {
     padding: 0 1cm 1cm 1cm;
     border: 1px solid #000;
     background: #fff;
-    /* ELIMINAR SOMBRAS Y EFECTOS VISUALES */
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     filter: none;
     -webkit-filter: none;
     page-break-inside: avoid;
+    
+    label {
+        font-weight: normal;
+        color: #000;
+        display: block;
+        margin-bottom: 0.2cm;
+    }
+
+    button {
+        display: none;
+    }
 }
 
-/* Etiquetas del formulario */
-form label {
-    font-weight: normal;
-    color: #000;
-    display: block;
-    margin-bottom: 0.2cm;
-}
 
-/* Campos del formulario */
 form input[type="text"],
 form input[type="email"],
 form input[type="tel"],
@@ -102,29 +97,21 @@ form input[type="password"] {
     font-size: 11pt;
     box-sizing: border-box;
     background: #fff;
-    /* ELIMINAR SOMBRAS EN INPUTS */
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
 }
 
-/* Botón (aunque esté oculto, por si acaso) */
-form button {
-    display: none;
-}
-
-/* Enlace de "Iniciar Sesión" */
 main p {
     text-align: center;
     margin-top: 0.5cm;
+    a {
+        color: #000;
+        text-decoration: underline;
+    }
 }
 
-main p a {
-    color: #000;
-    text-decoration: underline;
-}
 
-/* Ocultar iconos decorativos */
 .icon-home,
 .icon-user,
 .icon-search,
@@ -132,7 +119,6 @@ main p a {
     display: none;
 }
 
-/* ELIMINAR SOMBRAS DE TODOS LOS ELEMENTOS */
 * {
     box-shadow: none !important;
     -webkit-box-shadow: none !important;
@@ -143,7 +129,6 @@ main p a {
     background-image: none !important;
 }
 
-/* Eliminar cualquier fondo gradiente o imagen */
 html, body, main, form, section, article, div {
     background: #fff !important;
     background-image: none !important;

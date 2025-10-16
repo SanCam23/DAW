@@ -1,0 +1,233 @@
+/* contraste.css */
+/* --------------------------------------------
+   Modo Alto Contraste para VENTAPLUS
+   Mantiene la estructura del general.css + index.css
+--------------------------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* --------------------------------------------------
+   BODY
+-------------------------------------------------- */
+body {
+    background-color: #f4f4e3; /* beige claro */
+    color: #111; /* texto oscuro */
+    line-height: 1.6;
+}
+
+/* --------------------------------------------------
+   CABECERA
+-------------------------------------------------- */
+header.Cabecera {
+    background-color: #000; /* header negro */
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px 20px;
+    flex-wrap: wrap;
+    position: relative;
+
+    .texto {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        figure img {
+            max-width: 70px;
+            border: 3px solid #fff;
+            border-radius: 8px;
+        }
+    }
+
+    .titulo {
+        display: flex;
+        flex-direction: column;
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            color: #fff;
+        }
+
+        h3 {
+            font-family: 'Leckerli One', cursive;
+            font-size: 1.4em;
+            color: #ffeb3b; /* amarillo de contraste */
+        }
+    }
+
+    .menu-escritorio {
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+
+            li a {
+                text-decoration: none;
+                background-color: #ffcc00; /* amarillo brillante */
+                color: #003366; /* texto oscuro */
+                font-weight: bold;
+                padding: 8px 12px;
+                border-radius: 5px;
+                border: 2px solid #003366;
+
+                &:hover {
+                    background-color: #003366;
+                    color: #ffcc00;
+                }
+            }
+        }
+    }
+}
+
+/* Menú móvil */
+.menu-movil {
+    display: none;
+
+    ul {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        list-style: none;
+
+        li a {
+            display: inline-block;
+            font-size: 1.8em;
+            color: #ffcc00; /* iconos visibles en amarillo */
+            text-decoration: none;
+        }
+    }
+}
+
+/* --------------------------------------------------
+   CONTENIDO PRINCIPAL
+-------------------------------------------------- */
+main {
+    h2 {
+        color: #ffeb3b; /* títulos en amarillo */
+    }
+
+    #busqueda-rapida {
+        border: 2px solid #ffcc00; /* borde amarillo */
+        background-color: #000; /* fondo oscuro opcional */
+
+        input {
+            background-color: #fff; /* mantiene legible */
+            color: #000;
+            border: 2px solid #ffcc00;
+        }
+
+        button {
+            background-color: #ffcc00; /* amarillo de alto contraste */
+            color: #000; /* texto legible */
+            border: 2px solid #000;
+
+            &:hover {
+                background-color: #000;
+                color: #ffcc00;
+            }
+        }
+    }
+
+    #ultimos-anuncios {
+        .anuncio {
+            border: 2px solid #ffcc00;
+            background-color: #fff;
+
+            h3 {
+                color: #000; 
+            }
+
+            p {
+                color: #000;
+            }
+
+            a {
+                background-color: #ffcc00; /* botón amarillo */
+                color: #000;
+                border: 2px solid #000;
+                font-weight: bold;
+
+                &:hover {
+                    background-color: #000;
+                    color: #ffcc00;
+                }
+            }
+        }
+    }
+
+    #login-popup {
+        border: 2px solid #ffcc00;
+        background-color: #fff;
+
+        button {
+            background-color: #ffcc00;
+            color: #000;
+            border: 2px solid #000;
+
+            &:hover {
+                background-color: #000;
+                color: #ffcc00;
+            }
+        }
+    }
+}
+
+/* --------------------------------------------------
+   PIE DE PÁGINA
+-------------------------------------------------- */
+footer {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 40px;
+    font-size: 0.9em;
+    border-top: 4px solid #ffcc00;
+}
+
+/* --------------------------------------------------
+   MEDIA QUERIES
+-------------------------------------------------- */
+@media (max-width: 767px) {
+    .menu-escritorio {
+        display: none;
+    }
+
+    .menu-movil {
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+
+        ul {
+            justify-content: space-between;
+
+            li a {
+                color: #ffcc00; /* iconos visibles en amarillo */
+            }
+        }
+    }
+
+    header.Cabecera h3 {
+        display: none;
+    }
+
+    main {
+        #ultimos-anuncios {
+            flex-direction: column;
+            align-items: center;
+
+            .anuncio {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    }
+}

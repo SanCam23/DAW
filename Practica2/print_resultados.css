@@ -1,0 +1,158 @@
+body {
+    background: #fff;
+    color: #000;
+    font-family: "Times New Roman", Georgia, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+
+    &::after {
+        content: "Página impresa desde: " attr(data-url);
+        display: block;
+        font-size: 10pt;
+        text-align: center;
+        color: #666;
+        margin-top: 0.8cm;
+    }
+
+    header.Cabecera {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        background: none;
+        color: #000;
+        border-bottom: 2px solid #000;
+        padding: 0.5cm 0;
+        margin-bottom: 0.8cm;
+
+        .texto {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 0.3cm;
+
+            figure img {
+                max-width: 60px;
+                height: auto;
+            }
+        }
+
+        .titulo {
+            text-align: center;
+
+            h1 {
+                font-size: 1.8em;
+                margin: 0;
+                color: #000;
+                font-weight: bold;
+            }
+
+            h3 {
+                font-size: 1.1em;
+                margin: 0;
+                font-weight: normal;
+                color: #333;
+            }
+        }
+
+        .menu-escritorio,
+        .menu-movil {
+            display: none;
+        }
+    }
+}
+
+footer,
+a,
+.icon-home,
+.icon-user,
+.icon-search {
+    display: none;
+}
+
+/* Contenido principal */
+main {
+    width: 100%;
+    max-width: 16cm;
+    margin: 0 auto;
+    padding: 0 0.8cm;
+    background: transparent;
+
+    #resultados {
+        h2 {
+            font-size: 1.4em;
+            border-bottom: 1px solid #000;
+            text-align: center;
+            margin-bottom: 0.6cm;
+            padding-bottom: 0.2cm;
+            color: #000 !important;
+        }
+
+        article {
+            border: 1px solid #000;
+            padding: 0.4cm;
+            margin-bottom: 0.4cm;
+            background: #fff;
+            page-break-inside: avoid;
+            page-break-inside: avoid;
+            page-break-after: auto;
+
+            h3 {
+                font-size: 1.2em;
+                margin: 0 0 0.2cm 0;
+                color: #000;
+                font-weight: bold;
+                border-bottom: 1px solid #666;
+                padding-bottom: 0.1cm;
+            }
+
+            p {
+                margin: 0.1cm 0;
+                font-size: 10.5pt;
+            }
+        }
+
+        article p:nth-child(4) {
+            font-weight: bold;
+            color: #000;
+        }
+    }
+}
+
+
+* {
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    background-image: none !important;
+}
+
+html,
+body,
+main,
+form,
+section,
+article,
+div {
+    background: #fff !important;
+    background-image: none !important;
+}
+
+/* Configuración de página con márgenes más pequeños */
+@page {
+    size: A4;
+    margin: 1.2cm;
+}
+
+@media print {
+    #resultados article {
+        break-inside: avoid;
+    }
+}

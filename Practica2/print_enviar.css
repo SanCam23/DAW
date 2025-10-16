@@ -1,0 +1,149 @@
+body {
+  background: #fff !important;
+  color: #000 !important;
+  font-family: "Times New Roman", Georgia, serif;
+  font-size: 12pt;
+  line-height: 1.5;
+  margin: 0;
+
+  &::after {
+    content: "Página impresa desde: " attr(data-url);
+    display: block;
+    font-size: 10pt;
+    text-align: center;
+    color: #666;
+    margin-top: 1cm;
+  }
+}
+
+header {
+  &.Cabecera {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: none !important;
+    color: #000 !important;
+    border-bottom: 2px solid #000;
+    padding: 0.5cm 0;
+    margin-bottom: 0.8cm;
+
+    .texto {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 0.3cm;
+
+      figure {
+        img {
+          max-width: 60px;
+          height: auto;
+        }
+      }
+    }
+
+    .titulo {
+      text-align: center;
+
+      h1 {
+        font-size: 1.8em;
+        margin: 0;
+        color: #000;
+        font-weight: bold;
+      }
+
+      h3 {
+        font-size: 1.1em;
+        margin: 0;
+        font-weight: normal;
+        color: #333;
+      }
+    }
+  }
+}
+
+nav {
+  &.menu-escritorio,
+  &.menu-movil {
+    display: none !important;
+  }
+}
+
+footer,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  display: none !important;
+}
+
+main {
+  width: 100%;
+  max-width: 18cm;
+  margin: 0 auto;
+  padding: 0 1cm 1cm 1cm;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #000;
+}
+
+form {
+  border: 1px solid #000;
+  padding: 1cm;
+  background: none !important;
+  box-shadow: none !important;
+  page-break-inside: avoid;
+
+  section {
+    margin-bottom: 1cm;
+    page-break-inside: avoid;
+  }
+
+  h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    border-bottom: 1px solid #000;
+    padding-bottom: 0.2cm;
+    margin-bottom: 0.5cm;
+    color: #000 !important;
+  }
+
+  label {
+    font-weight: normal;
+    color: #000;
+  }
+
+  input[type="radio"] {
+    margin-right: 6pt;
+  }
+
+  textarea {
+    width: 100%;
+    border: 1px solid #333;
+    padding: 6pt;
+    font-size: 11pt;
+    font-family: "Times New Roman", Georgia, serif;
+    box-sizing: border-box;
+    resize: none;
+  }
+}
+
+.icon-home,
+.icon-user,
+.icon-search {
+  display: none !important;
+}
+
+h1,
+h2,
+h3 {
+  color: #000;
+  font-weight: bold;
+}
+
+@page {
+  size: A4;
+  margin: 1.5cm;
+}

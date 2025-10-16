@@ -1,0 +1,152 @@
+/* General */
+body {
+    background: #fff;
+    color: #000;
+    font-family: "Times New Roman", Georgia, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+
+    header.Cabecera {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        background: none;
+        color: #000;
+        border-bottom: 2px solid #000;
+        padding: 0.5cm 0;
+        margin-bottom: 0.8cm;
+        .texto {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 0.3cm;
+            figure img {
+                max-width: 60px;
+                height: auto;
+            }
+        }
+        .titulo {
+            text-align: center;
+            h1 {
+                font-size: 1.8em;
+                margin: 0;
+                color: #000;
+                font-weight: bold;
+            }
+            h3 {
+                font-size: 1.1em;
+                margin: 0;
+                font-weight: normal;
+                color: #333;
+            }
+        }
+    }
+}
+
+
+nav.menu-escritorio,
+nav.menu-movil,
+footer,
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+    display: none;
+}
+
+
+form {
+    width: 100%;
+    max-width: 18cm;
+    margin: 1cm auto;
+    padding: 0 1cm 1cm 1cm;
+    border: 1px solid #000;
+    background: #fff;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    filter: none;
+    -webkit-filter: none;
+    page-break-inside: avoid;
+    
+    label {
+        font-weight: normal;
+        color: #000;
+        display: block;
+        margin-bottom: 0.2cm;
+    }
+
+    button {
+        display: none;
+    }
+}
+
+
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"],
+form input[type="password"] {
+    width: 100%;
+    border: 1px solid #333;
+    padding: 4pt 6pt;
+    font-size: 11pt;
+    box-sizing: border-box;
+    background: #fff;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+main p {
+    text-align: center;
+    margin-top: 0.5cm;
+    a {
+        color: #000;
+        text-decoration: underline;
+    }
+}
+
+
+.icon-home,
+.icon-user,
+.icon-search,
+.icon-user-plus {
+    display: none;
+}
+
+* {
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    background-image: none !important;
+}
+
+html, body, main, form, section, article, div {
+    background: #fff !important;
+    background-image: none !important;
+}
+
+/* Pie de impresión con URL */
+body::after {
+    content: "Página impresa desde: " attr(data-url);
+    display: block;
+    font-size: 10pt;
+    text-align: center;
+    color: #666;
+    margin-top: 1cm;
+    background: transparent;
+}
+
+/* Configuración de página */
+@page {
+    size: A4;
+    margin: 1.5cm;
+}

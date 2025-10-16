@@ -1,10 +1,3 @@
-/* letra-grande.css */
-/* --------------------------------------------
-   Modo Letra Grande para VENTAPLUS
-   Aumenta el tamaño del texto y el espaciado
-   Mantiene colores en header y footer
---------------------------------------------- */
-
 * {
     margin: 0;
     padding: 0;
@@ -12,17 +5,11 @@
     font-family: Arial, sans-serif;
 }
 
-/* --------------------------------------------------
-   BODY
--------------------------------------------------- */
 body {
     font-size: 1.3em;
     line-height: 1.8;
 }
 
-/* --------------------------------------------------
-   CABECERA
--------------------------------------------------- */
 header.Cabecera {
     background: linear-gradient(45deg, #1b9986, #c4fff0);
     color: #fff;
@@ -83,9 +70,6 @@ header.Cabecera {
     }
 }
 
-/* --------------------------------------------------
-   MENÚ MÓVIL
--------------------------------------------------- */
 .menu-movil {
     display: none;
 
@@ -103,9 +87,6 @@ header.Cabecera {
     }
 }
 
-/* --------------------------------------------------
-   CONTENIDO PRINCIPAL
--------------------------------------------------- */
 main {
     font-size: 1.2em;
 
@@ -158,9 +139,6 @@ main {
     }
 }
 
-/* --------------------------------------------------
-   PIE DE PÁGINA
--------------------------------------------------- */
 footer {
     background: linear-gradient(45deg, #1b9986, #c4fff0);
     color: #fff;
@@ -170,9 +148,6 @@ footer {
     font-size: 1.1em;
 }
 
-/* --------------------------------------------------
-   MEDIA QUERIES
--------------------------------------------------- */
 @media (max-width: 767px) {
     .menu-escritorio {
         display: none;
@@ -262,3 +237,4 @@ footer {
         }
     }
 }
+

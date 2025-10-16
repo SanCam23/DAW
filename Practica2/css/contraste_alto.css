@@ -5,19 +5,13 @@
     font-family: Arial, sans-serif;
 }
 
-/* --------------------------------------------------
-   BODY
--------------------------------------------------- */
 body {
     background-color: grey !important;
-    /* beige claro */
     color: #111;
-    /* texto oscuro */
     line-height: 1.6;
 
     h3 {
         color: #ffeb3b !important;
-        /* subtítulos en amarillo */
     }
 
     form {
@@ -25,9 +19,7 @@ body {
 
         button {
             background-color: #ffcc00 !important;
-            /* amarillo de alto contraste */
             color: #000 !important;
-            /* texto legible */
             border: 2px solid #000;
 
             &:hover {
@@ -42,12 +34,8 @@ body {
     }
 }
 
-/* --------------------------------------------------
-   CABECERA
--------------------------------------------------- */
 header.Cabecera {
     background-color: #000;
-    /* header negro */
     color: #fff;
     display: flex;
     justify-content: space-around;
@@ -82,7 +70,6 @@ header.Cabecera {
             font-family: 'Leckerli One', cursive;
             font-size: 1.4em;
             color: #ffeb3b;
-            /* amarillo de contraste */
         }
     }
 
@@ -95,9 +82,7 @@ header.Cabecera {
             li a {
                 text-decoration: none;
                 background-color: #ffcc00;
-                /* amarillo brillante */
                 color: #003366;
-                /* texto oscuro */
                 font-weight: bold;
                 padding: 8px 12px;
                 border-radius: 5px;
@@ -112,7 +97,6 @@ header.Cabecera {
     }
 }
 
-/* Menú móvil */
 .menu-movil {
     display: none;
 
@@ -127,36 +111,28 @@ header.Cabecera {
             display: inline-block;
             font-size: 1.8em;
             color: #ffcc00;
-            /* iconos visibles en amarillo */
             text-decoration: none;
         }
     }
 }
 
-/* --------------------------------------------------
-   CONTENIDO PRINCIPAL
--------------------------------------------------- */
 main {
     background-color: black !important;
 
     p {
         color: #fff !important;
-        /* texto en blanco para alto contraste */
     }
 
     h2 {
         color: #ffeb3b !important;
-        /* títulos en amarillo */
     }
 
     ul {
         color: #fff !important;
-        /* listas en blanco */
     }
 
     a {
         color: #ffeb3b !important;
-        /* enlaces en amarillo */
     }
 
     .contacto {
@@ -165,7 +141,6 @@ main {
 
     strong {
         color: #ffeb3b !important;
-        /* resaltar en amarillo */
     }
 
     label {
@@ -174,9 +149,7 @@ main {
 
     button {
         background-color: #ffcc00 !important;
-        /* amarillo de alto contraste */
         color: #000 !important;
-        /* texto legible */
         border: 2px solid #000;
 
         &:hover {
@@ -207,7 +180,6 @@ main {
 
         legend {
             color: #ffeb3b !important;
-            /* títulos en amarillo */
         }
 
         label {
@@ -222,7 +194,6 @@ main {
     table {
         caption {
             color: #ffeb3b !important;
-            /* títulos en amarillo */
         }
 
         th {
@@ -243,9 +214,7 @@ main {
 
         a {
             background-color: #ffcc00 !important;
-            /* amarillo de alto contraste */
             color: #000 !important;
-            /* texto legible */
             border: 2px solid #000;
             font-weight: bold !important;
 
@@ -257,9 +226,6 @@ main {
     }
 }
 
-/* --------------------------------------------------
-PIE DE PÁGINA
--------------------------------------------------- */
 footer {
     background-color: #000;
     color: #fff;
@@ -282,9 +248,6 @@ footer {
     }
 }
 
-/* --------------------------------------------------
-MEDIA QUERIES
--------------------------------------------------- */
 @media (max-width: 767px) {
     .menu-escritorio {
         display: none;
@@ -300,7 +263,6 @@ MEDIA QUERIES
 
             li a {
                 color: #ffcc00;
-                /* iconos visibles en amarillo */
             }
         }
     }
@@ -330,22 +292,17 @@ MEDIA QUERIES
 
         #busqueda-rapida {
             border: 2px solid #ffcc00 !important;
-            /* borde amarillo */
             background-color: rgb(42, 42, 42) !important;
-            /* fondo oscuro opcional */
 
             input {
                 background-color: #fff !important;
-                /* mantiene legible */
                 color: #000 !important;
                 border: 2px solid #ffcc00;
             }
 
             button {
                 background-color: #ffcc00 !important;
-                /* amarillo de alto contraste */
                 color: #000 !important;
-                /* texto legible */
                 border: 2px solid #000;
 
                 &:hover {
@@ -373,9 +330,7 @@ MEDIA QUERIES
 
                 a {
                     background-color: #ffcc00 !important;
-                    /* amarillo de alto contraste */
                     color: #000 !important;
-                    /* texto legible */
                     border: 2px solid #000;
                     font-weight: bold !important;
 

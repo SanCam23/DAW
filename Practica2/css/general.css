@@ -11,9 +11,6 @@ body {
     line-height: 1.5;
 }
 
-/* --------------------------------------------------
-   CABECERA
--------------------------------------------------- */
 header.Cabecera {
     background: linear-gradient(45deg, #1b9986, #c4fff0);
     color: #fff;
@@ -85,11 +82,6 @@ header.Cabecera {
     display: none;
 }
 
-
-/* --------------------------------------------------
-   CONTENIDO PRINCIPAL
--------------------------------------------------- */
-
 footer {
     background: linear-gradient(45deg, #1b9986, #c4fff0);
     color: #fff;
@@ -111,11 +103,6 @@ footer {
     }
 }
 
-/* --------------------------------------------------
-   MEDIA QUERIES
--------------------------------------------------- */
-
-/* Media query para móviles */
 @media (max-width: 767px) {
     .menu-escritorio {
         display: none;
@@ -229,16 +216,11 @@ footer {
     }
 }
 
-/* -------------------------------------------
-   MODO OSCURO AUTOMÁTICO 
-------------------------------------------- */
 @media (prefers-color-scheme: dark) {
     html {
         filter: invert(1) hue-rotate(180deg);
         background-color: #111;
     }
-
-    /* Invertir de nuevo las imágenes y los íconos para que se vean normales */
     img,
     video,
     iframe {

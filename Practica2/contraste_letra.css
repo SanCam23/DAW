@@ -1,0 +1,438 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* --------------------------------------------------
+   BODY
+-------------------------------------------------- */
+body {
+    background-color: grey !important;
+    /* beige claro */
+    color: #111;
+    /* texto oscuro */
+    line-height: 1.6;
+    font-size: 1.3em;
+    line-height: 1.8;
+
+    h3 {
+        color: #ffeb3b !important;
+        /* subtítulos en amarillo */
+    }
+
+    form {
+        background-color: #000 !important;
+
+        button {
+            background-color: #ffcc00 !important;
+            /* amarillo de alto contraste */
+            color: #000 !important;
+            /* texto legible */
+            border: 2px solid #000;
+
+            &:hover {
+                background-color: #003366 !important;
+                color: #ffcc00 !important;
+            }
+        }
+
+        label {
+            color: white !important;
+        }
+    }
+}
+
+/* --------------------------------------------------
+   CABECERA
+-------------------------------------------------- */
+header.Cabecera {
+    background-color: #000;
+    /* header negro */
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    flex-wrap: wrap;
+    position: relative;
+
+    .texto {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        figure img {
+            max-width: 80px;
+            border: 3px solid #fff;
+            border-radius: 8px;
+        }
+    }
+
+    .titulo {
+        display: flex;
+        flex-direction: column;
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.6em;
+            color: #fff;
+        }
+
+        h3 {
+            font-family: 'Leckerli One', cursive;
+            font-size: 1.8em;
+            color: #ffeb3b;
+            /* amarillo de contraste */
+        }
+    }
+
+    .menu-escritorio {
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+
+            li a {
+                text-decoration: none;
+                background-color: #ffcc00;
+                /* amarillo brillante */
+                color: #003366;
+                /* texto oscuro */
+                font-weight: bold;
+                font-size: 1.3em;
+                padding: 10px 16px;
+                border-radius: 5px;
+                border: 2px solid #003366;
+
+                &:hover {
+                    background-color: #003366;
+                    color: #ffcc00;
+                }
+            }
+        }
+    }
+}
+
+/* Menú móvil */
+.menu-movil {
+    display: none;
+
+    ul {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        list-style: none;
+
+        li a {
+            display: inline-block;
+            font-size: 2em;
+            color: #ffcc00;
+            /* iconos visibles en amarillo */
+            text-decoration: none;
+        }
+    }
+}
+
+/* --------------------------------------------------
+   CONTENIDO PRINCIPAL
+-------------------------------------------------- */
+main {
+    background-color: black !important;
+    font-size: 1.2em;
+
+    p {
+        color: #fff !important;
+        font-size: 1.1em;
+        line-height: 1.8;
+    }
+
+    h2 {
+        color: #ffeb3b !important;
+        font-size: 2em;
+    }
+
+    ul {
+        color: #fff !important;
+        font-size: 1.1em;
+        line-height: 1.8;
+    }
+
+    a {
+        color: #ffeb3b !important;
+        font-size: 1.1em;
+    }
+
+    .contacto {
+        background-color: grey !important
+    }
+
+    strong {
+        color: #ffeb3b !important;
+        font-weight: bold;
+    }
+
+    button, input, select, textarea {
+        font-size: 1.1em;
+        padding: 10px 14px;
+    }
+
+    label {
+        color: #ffeb3b !important;
+    }
+
+    button {
+        background-color: #ffcc00 !important;
+        /* amarillo de alto contraste */
+        color: #000 !important;
+        /* texto legible */
+        border: 2px solid #000;
+
+        &:hover {
+            background-color: #003366 !important;
+            color: #ffcc00 !important;
+        }
+    }
+
+    #enviados {
+        background-color: grey !important;
+    }
+
+    #recibidos {
+        background-color: grey !important;
+    }
+
+    #opcion {
+        background-color: grey !important;
+
+        &:hover {
+            background-color: #003366 !important;
+            color: #ffcc00 !important;
+        }
+    }
+
+    fieldset {
+        background-color: grey !important;
+        font-size: 1.1em;
+
+        legend {
+            color: #ffeb3b !important;
+            font-size: 1.2em;
+        }
+
+        label {
+            color: #000 !important;
+        }
+
+        output {
+            color: white !important;
+        }
+    }
+
+    table {
+      font-size: 1.1em;
+
+        caption {
+            color: #ffeb3b !important;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        th, td {
+            padding: 8px;
+        }
+
+        th {
+            background-color: #ffcc00 !important;
+            color: #000 !important;
+            border: 2px solid #000 !important;
+        }
+
+        td {
+            background-color: grey !important;
+            color: #000 !important;
+            border: 2px solid #000 !important;
+        }
+    }
+
+    #destacado {
+        background-color: grey !important;
+
+        a {
+            background-color: #ffcc00 !important;
+            /* amarillo de alto contraste */
+            color: #000 !important;
+            /* texto legible */
+            border: 2px solid #000;
+            font-weight: bold !important;
+
+            &:hover {
+                background-color: #003366 !important;
+                color: #ffcc00 !important;
+            }
+        }
+    }
+}
+
+/* --------------------------------------------------
+PIE DE PÁGINA
+-------------------------------------------------- */
+footer {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    font-size: 1.1em;
+    border-top: 4px solid #ffcc00;
+}
+
+/* --------------------------------------------------
+MEDIA QUERIES
+-------------------------------------------------- */
+@media (max-width: 767px) {
+    .menu-escritorio {
+        display: none;
+    }
+
+    .menu-movil {
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+
+        ul {
+            justify-content: space-between;
+
+            li a {
+                color: #ffcc00;
+                font-size: 1.8em;
+            }
+        }
+    }
+
+    header.Cabecera h3 {
+        display: none;
+    }
+
+    main {
+        #ultimos-anuncios {
+            flex-direction: column;
+            align-items: center;
+
+            .anuncio {
+                width: 100%;
+                max-width: 400px;
+
+                h3 {
+                    font-size: 1.4em;
+                }
+
+                p {
+                    font-size: 1.1em;
+                }
+            }
+        }
+    }
+}
+
+.inicio {
+    font-size: 1.3em;
+    line-height: 1.8;
+    background-color: rgb(42, 42, 42) !important;
+    main{
+        background-color: rgb(42, 42, 42) !important;
+        font-size: 1.2em;
+        #busqueda-rapida {
+            border: 2px solid #ffcc00 !important;
+            font-size: 1.1em;
+            background-color: rgb(42, 42, 42) !important;
+
+            input, button {
+                font-size: 1.1em;
+                padding: 10px 14px;
+            }
+    
+            input {
+                background-color: #fff !important;
+                /* mantiene legible */
+                color: #000 !important;
+                border: 2px solid #ffcc00;
+            }
+    
+            button {
+                background-color: #ffcc00 !important;
+                /* amarillo de alto contraste */
+                color: #000 !important;
+                /* texto legible */
+                border: 2px solid #000;
+    
+                &:hover {
+                    background-color: #003366 !important;
+                    color: #ffcc00 !important;
+                }
+            }
+    
+        }
+    
+        #ultimos-anuncios {
+            background-color: rgb(42, 42, 42) !important;
+            font-size: 1.1em;
+    
+            .anuncio {
+                border: 2px solid #ffcc00;
+                background-color: grey !important;
+    
+                h3 {
+                    color: #000;
+                    font-size: 1.3em;
+                }
+    
+                p {
+                    color: #000;
+                    font-size: 1.1em;
+                }
+    
+                a {
+                    background-color: #ffcc00 !important;
+                    /* amarillo de alto contraste */
+                    color: #000 !important;
+                    /* texto legible */
+                    border: 2px solid #000;
+                    font-weight: bold !important;
+                    font-size: 1.1em;
+    
+                    &:hover {
+                        background-color: #003366 !important;
+                        color: #ffcc00 !important;
+                    }
+                }
+            }
+        }
+    
+        #login-popup {
+            border: 2px solid #ffcc00 !important;
+            background-color: #fff !important;
+            font-size: 1.1em;
+    
+            form {
+                font-size: 1.1em;
+                background-color: #fff !important;
+                button {
+                    background-color: #ffcc00 !important;
+                    color: #000 !important;
+                    border: 2px solid #000 !important;
+                    font-size: 1.1em;
+                    padding: 10px 16px;
+                    
+                    &:hover {
+                        background-color: #000;
+                        color: #ffcc00;
+                    }
+                }
+            }
+        }
+    }
+
+}

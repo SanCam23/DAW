@@ -1,0 +1,264 @@
+/* letra-grande.css */
+/* --------------------------------------------
+   Modo Letra Grande para VENTAPLUS
+   Aumenta el tamaño del texto y el espaciado
+   Mantiene colores en header y footer
+--------------------------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* --------------------------------------------------
+   BODY
+-------------------------------------------------- */
+body {
+    font-size: 1.3em;
+    line-height: 1.8;
+}
+
+/* --------------------------------------------------
+   CABECERA
+-------------------------------------------------- */
+header.Cabecera {
+    background: linear-gradient(45deg, #1b9986, #c4fff0);
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    flex-wrap: wrap;
+    position: relative;
+
+    .texto {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        figure img {
+            max-width: 80px;
+            border-radius: 8px;
+        }
+    }
+
+    .titulo {
+        display: flex;
+        flex-direction: column;
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.6em;
+            color: #fff;
+        }
+
+        h3 {
+            font-family: 'Leckerli One', cursive;
+            font-size: 1.8em;
+        }
+    }
+
+    .menu-escritorio {
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+
+            li a {
+                text-decoration: none;
+                background-color: #66B266;
+                color: #fff;
+                font-weight: bold;
+                font-size: 1.3em;
+                padding: 10px 16px;
+                border-radius: 5px;
+
+                &:hover {
+                    background-color: #276927;
+                }
+            }
+        }
+    }
+}
+
+/* --------------------------------------------------
+   MENÚ MÓVIL
+-------------------------------------------------- */
+.menu-movil {
+    display: none;
+
+    ul {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        list-style: none;
+
+        li a {
+            font-size: 2em;
+            text-decoration: none;
+        }
+    }
+}
+
+/* --------------------------------------------------
+   CONTENIDO PRINCIPAL
+-------------------------------------------------- */
+main {
+    font-size: 1.2em;
+
+    p {
+        font-size: 1.1em;
+        line-height: 1.8;
+    }
+
+    h2 {
+        font-size: 2em;
+    }
+
+    ul, ol {
+        font-size: 1.1em;
+        line-height: 1.8;
+    }
+
+    a {
+        font-size: 1.1em;
+    }
+
+    strong {
+        font-weight: bold;
+    }
+
+    button, input, select, textarea {
+        font-size: 1.1em;
+        padding: 10px 14px;
+    }
+
+    fieldset {
+        font-size: 1.1em;
+
+        legend {
+            font-size: 1.2em;
+        }
+    }
+
+    table {
+        font-size: 1.1em;
+
+        caption {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        th, td {
+            padding: 8px;
+        }
+    }
+}
+
+/* --------------------------------------------------
+   PIE DE PÁGINA
+-------------------------------------------------- */
+footer {
+    background: linear-gradient(45deg, #1b9986, #c4fff0);
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    font-size: 1.1em;
+}
+
+/* --------------------------------------------------
+   MEDIA QUERIES
+-------------------------------------------------- */
+@media (max-width: 767px) {
+    .menu-escritorio {
+        display: none;
+    }
+
+    .menu-movil {
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+
+        ul {
+            justify-content: space-between;
+
+            li a {
+                font-size: 1.8em;
+            }
+        }
+    }
+
+    header.Cabecera h3 {
+        display: none;
+    }
+
+    main {
+        #ultimos-anuncios {
+            flex-direction: column;
+            align-items: center;
+
+            .anuncio {
+                width: 100%;
+                max-width: 400px;
+
+                h3 {
+                    font-size: 1.4em;
+                }
+
+                p {
+                    font-size: 1.1em;
+                }
+            }
+        }
+    }
+}
+
+.inicio {
+    main {
+        font-size: 1.2em;
+
+        #busqueda-rapida {
+            font-size: 1.1em;
+
+            input, button {
+                font-size: 1.1em;
+                padding: 10px 14px;
+            }
+        }
+
+        #ultimos-anuncios {
+            font-size: 1.1em;
+
+            .anuncio {
+                h3 {
+                    font-size: 1.3em;
+                }
+
+                p {
+                    font-size: 1.1em;
+                }
+
+                a {
+                    font-size: 1.1em;
+                }
+            }
+        }
+
+        #login-popup {
+            font-size: 1.1em;
+
+            form {
+                font-size: 1.1em;
+
+                button {
+                    font-size: 1.1em;
+                    padding: 10px 16px;
+                }
+            }
+        }
+    }
+}

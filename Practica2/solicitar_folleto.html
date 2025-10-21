@@ -95,7 +95,7 @@
 
         <!-- Formulario -->
         <section>
-            <form action="respuesta_solicitar_folleto.html">
+            <form id="formularioFolleto" action="respuesta_solicitar_folleto.html">
 
                 <fieldset>
                     <legend>Texto adicional</legend>
@@ -106,10 +106,10 @@
                 <fieldset>
                     <legend>Datos personales</legend>
                     <label for="nombre">Nombre completo*:</label>
-                    <input type="text" id="nombre" name="nombre" maxlength="200" ><br><br>
+                    <input type="text" id="nombre" name="nombre" maxlength="200"><br><br>
 
                     <label for="email">Correo electrónico*:</label>
-                    <input type="text" id="email" name="email" maxlength="200" ><br><br>
+                    <input type="text" id="email" name="email" maxlength="200"><br><br>
 
                     <label for="telefono">Teléfono:</label>
                     <input type="tel" id="telefono" name="telefono"><br><br>
@@ -118,22 +118,22 @@
                 <fieldset>
                     <legend>Dirección de envío</legend>
                     <label for="calle">Calle*:</label>
-                    <input type="text" id="calle" name="calle" ><br><br>
+                    <input type="text" id="calle" name="calle"><br><br>
 
                     <label for="numero">Número*:</label>
-                    <input type="text" id="numero" name="numero" ><br><br>
+                    <input type="text" id="numero" name="numero"><br><br>
 
                     <label for="cp">Código postal*:</label>
-                    <input type="text" id="cp" name="cp" ><br><br>
+                    <input type="text" id="cp" name="cp"><br><br>
 
                     <label for="localidad">Localidad*:</label>
                     <input type="text" id="localidad" name="localidad"><br><br>
 
                     <label for="provincia">Provincia*:</label>
-                    <input type="text" id="provincia" name="provincia" ><br><br>
+                    <input type="text" id="provincia" name="provincia"><br><br>
 
                     <label for="pais">País*:</label>
-                    <select id="pais" name="pais" >
+                    <select id="pais" name="pais">
                         <option value="">Seleccione</option>
                         <option value="espana">España</option>
                         <option value="francia">Francia</option>
@@ -189,6 +189,14 @@
     <footer>
         <p>2025 VENTAPLUS | Proyecto DAW | <a href="accesibilidad.html">Accesibilidad</a>.</p>
     </footer>
+
+    <dialog id="modalErrores">
+        <h2>Errores en el formulario</h2>
+        <ul id="listaErrores"></ul>
+        <button id="cerrarModal">Cerrar</button>
+    </dialog>
+
+    <script src="./js/solicitar_folleto.js"></script>
 </body>
 
 </html>

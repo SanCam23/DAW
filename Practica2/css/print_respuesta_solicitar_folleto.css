@@ -73,7 +73,6 @@ input,
 form,
 a,
 main>p:first-of-type {
-    /* Oculta el párrafo de agradecimiento */
     display: none !important;
 }
 

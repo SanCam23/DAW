@@ -64,34 +64,59 @@
         <section>
             <h3>Tarifas</h3>
             <table border="1">
-                <caption>Tabla de tarifas para impresión de folletos</caption>
-                <tr>
-                    <th scope="col">Número de páginas</th>
-                    <th scope="col">Número de fotos</th>
-                    <th scope="col">Color/B&N</th>
-                    <th scope="col">Resolución</th>
-                    <th scope="col">Precio (€)</th>
-                </tr>
-                <tr>
-                    <td>10</td>
-                    <td>20</td>
-                    <td>Color</td>
-                    <td>150 DPI</td>
-                    <td>15 €</td>
-                </tr>
-                <tr>
-                    <td>20</td>
-                    <td>40</td>
-                    <td>B&N</td>
-                    <td>300 DPI</td>
-                    <td>20 €</td>
-                </tr>
-                <tr>
-                    <td colspan="4">Coste de procesamiento y envío</td>
-                    <td>5 €</td>
-                </tr>
+                <caption>Tarifas de impresión de folletos</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Concepto</th>
+                        <th scope="col">Condición</th>
+                        <th scope="col">Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Procesamiento y envío</td>
+                        <td>Fijo</td>
+                        <td>10 €</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Número de páginas</td>
+                        <td>&lt; 5 páginas</td>
+                        <td>2 € / página</td>
+                    </tr>
+                    <tr>
+                        <td>Entre 5 y 10 páginas</td>
+                        <td>1.8 € / página</td>
+                    </tr>
+                    <tr>
+                        <td>&gt; 10 páginas</td>
+                        <td>1.6 € / página</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Color / B&N</td>
+                        <td>Blanco y Negro</td>
+                        <td>0 €</td>
+                    </tr>
+                    <tr>
+                        <td>Color</td>
+                        <td>0.5 € / foto</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Resolución</td>
+                        <td>≤ 300 dpi</td>
+                        <td>0 € / foto</td>
+                    </tr>
+                    <tr>
+                        <td>&gt; 300 dpi</td>
+                        <td>0.2 € / foto</td>
+                    </tr>
+                </tbody>
             </table>
+
         </section>
+
+        <button id="btnTablaCostes" type="button">Mostrar tabla de costes</button>
+        <section id="tablaCostes"></section>
+
 
         <!-- Formulario -->
         <section>

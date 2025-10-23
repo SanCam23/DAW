@@ -263,7 +263,7 @@ footer {
     }
 
     /* Botón de cerrar centrado */
-    #cerrarModal {
+    .cerrar {
         display: block;
         margin: 15px auto 0 auto;
         padding: 8px 16px;

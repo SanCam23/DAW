@@ -12,35 +12,30 @@ document.addEventListener("DOMContentLoaded", function() {
     form.addEventListener("submit", function(event) {
         event.preventDefault();
 
-        // --- Tipo de anuncio ---
         const tipoAnuncio = document.querySelector('input[name="tipo_anuncio"]:checked');
         if (!tipoAnuncio) {
             mostrarError("Debes seleccionar un tipo de anuncio (Venta o Alquiler).");
             return;
         }
 
-        // --- Tipo de vivienda ---
         const tipoVivienda = document.querySelector('input[name="tipo_vivienda"]:checked');
         if (!tipoVivienda) {
             mostrarError("Debes seleccionar un tipo de vivienda.");
             return;
         }
 
-        // --- Ciudad ---
         const ciudad = document.getElementById("ciudad").value.trim();
         if (ciudad === "") {
             mostrarError("Debes introducir una ciudad.");
             return;
         }
 
-        // --- País ---
         const pais = document.getElementById("pais").value.trim();
         if (pais === "") {
             mostrarError("Debes introducir un país.");
             return;
         }
 
-        // --- Precios ---
         const precioMinStr = document.getElementById("precio_min").value.trim();
         const precioMaxStr = document.getElementById("precio_max").value.trim();
 
@@ -60,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        // --- Fecha desde ---
         const fechaStr = document.getElementById("fecha").value.trim();
         if (fechaStr === "") {
             mostrarError("Debes introducir la fecha desde.");
@@ -75,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        // --- Si todo está correcto, enviar formulario ---
         form.submit();
     });
 
@@ -105,7 +98,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const fecha = new Date(anio, mes, dia);
         const hoy = new Date();
 
-        // Solo fecha, sin hora
         hoy.setHours(0,0,0,0);
         fecha.setHours(0,0,0,0);
 

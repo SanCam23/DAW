@@ -1,4 +1,3 @@
-// registro.js
 document.addEventListener("DOMContentLoaded", function() {
 
     const form = document.getElementById("registro-form");
@@ -20,14 +19,12 @@ document.addEventListener("DOMContentLoaded", function() {
         const sexo = document.getElementById("sexo").value;
         const fechaNacimiento = document.getElementById("fecha_nacimiento").value;
 
-        // --- Validación de nombre de usuario ---
         const usuarioRegex = /^[A-Za-z][A-Za-z0-9]{2,14}$/;
         if (!usuarioRegex.test(usuario)) {
             mostrarError("El nombre de usuario debe tener entre 3 y 15 caracteres, contener solo letras y números, y no empezar con un número.");
             return;
         }
 
-        // --- Validación de contraseña ---
         const passwordRegex = /^[A-Za-z0-9_-]{6,15}$/;
         if (!passwordRegex.test(password)) {
             mostrarError("La contraseña debe tener entre 6 y 15 caracteres y solo puede contener letras, números, guion y guion bajo.");
@@ -38,32 +35,26 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        // --- Confirmar contraseña ---
         if (password !== confirmPassword) {
             mostrarError("Las contraseñas no coinciden.");
             return;
         }
 
-        // --- Validación de email simplificada ---
         if (!validarEmail(email)) {
             mostrarError("Correo electrónico no válido.");
             return;
         }
 
-        // --- Sexo obligatorio ---
         if (sexo === "") {
             mostrarError("Debes seleccionar un sexo.");
             return;
         }
 
-        // --- Fecha de nacimiento y 18 años mínimo ---
         if (!validarFechaNacimiento(fechaNacimiento)) {
             mostrarError("Debes ser mayor de 18 años.");
             return;
         }
 
-        // --- Si pasa todas las validaciones ---
-        // Aquí se puede enviar el formulario o redirigir
         form.submit();
     });
 
@@ -72,7 +63,6 @@ document.addEventListener("DOMContentLoaded", function() {
         errorDialog.showModal();
     }
 
-    // --- Función para validar email ---
     function validarEmail(email) {
         if (email.length === 0 || email.length > 254) return false;
 
@@ -98,28 +88,27 @@ document.addEventListener("DOMContentLoaded", function() {
         return true;
     }
 
-    // --- Función para validar fecha de nacimiento ---
     function validarFechaNacimiento(fechaStr) {
-    // Espera formato dd/mm/yyyy
-    const partes = fechaStr.split("/");
-    if (partes.length !== 3) return false;
 
-    const dia = parseInt(partes[0], 10);
-    const mes = parseInt(partes[1], 10) - 1; // JS meses 0-11
-    const anio = parseInt(partes[2], 10);
+        const partes = fechaStr.split("/");
+        if (partes.length !== 3) return false;
 
-    const fecha = new Date(anio, mes, dia);
-    if (fecha.getFullYear() !== anio || fecha.getMonth() !== mes || fecha.getDate() !== dia) {
-        return false; // fecha inválida
-    }
+        const dia = parseInt(partes[0], 10);
+        const mes = parseInt(partes[1], 10) - 1; 
+        const anio = parseInt(partes[2], 10);
 
-    const hoy = new Date();
-    let edad = hoy.getFullYear() - anio;
-    if (hoy.getMonth() < mes || (hoy.getMonth() === mes && hoy.getDate() < dia)) {
-        edad--;
-    }
+        const fecha = new Date(anio, mes, dia);
+        if (fecha.getFullYear() !== anio || fecha.getMonth() !== mes || fecha.getDate() !== dia) {
+            return false; 
+        }
 
-    return edad >= 18;
+        const hoy = new Date();
+        let edad = hoy.getFullYear() - anio;
+        if (hoy.getMonth() < mes || (hoy.getMonth() === mes && hoy.getDate() < dia)) {
+            edad--;
+        }
+
+        return edad >= 18;
 }
 
 

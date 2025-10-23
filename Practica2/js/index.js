@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    // Popup login
     const loginPopup = document.getElementById("login-popup");
     loginPopup.style.display = "none";
 
@@ -12,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Dialog de error
     const errorDialog = document.getElementById("error-dialog");
     const errorMensaje = document.getElementById("error-mensaje");
     const cerrarError = document.getElementById("cerrar-error");
@@ -21,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
         errorDialog.close();
     });
 
-    // Validación del formulario
     const loginForm = document.getElementById("login");
     loginForm.addEventListener("submit", function(event) {
         event.preventDefault();
@@ -35,11 +32,9 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        // Redirigir si pasa la validación
         window.location.href = "index_identificado.html";
     });
 
-    // Cerrar popup al hacer clic fuera del formulario
     window.addEventListener("click", function(event) {
         if (event.target === loginPopup) {
             loginPopup.style.display = "none";

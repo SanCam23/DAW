@@ -1,4 +1,3 @@
-// enviar_mensaje.js
 
 function $(id) {
   return document.getElementById(id);

@@ -154,17 +154,32 @@ function generarTablaCostesPractica6() {
 
 // Cálculo de precios por bloques (idéntico al enunciado)
 function calcularCoste(pags, fotos, color, resol, t) {
-  let precioPorPagina;
-  if (pags < 5) precioPorPagina = t.paginas.menos5;
-  else if (pags <= 10) precioPorPagina = t.paginas.entre5y10;
-  else precioPorPagina = t.paginas.mas10;
+  let costePaginas = 0;
 
-  const costePaginas = pags * precioPorPagina;
+  if (pags < 5) {
+    costePaginas = pags * t.paginas.menos5;
+  } else if (pags <= 10) {
+    // Primer tramo: las primeras 5 páginas
+    costePaginas = 5 * t.paginas.menos5;
+    // Segundo tramo: el resto hasta 10
+    costePaginas += (pags - 5) * t.paginas.entre5y10;
+  } else {
+    // Primer tramo: 5 páginas a 2 €
+    costePaginas = 5 * t.paginas.menos5;
+    // Segundo tramo: 5 páginas siguientes a 1.8 €
+    costePaginas += 5 * t.paginas.entre5y10;
+    // Tercer tramo: el resto a 1.6 €
+    costePaginas += (pags - 10) * t.paginas.mas10;
+  }
+
+  // Coste adicional por color
   const costeColor = color === "color" ? fotos * t.color.color : 0;
+  // Coste adicional por resolución alta
   const costeResol = resol === "alta" ? fotos * t.resol.alta : 0;
 
   return t.envio + costePaginas + costeColor + costeResol;
 }
+
 
 
 // Mostrar / Ocultar tabla

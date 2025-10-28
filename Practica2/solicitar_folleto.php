@@ -150,7 +150,6 @@ for ($i = 0; $i < 15; $i++) {
         <section>
             <h3>Tabla de costes (generada con PHP)</h3>
             <table border="1">
-                <caption>Tabla de costes de un folleto publicitario impreso</caption>
                 <thead>
                     <tr>
                         <th rowspan="2">Número de páginas</th>

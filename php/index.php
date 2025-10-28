@@ -23,7 +23,7 @@ $titulo = "Pagina de inicio";
             "Portugal" => "Lisboa",
             "Francia" => "París",
             "Italia" => "Roma"
-        ]
+        ];
 
         sort($capitales);
         echo"<p>Hello World: ". $mensaje . "</p>";

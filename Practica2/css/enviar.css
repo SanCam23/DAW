@@ -50,7 +50,7 @@ main {
             cursor: pointer;
 
             &:hover {
-                background: #276927;
+                background-color: #276927;
             }
         }
     }

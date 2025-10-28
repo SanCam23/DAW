@@ -1,0 +1,133 @@
+/* ===== Estilo general del main ===== */
+main {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* ===== Título ===== */
+main h2 {
+    text-align: center;
+    color: #1b9986;
+    margin-bottom: 25px;
+}
+
+/* ===== Bloque de errores ===== */
+.errores {
+    background-color: #ffe8e8;
+    border: 1px solid #ffb3b3;
+    border-radius: 6px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+}
+
+.errores h3 {
+    color: #cc0000;
+    margin-top: 0;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.errores ul {
+    list-style: disc;
+    padding-left: 25px;
+    color: #900;
+}
+
+/* ===== Bloque de confirmación ===== */
+.confirmacion {
+    background-color: #e8f8f5;
+    border: 1px solid #a3e4d7;
+    border-radius: 6px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+}
+
+.confirmacion h3 {
+    color: #1b9986;
+    text-align: center;
+    margin-top: 0;
+}
+
+.confirmacion ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.confirmacion li {
+    padding: 6px 0;
+    border-bottom: 1px solid #d6f5ec;
+}
+
+.confirmacion li strong {
+    color: #333;
+}
+
+/* ===== Formulario ===== */
+form {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+fieldset {
+    border: none;
+    margin-bottom: 15px;
+}
+
+legend {
+    font-weight: bold;
+    color: #1b9986;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    background-color: #1b9986;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #148272;
+}
+
+button[type="reset"] {
+    background-color: #aaa;
+}
+
+button[type="reset"]:hover {
+    background-color: #888;
+}

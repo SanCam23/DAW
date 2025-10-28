@@ -1,11 +1,48 @@
+<?php
+// -------------------------
+// Cálculo tabla de costes
+// -------------------------
+$tarifas = array(
+    "envio" => 10,
+    "paginas" => array("menos5" => 2, "entre5y10" => 1.8, "mas10" => 1.6),
+    "color" => array("bn" => 0, "color" => 0.5),
+    "resol" => array("baja" => 0, "alta" => 0.2)
+);
+
+function calcularCoste($pags, $fotos, $color, $resol, $t)
+{
+    $costePaginas = 0;
+
+    if ($pags < 5) {
+        $costePaginas = $pags * $t["paginas"]["menos5"];
+    } elseif ($pags <= 10) {
+        $costePaginas = 5 * $t["paginas"]["menos5"];
+        $costePaginas += ($pags - 5) * $t["paginas"]["entre5y10"];
+    } else {
+        $costePaginas = 5 * $t["paginas"]["menos5"];
+        $costePaginas += 5 * $t["paginas"]["entre5y10"];
+        $costePaginas += ($pags - 10) * $t["paginas"]["mas10"];
+    }
+
+    $costeColor = ($color == "color") ? $fotos * $t["color"]["color"] : 0;
+    $costeResol = ($resol == "alta") ? $fotos * $t["resol"]["alta"] : 0;
+
+    return $t["envio"] + $costePaginas + $costeColor + $costeResol;
+}
+
+$paginas = range(1, 15);
+$fotos = array();
+for ($i = 0; $i < 15; $i++) {
+    $fotos[] = ($i + 1) * 3;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="VENTAPLUS: portal de anuncios de venta y alquiler de viviendas. Busca tu próximo hogar fácilmente.">
+    <meta name="description" content="VENTAPLUS: portal de anuncios de venta y alquiler de viviendas. Busca tu próximo hogar fácilmente.">
     <meta name="keywords" content="viviendas, pisos, casas, alquiler, compra, venta, inmuebles">
     <meta name="author" content="Santino Campessi Lojo">
     <meta name="author" content="Mario Laguna Contreras">
@@ -17,18 +54,14 @@
     <link rel="alternate stylesheet" href="css/contraste_letra.css" title="Letra Grande+Alto contraste">
     <link rel="stylesheet" type="text/css" href="css/print_solicitar_folleto.css" media="print">
     <link rel="stylesheet" href="css/fontello.css">
-    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <!-- Cabecera -->
     <header class="Cabecera">
         <section class="texto">
-            <figure>
-                <img src="logo.png" alt="Logo">
-            </figure>
-
+            <figure><img src="logo.png" alt="Logo"></figure>
             <section class="titulo">
                 <h1>VENTAPLUS</h1>
                 <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
@@ -38,7 +71,7 @@
         <nav class="menu-escritorio">
             <ul>
                 <li><a href="index.html"><i class="icon-home"></i>Inicio</a></li>
-                <li></i><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
+                <li><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
                 <li><a href="menu_usuario_registrado.html"><i class="icon-user"></i>Mi Perfil</a></li>
             </ul>
         </nav>
@@ -111,17 +144,54 @@
                     </tr>
                 </tbody>
             </table>
-
         </section>
 
-        <button id="btnTablaCostes" type="button">Mostrar tabla de costes</button>
-        <section id="tablaCostes"></section>
+        <!-- Tabla de costes generada en PHP -->
+        <section>
+            <h3>Tabla de costes (generada con PHP)</h3>
+            <table border="1">
+                <caption>Tabla de costes de un folleto publicitario impreso</caption>
+                <thead>
+                    <tr>
+                        <th rowspan="2">Número de páginas</th>
+                        <th rowspan="2">Número de fotos</th>
+                        <th colspan="2">Blanco y negro</th>
+                        <th colspan="2">Color</th>
+                    </tr>
+                    <tr>
+                        <th>150-300 dpi</th>
+                        <th>450-900 dpi</th>
+                        <th>150-300 dpi</th>
+                        <th>450-900 dpi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($paginas as $i => $p) {
+                        echo "<tr>";
+                        echo "<td>$p</td><td>{$fotos[$i]}</td>";
 
+                        $coste = calcularCoste($p, $fotos[$i], "bn", "baja", $tarifas);
+                        echo "<td>" . number_format($coste, 2) . " €</td>";
+
+                        $coste = calcularCoste($p, $fotos[$i], "bn", "alta", $tarifas);
+                        echo "<td>" . number_format($coste, 2) . " €</td>";
+
+                        $coste = calcularCoste($p, $fotos[$i], "color", "baja", $tarifas);
+                        echo "<td>" . number_format($coste, 2) . " €</td>";
+
+                        $coste = calcularCoste($p, $fotos[$i], "color", "alta", $tarifas);
+                        echo "<td>" . number_format($coste, 2) . " €</td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </section>
 
         <!-- Formulario -->
         <section>
-            <form id="formularioFolleto" action="respuesta_solicitar_folleto.html">
-
+            <form id="formularioFolleto" method="post" action="respuesta_solicitar_folleto.php">
                 <fieldset>
                     <legend>Texto adicional</legend>
                     <label for="texto">Texto (máx. 4000 caracteres):</label><br>
@@ -201,7 +271,6 @@
                     <label for="precio">Sí</label>
                 </fieldset>
 
-
                 <br>
                 <button type="submit">Enviar solicitud</button>
                 <button type="reset">Borrar</button>
@@ -209,8 +278,6 @@
         </section>
     </main>
 
-
-    <!-- Pie de página -->
     <footer>
         <p>2025 VENTAPLUS | Proyecto DAW | <a href="accesibilidad.html">Accesibilidad</a>.</p>
     </footer>

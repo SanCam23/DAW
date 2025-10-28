@@ -17,7 +17,8 @@
     <link rel="alternate stylesheet" href="css/contraste_letra.css" title="Letra Grande+Alto contraste">
     <link rel="stylesheet" type="text/css" href="css/print_resultados.css" media="print">
     <link rel="stylesheet" href="css/fontello.css">
-    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap"
         rel="stylesheet">
 </head>
 
@@ -35,59 +36,90 @@
             </section>
         </section>
 
+        <!-- Menú escritorio -->
         <nav class="menu-escritorio">
             <ul>
                 <li><a href="index.html"><i class="icon-home"></i>Inicio</a></li>
-                <li></i><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
+                <li><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
                 <li><a href="menu_usuario_registrado.html"><i class="icon-user"></i>Mi Perfil</a></li>
             </ul>
         </nav>
 
+        <!-- Menú móvil -->
         <nav class="menu-movil">
             <ul>
                 <li><a href="index.html"><i class="icon-home"></i></a></li>
-                <li></i><a href="formulario.html"><i class="icon-search"></i></a></li>
+                <li><a href="formulario.html"><i class="icon-search"></i></a></li>
                 <li><a href="menu_usuario_registrado.html"><i class="icon-user"></i></a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Contenido principal -->
     <main>
+        <h2>Resultados de la búsqueda</h2>
+
+        <?php
+        // Recoger los datos enviados por GET (desde formulario o búsqueda rápida)
+        $ciudad = $_GET["ciudad"] ?? "";
+        $pais = $_GET["pais"] ?? "";
+        $tipo_anuncio = $_GET["tipo_anuncio"] ?? "";
+        $tipo_vivienda = $_GET["tipo_vivienda"] ?? "";
+        $precio_min = $_GET["precio_min"] ?? "";
+        $precio_max = $_GET["precio_max"] ?? "";
+        $fecha = $_GET["fecha"] ?? "";
+
+        // Mostrar los datos introducidos
+        echo "<section>";
+        echo "<h3>Datos introducidos</h3>";
+        echo "<ul>";
+
+        if ($ciudad != "") echo "<li><strong>Ciudad:</strong> $ciudad</li>";
+        if ($pais != "") echo "<li><strong>País:</strong> $pais</li>";
+        if ($tipo_anuncio != "") echo "<li><strong>Tipo de anuncio:</strong> $tipo_anuncio</li>";
+        if ($tipo_vivienda != "") echo "<li><strong>Tipo de vivienda:</strong> $tipo_vivienda</li>";
+        if ($precio_min != "" && $precio_max != "") echo "<li><strong>Rango de precio:</strong> $precio_min € - $precio_max €</li>";
+        if ($fecha != "") echo "<li><strong>Fecha desde:</strong> $fecha</li>";
+
+        echo "</ul>";
+        echo "</section>";
+        ?>
+
         <section id="resultados">
-            <h2>Resultados Encontrados</h2>
-            <article id="destacado">
+            <h3>Anuncios encontrados</h3>
+
+            <article class="destacado">
                 <figure>
                     <img src="./img/completo.jpg" alt="Vivienda en Madrid">
                 </figure>
-                <h3>Vivienda en Madrid</h3>
+                <h4>Vivienda en Madrid</h4>
                 <p>Fecha: 23/09/2025</p>
                 <p>Ciudad: Madrid</p>
-                <p>Precio: 350.000€</p>
+                <p>Precio: 350.000 €</p>
                 <a href="anuncio.html">Ver detalle</a>
             </article>
 
-            <article id="destacado">
+            <article class="destacado">
                 <figure>
                     <img src="./img/barcelona.jpeg" alt="Piso en Barcelona">
                 </figure>
-                <h3>Piso en Barcelona</h3>
+                <h4>Piso en Barcelona</h4>
                 <p>Fecha: 28/08/2025</p>
                 <p>Ciudad: Barcelona</p>
-                <p>Precio: 180.000€</p>
+                <p>Precio: 180.000 €</p>
                 <a href="404.html">Ver detalle</a>
             </article>
 
-            <article id="destacado">
+            <article class="destacado">
                 <figure>
                     <img src="./img/sevilla.jpeg" alt="Casa en Sevilla">
                 </figure>
-                <h3>Casa en Sevilla</h3>
+                <h4>Casa en Sevilla</h4>
                 <p>Fecha: 20/08/2025</p>
                 <p>Ciudad: Sevilla</p>
-                <p>Precio: 150.000€</p>
+                <p>Precio: 150.000 €</p>
                 <a href="404.html">Ver detalle</a>
             </article>
+
             <article id="destacado">
                 <figure>
                     <img src="./img/balcon.jpg" alt="Casa en Málaga">
@@ -109,8 +141,9 @@
                 <a href="404.html">Ver detalle</a>
             </article>
         </section>
-    </main>
 
+        <a href="formulario.html">Volver al formulario de búsqueda</a>
+    </main>
 
     <footer>
         <p>2025 VENTAPLUS | Proyecto DAW | <a href="accesibilidad.html">Accesibilidad</a>.</p>

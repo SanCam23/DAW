@@ -13,18 +13,18 @@
         <nav class="menu-escritorio">
             <ul>
                 <li><a href="index.php"><i class="icon-home"></i>Inicio</a></li>
-                <li></i><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
-                <li><a href="index_identificado.html"><i class="icon-user"></i>Iniciar Sesión</a></li>
-                <li><a href="registro.html"><i class="icon-user-plus"></i>Registrarse</a></li>
+                <li></i><a href="formulario.php"><i class="icon-search"></i>Buscar</a></li>
+                <li><a href="index_identificado.php"><i class="icon-user"></i>Iniciar Sesión</a></li>
+                <li><a href="registro.php"><i class="icon-user-plus"></i>Registrarse</a></li>
             </ul>
         </nav>
 
         <nav class="menu-movil">
             <ul>
-                <li><a href="index.html"><i class="icon-home"></i></a></li>
-                <li></i><a href="formulario.html"><i class="icon-search"></i></a></li>
-                <li><a href="index_identificado.html"><i class="icon-user"></i></a></li>
-                <li><a href="registro.html"><i class="icon-user-plus"></i></a></li>
+                <li><a href="index.php"><i class="icon-home"></i></a></li>
+                <li></i><a href="formulario.php"><i class="icon-search"></i></a></li>
+                <li><a href="index_identificado.php"><i class="icon-user"></i></a></li>
+                <li><a href="registro.php"><i class="icon-user-plus"></i></a></li>
             </ul>
         </nav>
     </header>

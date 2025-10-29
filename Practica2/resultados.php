@@ -23,37 +23,7 @@
 </head>
 
 <body>
-    <!-- Cabecera -->
-    <header class="Cabecera">
-        <section class="texto">
-            <figure>
-                <img src="logo.png" alt="Logo">
-            </figure>
-
-            <section class="titulo">
-                <h1>VENTAPLUS</h1>
-                <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
-            </section>
-        </section>
-
-        <!-- Menú escritorio -->
-        <nav class="menu-escritorio">
-            <ul>
-                <li><a href="index.html"><i class="icon-home"></i>Inicio</a></li>
-                <li><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
-                <li><a href="menu_usuario_registrado.html"><i class="icon-user"></i>Mi Perfil</a></li>
-            </ul>
-        </nav>
-
-        <!-- Menú móvil -->
-        <nav class="menu-movil">
-            <ul>
-                <li><a href="index.html"><i class="icon-home"></i></a></li>
-                <li><a href="formulario.html"><i class="icon-search"></i></a></li>
-                <li><a href="menu_usuario_registrado.html"><i class="icon-user"></i></a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include('cabecera.php'); ?>
 
     <main>
         <h2>Resultados de la búsqueda</h2>
@@ -117,7 +87,7 @@
                 <p>Fecha: 20/08/2025</p>
                 <p>Ciudad: Sevilla</p>
                 <p>Precio: 150.000 €</p>
-                <a href="404.html">Ver detalle</a>
+                <a href="404.php">Ver detalle</a>
             </article>
 
             <article id="destacado">
@@ -128,7 +98,7 @@
                 <p>Fecha: 1/08/2025</p>
                 <p>Ciudad: Málaga</p>
                 <p>Precio: 170.000€</p>
-                <a href="404.html">Ver detalle</a>
+                <a href="404.php">Ver detalle</a>
             </article>
             <article id="destacado">
                 <figure>
@@ -138,16 +108,14 @@
                 <p>Fecha: 10/10/2025</p>
                 <p>Ciudad: Castellón</p>
                 <p>Precio: 1250.000€</p>
-                <a href="404.html">Ver detalle</a>
+                <a href="404.php">Ver detalle</a>
             </article>
         </section>
 
-        <a href="formulario.html">Volver al formulario de búsqueda</a>
+        <a href="formulario.php">Volver al formulario de búsqueda</a>
     </main>
 
-    <footer>
-        <p>2025 VENTAPLUS | Proyecto DAW | <a href="accesibilidad.html">Accesibilidad</a>.</p>
-    </footer>
+    <?php include('pie.php'); ?>
 </body>
 
 </html>

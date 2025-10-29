@@ -61,7 +61,7 @@ $anuncio = $anuncios[$id];
         rel="stylesheet">
 </head>
 <body>
-<?php include('cabecera.php'); ?>
+    <?php include('cabecera.php'); ?>
 
 <main>
     <article>
@@ -111,6 +111,6 @@ $anuncio = $anuncios[$id];
     </article>
 </main>
 
-<?php include('pie.php'); ?>
+    <?php include('pie.php'); ?>
 </body>
 </html>

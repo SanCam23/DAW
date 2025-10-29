@@ -29,21 +29,19 @@
             <h2>Menú de usuario registrado</h2>
             <section>
                 <ul>
-                    <li><a id="opcion" href="404.html">Modificar mis datos</a></li>
-                    <li><a id="opcion" href="404.html">Darme de baja</a></li>
+                    <li><a id="opcion" href="404.php">Modificar mis datos</a></li>
+                    <li><a id="opcion" href="404.php">Darme de baja</a></li>
                     <li><a id="opcion" href="misanuncios.php">Visualizar mis anuncios</a></li>
                     <li><a id="opcion" href="crear_anuncio.php">Crear un anuncio nuevo</a></li>
-                    <li><a id="opcion" href="mensajes.html">Mis mensajes</a></li>
+                    <li><a id="opcion" href="mensajes.php">Mis mensajes</a></li>
                     <li><a id="opcion" href="solicitar_folleto.php">Solicitar folleto publicitario impreso</a></li>
-                    <li><a id="opcion" href="index.html">Salir</a></li>
+                    <li><a id="opcion" href="index.php">Salir</a></li>
                 </ul>
             </section>
         </article>
     </main>
 
-    <footer>
-        <p>2025 VENTAPLUS | Proyecto DAW | <a href="accesibilidad.html">Accesibilidad</a>.</p>
-    </footer>
+    <?php include('pie.php'); ?>
 </body>
 
 </html>

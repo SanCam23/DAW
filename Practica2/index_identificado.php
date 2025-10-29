@@ -22,35 +22,8 @@
 </head>
 
 <body class="inicio">
-    <!-- Cabecera -->
-    <header class="Cabecera">
-        <section class="texto">
-            <figure>
-                <img src="logo.png" alt="Logo">
-            </figure>
-
-            <section class="titulo">
-                <h1>VENTAPLUS</h1>
-                <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
-            </section>
-        </section>
-
-        <nav class="menu-escritorio">
-            <ul>
-                <li><a href="index.php"><i class="icon-home"></i>Inicio</a></li>
-                <li><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
-                <li><a href="menu_usuario_registrado.php"><i class="icon-user"></i>Mi Perfil</a></li>
-            </ul>
-        </nav>
-
-        <nav class="menu-movil">
-            <ul>
-                <li><a href="index.html"><i class="icon-home"></i></a></li>
-                <li><a href="formulario.html"><i class="icon-search"></i></a></li>
-                <li><a href="menu_usuario_registrado.php"><i class="icon-user"></i></a></li>
-            </ul>
-        </nav>
-    </header>
+    
+    <?php include('cabecera.php'); ?>
 
     <!-- Contenido principal -->
     <main>
@@ -74,7 +47,7 @@
                 <p>Fecha: 23/09/2025</p>
                 <p>Ciudad: Madrid</p>
                 <p>Precio: 350.000€</p>
-                <a href="anuncio.html">Ver detalle</a>
+                <a href="detalle_anuncio.php?id=1">Ver detalle</a>
             </section>
 
             <section class="anuncio">
@@ -85,7 +58,7 @@
                 <p>Fecha: 28/08/2025</p>
                 <p>Ciudad: Barcelona</p>
                 <p>Precio: 180.000€</p>
-                <a href="404.html">Ver detalle</a>
+                <a href="detalle_anuncio.php?id=2">Ver detalle</a>
             </section>
 
             <section class="anuncio">
@@ -96,7 +69,7 @@
                 <p>Fecha: 15/08/2025</p>
                 <p>Ciudad: Sevilla</p>
                 <p>Precio: 250.000€</p>
-                <a href="404.html">Ver detalle</a>
+                <a href="404.php">Ver detalle</a>
             </section>
 
             <section class="anuncio">
@@ -107,7 +80,7 @@
                 <p>Fecha: 01/07/2025</p>
                 <p>Ciudad: Valencia</p>
                 <p>Precio: 220.000€</p>
-                <a href="404.html">Ver detalle</a>
+                <a href="404.php">Ver detalle</a>
             </section>
 
             <section class="anuncio">
@@ -118,15 +91,12 @@
                 <p>Fecha: 20/06/2025</p>
                 <p>Ciudad: Bilbao</p>
                 <p>Precio: 120.000€</p>
-                <a href="404.html">Ver detalle</a>
+                <a href="404.php">Ver detalle</a>
             </section>
         </section>
     </main>
 
-    <!-- Pie de página -->
-    <footer>
-        <p>2025 VENTAPLUS | Proyecto DAW | <a href="accesibilidad.html">Accesibilidad</a>.</p>
-    </footer>
+    <?php include('pie.php'); ?>
 </body>
 
 </html>

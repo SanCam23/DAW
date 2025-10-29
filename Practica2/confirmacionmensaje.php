@@ -72,7 +72,7 @@
                     echo "<li>" . htmlspecialchars($error) . "</li>";
                 }
                 echo "</ul>";
-                echo "<p><a href='enviarmensaje.html'>Volver al formulario</a></p>";
+                echo "<p><a href='enviarmensaje.php'>Volver al formulario</a></p>";
                 echo "</section>";
             }
             ?>

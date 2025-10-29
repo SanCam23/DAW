@@ -91,7 +91,7 @@
                 <p>Fecha: 15/08/2025</p>
                 <p>Ciudad: Sevilla</p>
                 <p>Precio: 250.000€</p>
-                <a href="404.html">Ver detalle</a>
+                <a href="404.php">Ver detalle</a>
             </section>
 
             <section class="anuncio">
@@ -102,7 +102,7 @@
                 <p>Fecha: 01/07/2025</p>
                 <p>Ciudad: Valencia</p>
                 <p>Precio: 220.000€</p>
-                <a href="404.html">Ver detalle</a>
+                <a href="404.php">Ver detalle</a>
             </section>
 
             <section class="anuncio">
@@ -113,7 +113,7 @@
                 <p>Fecha: 20/06/2025</p>
                 <p>Ciudad: Bilbao</p>
                 <p>Precio: 120.000€</p>
-                <a href="404.html">Ver detalle</a>
+                <a href="404.php">Ver detalle</a>
             </section>
         </section>
     </main>

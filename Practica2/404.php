@@ -21,47 +21,16 @@
 </head>
 
 <body>
-    <!-- Cabecera -->
-    <header class="Cabecera">
-        <section class="texto">
-            <figure>
-                <img src="logo.png" alt="Logo">
-            </figure>
 
-            <section class="titulo">
-                <h1>VENTAPLUS</h1>
-                <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
-            </section>
-        </section>
+    <?php include('cabecera.php'); ?>
 
-        <nav class="menu-escritorio">
-            <ul>
-                <li><a href="index.html"><i class="icon-home"></i>Inicio</a></li>
-                <li></i><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
-                <li><a href="index_identificado.html"><i class="icon-user"></i>Mi Perfil</a></li>
-            </ul>
-        </nav>
-
-        <nav class="menu-movil">
-            <ul>
-                <li><a href="index.html"><i class="icon-home"></i></a></li>
-                <li></i><a href="formulario.html"><i class="icon-search"></i></a></li>
-                <li><a href="index_identificado.html"><i class="icon-user"></i></a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Contenido principal -->
     <main>
         <h2>Error 404 — Página no encontrada</h2>
         <hr>
         <p>Lo sentimos, la página que intentas consultar no existe o ha sido movida.</p>
     </main>
 
-    <!-- Pie de página -->
-    <footer>
-        <p>2025 VENTAPLUS | Proyecto DAW | <a href="accesibilidad.html">Accesibilidad</a>.</p>
-    </footer>
+    <?php include('pie.php'); ?>
 </body>
 
 </html>

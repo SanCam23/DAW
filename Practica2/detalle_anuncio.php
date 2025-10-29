@@ -31,25 +31,7 @@ $anuncio = ($id % 2 == 0) ? $anuncios[2] : $anuncios[1];
 </head>
 
 <body>
-    <header class="Cabecera">
-        <section class="texto">
-            <figure>
-                <img src="logo.png" alt="Logo">
-            </figure>
-            <section class="titulo">
-                <h1>VENTAPLUS</h1>
-                <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
-            </section>
-        </section>
-
-        <nav class="menu-escritorio">
-            <ul>
-                <li><a href="index.php"><i class="icon-home"></i>Inicio</a></li>
-                <li><a href="formulario.php"><i class="icon-search"></i>Buscar</a></li>
-                <li><a href="menu_usuario_registrado.php"><i class="icon-user"></i>Mi Perfil</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include('cabecera.php'); ?>
 
     <main>
         <article>
@@ -102,7 +84,7 @@ $anuncio = ($id % 2 == 0) ? $anuncios[2] : $anuncios[1];
 
         <section class="contacto">
             <h3>Enviar mensaje</h3>
-            <p><a href="enviar.html">Ir al formulario de contacto</a></p>
+            <p><a href="enviar.php">Ir al formulario de contacto</a></p>
         </section>
     </main>
 

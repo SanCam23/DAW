@@ -57,16 +57,26 @@
     <!-- Pop-up de inicio de sesión -->
     <section id="login-popup">
         <h2>Iniciar Sesión</h2>
-        <form id="login">
+        <form id="login" action="acceso.php" method="post">
             <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" name="usuario" >
+            <input type="text" id="usuario" name="usuario">
 
             <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" >
+            <input type="password" id="password" name="password">
 
             <button type="submit">Entrar</button>
         </form>
     </section>
+
+    <?php
+    session_start();
+    if (isset($_SESSION["mensaje_error"])) {
+        echo "<p class='mensaje-error'>" . $_SESSION["mensaje_error"] . "</p>";
+        unset($_SESSION["mensaje_error"]); // se borra tras mostrarlo
+    }
+    ?>
+
+
 
     <!-- Contenido principal -->
     <main>
@@ -150,7 +160,7 @@
         <button class="cerrar" id="cerrar-error">Cerrar</button>
     </dialog>
 
-    <script src="js/index.js"></script>
+    <!-- <script src="js/index.js"></script> -->
 </body>
 
 </html>

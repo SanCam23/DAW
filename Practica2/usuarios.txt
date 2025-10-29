@@ -1,0 +1,4 @@
+admin:1234
+mario:abcd
+santino:5678
+test:0000

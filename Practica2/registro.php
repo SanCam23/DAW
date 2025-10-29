@@ -55,41 +55,49 @@
     </header>
 
     <main>
-    <form id="registro-form">
-        <label for="usuario">Nombre de usuario:</label>
-        <input type="text" id="usuario" name="usuario" placeholder="Nombre de usuario" >
+        <?php
+        if (isset($_GET["motivo"]) && $_GET["motivo"] === "no_registrado") {
+            echo "<p class='mensaje-error'>";
+            echo "El usuario introducido no está registrado. Por favor, complete el formulario para crear una nueva cuenta.";
+            echo "</p>";
+        }
+        ?>
 
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" name="password" placeholder="Contraseña">
+        <form id="registro-form">
+            <label for="usuario">Nombre de usuario:</label>
+            <input type="text" id="usuario" name="usuario" placeholder="Nombre de usuario">
 
-        <label for="confirm_password">Confirmar contraseña:</label>
-        <input type="password" id="confirm_password" name="confirm_password" placeholder="Repetir contraseña">
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" placeholder="Contraseña">
 
-        <label for="email">Correo electrónico:</label>
-        <input type="text" id="email" name="email" placeholder="tu@email.com">
+            <label for="confirm_password">Confirmar contraseña:</label>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Repetir contraseña">
 
-        <label for="sexo">Sexo:</label>
-        <select id="sexo" name="sexo">
-            <option value="">Selecciona tu sexo</option>
-            <option value="masculino">Masculino</option>
-            <option value="femenino">Femenino</option>
-            <option value="otro">Otro</option>
-        </select>
+            <label for="email">Correo electrónico:</label>
+            <input type="text" id="email" name="email" placeholder="tu@email.com">
 
-        <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-        <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" >
+            <label for="sexo">Sexo:</label>
+            <select id="sexo" name="sexo">
+                <option value="">Selecciona tu sexo</option>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="otro">Otro</option>
+            </select>
 
-        <label for="ciudad">Ciudad:</label>
-        <input type="text" id="ciudad" name="ciudad">
+            <label for="fecha_nacimiento">Fecha de nacimiento:</label>
+            <input type="text" id="fecha_nacimiento" name="fecha_nacimiento">
 
-        <label for="pais">País:</label>
-        <input type="text" id="pais" name="pais">
+            <label for="ciudad">Ciudad:</label>
+            <input type="text" id="ciudad" name="ciudad">
 
-        <label for="foto">Foto de perfil:</label>
-        <input type="file" id="foto" name="foto" accept="image/*">
+            <label for="pais">País:</label>
+            <input type="text" id="pais" name="pais">
 
-        <button type="submit">Registrarse</button>
-    </form>
+            <label for="foto">Foto de perfil:</label>
+            <input type="file" id="foto" name="foto" accept="image/*">
+
+            <button type="submit">Registrarse</button>
+        </form>
         <p>¿Ya tienes cuenta? <a href="./index.html">Iniciar Sesión</a></p>
     </main>
 

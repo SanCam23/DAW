@@ -1,23 +1,25 @@
 <?php
-// Recibir datos del formulario
+session_start();
+
 $usuario = $_POST["usuario"] ?? "";
 $clave = $_POST["password"] ?? "";
 
-// Validación básica: campos no vacíos ni solo espacios
+// ✅ Validación de campos vacíos o solo espacios
 if (trim($usuario) === "" || trim($clave) === "") {
-    header("Location: index.html?error=campos_vacios");
+    $_SESSION["mensaje_error"] = "Debe rellenar ambos campos sin espacios en blanco.";
+    header("Location: index.php");
     exit();
 }
 
-// Ruta del fichero de usuarios
+// ✅ Comprobar existencia del fichero
 $fichero = "usuarios.txt";
-
 if (!file_exists($fichero)) {
-    header("Location: index.html?error=fichero_inaccesible");
+    $_SESSION["mensaje_error"] = "Error interno: fichero de usuarios no disponible.";
+    header("Location: index.php");
     exit();
 }
 
-// Leer el fichero y buscar coincidencia
+// ✅ Leer y comprobar credenciales
 $usuarios_validos = file($fichero, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 $acceso_concedido = false;
 
@@ -29,12 +31,13 @@ foreach ($usuarios_validos as $linea) {
     }
 }
 
-// Redirecciones según resultado
+// ✅ Redirecciones según el resultado
 if ($acceso_concedido) {
     header("Location: menu_usuario_registrado.html");
     exit();
 } else {
-    header("Location: registro.html");
+    $_SESSION["mensaje_error"] = "El usuario no está registrado. Por favor, regístrese para acceder.";
+    header("Location: registro.php");
     exit();
 }
 ?>

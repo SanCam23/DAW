@@ -57,7 +57,7 @@
     <!-- Pop-up de inicio de sesión -->
     <section id="login-popup">
         <h2>Iniciar Sesión</h2>
-        <form id="login"  action="acceso.php" method="post">
+        <form id="login" action="acceso.php" method="post">
             <label for="usuario">Usuario:</label>
             <input type="text" id="usuario" name="usuario">
 
@@ -69,18 +69,13 @@
     </section>
 
     <?php
-    if (isset($_GET["error"])) {
-        echo "<p class='mensaje-error'>";
-        if ($_GET["error"] === "campos_vacios") {
-            echo "Debe rellenar ambos campos sin espacios en blanco.";
-        } elseif ($_GET["error"] === "credenciales_invalidas") {
-            echo "Usuario o contraseña incorrectos.";
-        } elseif ($_GET["error"] === "fichero_inaccesible") {
-            echo "Error interno: fichero de usuarios no disponible.";
-        }
-        echo "</p>";
+    session_start();
+    if (isset($_SESSION["mensaje_error"])) {
+        echo "<p class='mensaje-error'>" . $_SESSION["mensaje_error"] . "</p>";
+        unset($_SESSION["mensaje_error"]); // se borra tras mostrarlo
     }
     ?>
+
 
 
     <!-- Contenido principal -->

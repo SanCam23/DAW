@@ -95,7 +95,7 @@
                 <p>Fecha: 23/09/2025</p>
                 <p>Ciudad: Madrid</p>
                 <p>Precio: 350.000 €</p>
-                <a href="anuncio.html">Ver detalle</a>
+                <a href="detalle_anuncio.php?id=1">Ver detalle</a>
             </article>
 
             <article class="destacado">
@@ -106,7 +106,7 @@
                 <p>Fecha: 28/08/2025</p>
                 <p>Ciudad: Barcelona</p>
                 <p>Precio: 180.000 €</p>
-                <a href="404.html">Ver detalle</a>
+                <a href="detalle_anuncio.php?id=2">Ver detalle</a>
             </article>
 
             <article class="destacado">

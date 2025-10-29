@@ -102,12 +102,10 @@ $anuncio = ($id % 2 == 0) ? $anuncios[2] : $anuncios[1];
 
         <section class="contacto">
             <h3>Enviar mensaje</h3>
-            <p><a href="enviar.php">Ir al formulario de contacto</a></p>
+            <p><a href="enviar.html">Ir al formulario de contacto</a></p>
         </section>
     </main>
 
-    <footer>
-        <p>2025 VENTAPLUS | Proyecto DAW | <a href="accesibilidad.php">Accesibilidad</a>.</p>
-    </footer>
+    <?php include('pie.php'); ?>
 </body>
 </html>

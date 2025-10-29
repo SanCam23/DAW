@@ -104,7 +104,6 @@
         }
         ?>
 
-        <!-- Formulario de creación de anuncio -->
         <form action="crear_anuncio.php" method="post">
             <fieldset>
                 <legend>Datos del anuncio</legend>

@@ -22,35 +22,7 @@
 </head>
 
 <body>
-    <!-- Cabecera -->
-    <header class="Cabecera">
-        <section class="texto">
-            <figure>
-                <img src="logo.png" alt="Logo">
-            </figure>
-
-            <section class="titulo">
-                <h1>VENTAPLUS</h1>
-                <h3>¿Buscas tu próximo hogar? Empieza aquí.</h3>
-            </section>
-        </section>
-
-        <nav class="menu-escritorio">
-            <ul>
-                <li><a href="index.html"><i class="icon-home"></i>Inicio</a></li>
-                <li></i><a href="formulario.html"><i class="icon-search"></i>Buscar</a></li>
-                <li><a href="menu_usuario_registrado.html"><i class="icon-user"></i>Mi Perfil</a></li>
-            </ul>
-        </nav>
-
-        <nav class="menu-movil">
-            <ul>
-                <li><a href="index.html"><i class="icon-home"></i></a></li>
-                <li></i><a href="formulario.html"><i class="icon-search"></i></a></li>
-                <li><a href="menu_usuario_registrado.html"><i class="icon-user"></i></a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include('cabecera.php'); ?>
 
     <main>
         <article>
@@ -59,7 +31,7 @@
                 <ul>
                     <li><a id="opcion" href="404.html">Modificar mis datos</a></li>
                     <li><a id="opcion" href="404.html">Darme de baja</a></li>
-                    <li><a id="opcion" href="404.html">Visualizar mis anuncios</a></li>
+                    <li><a id="opcion" href="misanuncios.php">Visualizar mis anuncios</a></li>
                     <li><a id="opcion" href="crear_anuncio.php">Crear un anuncio nuevo</a></li>
                     <li><a id="opcion" href="mensajes.html">Mis mensajes</a></li>
                     <li><a id="opcion" href="solicitar_folleto.php">Solicitar folleto publicitario impreso</a></li>

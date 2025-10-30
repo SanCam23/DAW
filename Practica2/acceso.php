@@ -5,7 +5,6 @@ $index_page = 'index.php';
 $registro_page = 'registro.php';
 $menu_page = 'menu_usuario_registrado.php';
 
-// Validación de campos vacíos o solo espacios
 if (trim($usuario) === "" || trim($clave) === "") {
     $mensaje_error = urlencode("Error de validación: Debe rellenar ambos campos (usuario y contraseña).");
     $url_redireccion = "$index_page?error=$mensaje_error";    
@@ -13,7 +12,6 @@ if (trim($usuario) === "" || trim($clave) === "") {
     exit();
 }
 
-// Comprobar existencia del fichero de usuarios
 $fichero = "usuarios.txt";
 if (!file_exists($fichero)) {
     $mensaje_error = urlencode("Error interno: Fichero de credenciales no disponible.");
@@ -40,7 +38,6 @@ foreach ($usuarios_validos as $linea) {
     }
 }
 
-// Redirecciones según el resultado (Redirección del lado del servidor)
 if ($acceso_concedido) {
     header("Location: $menu_page"); 
     exit();

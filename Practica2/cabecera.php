@@ -10,7 +10,6 @@
         </section>
     </section>
 
-    <!-- Menú escritorio -->
     <nav class="menu-escritorio">
         <ul>
             <?php if (isset($zona) && $zona === 'privada'): ?>
@@ -26,7 +25,6 @@
         </ul>
     </nav>
 
-    <!-- Menú móvil -->
     <nav class="menu-movil">
         <ul>
             <?php if (isset($zona) && $zona === 'privada'): ?>

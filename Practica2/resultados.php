@@ -67,7 +67,6 @@ $fecha = $_GET["fecha"] ?? "";
         <section id="resultados">
             <h3>Anuncios encontrados</h3>
 
-            <!-- Se corrigen los id="destacado" a class="destacado" para consistencia -->
             <article class="destacado">
                 <figure>
                     <img src="./img/completo.jpg" alt="Vivienda en Madrid">

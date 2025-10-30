@@ -27,7 +27,6 @@
         include('cabecera.php'); 
     ?>
 
-    <!-- Contenido principal -->
     <main>
         <h2>Crear un nuevo anuncio</h2>
 
@@ -40,7 +39,6 @@
         $tipo = $_POST["tipo"] ?? "";
         $errores = [];
 
-        // Si se envía el formulario
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($titulo == "") $errores[] = "El título es obligatorio.";
             if ($descripcion == "") $errores[] = "La descripción es obligatoria.";

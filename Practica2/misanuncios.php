@@ -56,16 +56,17 @@
                 ]
             ];
 
-            foreach ($anuncios as $id => $a) {
+           foreach ($anuncios as $id => $a) {
                 echo "<article class='anuncio'>";
-                echo "<figure><img src='" . htmlspecialchars($a['imagen']) . "' alt='Foto del anuncio'></figure>";
-                echo "<h3>" . htmlspecialchars($a['titulo']) . "</h3>";
-                echo "<p><strong>Ciudad:</strong> " . htmlspecialchars($a['ciudad']) . "</p>";
-                echo "<p><strong>País:</strong> " . htmlspecialchars($a['pais']) . "</p>";
-                echo "<p><strong>Precio:</strong> " . htmlspecialchars($a['precio']) . "</p>";
+                echo "<figure><img src='" . $a['imagen'] . "' alt='Foto del anuncio'></figure>";
+                echo "<h3>" . $a['titulo'] . "</h3>";
+                echo "<p><strong>Ciudad:</strong> " . $a['ciudad'] . "</p>";
+                echo "<p><strong>País:</strong> " . $a['pais'] . "</p>";
+                echo "<p><strong>Precio:</strong> " . $a['precio'] . "</p>";
                 echo "<a href='ver_anuncio.php?id=" . $id . "'>Ver anuncio</a>";
                 echo "</article>";
             }
+
             ?>
         </section>
 

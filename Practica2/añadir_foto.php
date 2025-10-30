@@ -21,14 +21,12 @@
 
 <?php
 
-
 $anuncios = [
     1 => 'Apartamento en Barcelona',
     2 => 'Vivienda en Madrid',
     3 => 'Casa en Sevilla'
 ];
 
-// Obtener id del anuncio si viene de ver_anuncio.php o misanuncios.php
 $id_seleccionado = isset($_GET['id']) ? intval($_GET['id']) : null;
 
 $zona = 'privada';
@@ -61,12 +59,11 @@ include('cabecera.php');
                 <?php foreach ($anuncios as $id => $titulo): ?>
                     <option value="<?php echo $id; ?>" 
                         <?php echo ($id_seleccionado == $id) ? 'selected' : ''; ?>>
-                        <?php echo htmlspecialchars($titulo); ?>
+                        <?php echo $titulo; ?>
                     </option>
                 <?php endforeach; ?>
             </select>
             <?php if($id_seleccionado): ?>
-                <!-- Mantener el id seleccionado aunque el select esté deshabilitado -->
                 <input type="hidden" name="anuncio" value="<?php echo $id_seleccionado; ?>">
             <?php endif; ?>
         </section>

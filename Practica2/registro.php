@@ -32,7 +32,6 @@
         <?php
         $redireccionar = false;
         
-        // Manejo de errores de validación de registro
         if (isset($_GET["error"])) {
             $redireccionar = true;
             echo "<p class='mensaje-error'>";
@@ -46,23 +45,20 @@
         ?>
 
         <?php
-        // Manejo del motivo de redirección desde el login (usuario no existe)
+
         if (isset($_GET["motivo"]) && $_GET["motivo"] === "no_registrado") {
             $redireccionar = true;
             echo "<p class='mensaje-error'>";
-            // El mensaje deseado:
             echo "El usuario introducido no está registrado. Por favor, complete el formulario para crear una nueva cuenta.";
             echo "</p>";
         }
 
-        // REDIRECCIÓN LIMPIA (7 segundos)
         if ($redireccionar) {
             $host = $_SERVER['HTTP_HOST'];
             $uri  = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
             $registro_page = 'registro.php';
             $url_limpia = "http://$host$uri/$registro_page"; 
 
-            // Se usa meta-refresh para recargar sin los parámetros ?error o ?motivo después de 7 segundos.
             echo '<meta http-equiv="refresh" content="7;url=' . $url_limpia . '">';
         }
         ?>

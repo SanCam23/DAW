@@ -32,13 +32,12 @@ $anuncio = ($id % 2 == 0) ? $anuncios[2] : $anuncios[1];
 
 <body>
     <?php 
-        $zona = 'privada';
+        $zona = 'publica';
         include('cabecera.php'); 
     ?>
 
     <main>
         <article>
-            <!-- Columna izquierda -->
             <section class="col-izquierda">
                 <h2><?= $anuncio["titulo"]; ?></h2>
 
@@ -54,7 +53,6 @@ $anuncio = ($id % 2 == 0) ? $anuncios[2] : $anuncios[1];
                 </section>
             </section>
 
-            <!-- Columna derecha -->
             <section class="col-derecha">
                 <section class="info-general">
                     <h3>Información general</h3>

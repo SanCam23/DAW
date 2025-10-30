@@ -69,16 +69,16 @@ $anuncio = $anuncios[$id];
 <main>
     <article>
         <section class="col-izquierda">
-            <h2><?php echo htmlspecialchars($anuncio['titulo']); ?></h2>
+            <h2><?php echo $anuncio['titulo']; ?></h2>
             <figure class="foto-principal">
-                <img src="<?php echo htmlspecialchars($anuncio['imagen_principal']); ?>" alt="Foto principal del anuncio">
+                <img src="<?php echo $anuncio['imagen_principal']; ?>" alt="Foto principal del anuncio">
             </figure>
 
             <section class="galeria">
                 <h3>Galería de imágenes</h3>
                 <?php foreach ($anuncio['galeria'] as $img): ?>
                     <figure>
-                        <img src="<?php echo htmlspecialchars($img); ?>" alt="Imagen del anuncio">
+                        <img src="<?php echo $img; ?>" alt="Imagen del anuncio">
                     </figure>
                 <?php endforeach; ?>
             </section>
@@ -87,24 +87,24 @@ $anuncio = $anuncios[$id];
         <section class="col-derecha">
             <section class="info-general">
                 <h3>Información general</h3>
-                <p>Tipo de anuncio: <?php echo htmlspecialchars($anuncio['tipo_anuncio']); ?></p>
-                <p>Tipo de vivienda: <?php echo htmlspecialchars($anuncio['tipo_vivienda']); ?></p>
-                <p>Fecha: <?php echo htmlspecialchars($anuncio['fecha']); ?></p>
-                <p>Ciudad: <?php echo htmlspecialchars($anuncio['ciudad']); ?></p>
-                <p>País: <?php echo htmlspecialchars($anuncio['pais']); ?></p>
-                <p>Precio: <?php echo htmlspecialchars($anuncio['precio']); ?></p>
+                <p>Tipo de anuncio: <?php echo $anuncio['tipo_anuncio']; ?></p>
+                <p>Tipo de vivienda: <?php echo $anuncio['tipo_vivienda']; ?></p>
+                <p>Fecha: <?php echo $anuncio['fecha']; ?></p>
+                <p>Ciudad: <?php echo $anuncio['ciudad']; ?></p>
+                <p>País: <?php echo $anuncio['pais']; ?></p>
+                <p>Precio: <?php echo $anuncio['precio']; ?></p>
             </section>
 
             <section class="descripcion">
                 <h3>Descripción</h3>
-                <p><?php echo htmlspecialchars($anuncio['descripcion']); ?></p>
+                <p><?php echo $anuncio['descripcion']; ?></p>
             </section>
 
             <section class="caracteristicas">
                 <h3>Características</h3>
                 <ul>
                     <?php foreach ($anuncio['caracteristicas'] as $caracteristica): ?>
-                        <li><?php echo htmlspecialchars($caracteristica); ?></li>
+                        <li><?php echo $caracteristica; ?></li>
                     <?php endforeach; ?>
                 </ul>
             </section>

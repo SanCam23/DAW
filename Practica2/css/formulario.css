@@ -44,6 +44,24 @@ body {
             }
         }
 
+        a {
+            padding: 8px 12px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            background-color: #66B266;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 3px;
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+
+        a:hover {
+            background-color: #276927;
+        }
+
         button {
             padding: 8px 12px;
             background-color: #66B266;
@@ -81,4 +99,3 @@ body {
     }
 
 }
-

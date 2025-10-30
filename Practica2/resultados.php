@@ -1,5 +1,4 @@
 <?php
-// Recoger los datos enviados por GET (desde formulario o búsqueda rápida)
 $ciudad = $_GET["ciudad"] ?? "";
 $pais = $_GET["pais"] ?? "";
 $tipo_anuncio = $_GET["tipo_anuncio"] ?? "";
@@ -51,7 +50,6 @@ $fecha = $_GET["fecha"] ?? "";
         if ($tipo_anuncio != "") echo "<li><strong>Tipo de anuncio:</strong> $tipo_anuncio</li>";
         if ($tipo_vivienda != "") echo "<li><strong>Tipo de vivienda:</strong> $tipo_vivienda</li>";
         
-        // Manejo del rango de precio más detallado:
         if ($precio_min != "" && $precio_max != "") {
             echo "<li><strong>Rango de precio:</strong> $precio_min € - $precio_max €</li>";
         } elseif ($precio_min != "") {
@@ -107,7 +105,7 @@ $fecha = $_GET["fecha"] ?? "";
                 <figure>
                     <img src="./img/balcon.jpg" alt="Casa en Málaga">
                 </figure>
-                <h3>Casa en Malaga</h3>
+                <h4>Casa en Malaga</h4>
                 <p>Fecha: 1/08/2025</p>
                 <p>Ciudad: Málaga</p>
                 <p>Precio: 170.000€</p>
@@ -117,7 +115,7 @@ $fecha = $_GET["fecha"] ?? "";
                 <figure>
                     <img src="./img/salon.jpg" alt="Piso en Castellón">
                 </figure>
-                <h3>Piso en Castellón</h3>
+                <h4>Piso en Castellón</h4>
                 <p>Fecha: 10/10/2025</p>
                 <p>Ciudad: Castellón</p>
                 <p>Precio: 1250.000€</p>

@@ -104,3 +104,26 @@ main {
         }
     }
 }
+
+.mensaje-error {
+    color: #fff;
+    background-color: #c0392b;
+    text-align: center;
+    font-weight: bold;
+    margin: 20px auto;
+    padding: 10px 20px;
+    border-radius: 8px;
+    max-width: 600px;
+}
+a.volver {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 16px;
+    background-color: #1b9986;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+}
+a.volver:hover {
+    background-color: #157568;
+}

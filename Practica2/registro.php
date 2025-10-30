@@ -22,10 +22,22 @@
 </head>
 
 <body>
-    
+
     <?php include('cabecera.php'); ?>
 
     <main>
+        <?php
+        if (isset($_GET["error"])) {
+            echo "<p class='mensaje-error'>";
+            if ($_GET["error"] === "campos_vacios") {
+                echo "Debe completar los campos obligatorios: usuario, contraseña y repetir contraseña.";
+            } elseif ($_GET["error"] === "contrasenas_no_coinciden") {
+                echo "Las contraseñas no coinciden. Inténtelo de nuevo.";
+            }
+            echo "</p>";
+        }
+        ?>
+
         <?php
         if (isset($_GET["motivo"]) && $_GET["motivo"] === "no_registrado") {
             echo "<p class='mensaje-error'>";
@@ -34,7 +46,7 @@
         }
         ?>
 
-        <form id="registro-form">
+        <form id="registro-form" action="res_registro.php" method="POST">
             <label for="usuario">Nombre de usuario:</label>
             <input type="text" id="usuario" name="usuario" placeholder="Nombre de usuario">
 
@@ -56,7 +68,7 @@
             </select>
 
             <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-            <input type="text" id="fecha_nacimiento" name="fecha_nacimiento">
+            <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="dd/mm/yyyy">
 
             <label for="ciudad">Ciudad:</label>
             <input type="text" id="ciudad" name="ciudad">
@@ -79,7 +91,7 @@
         <button class="cerrar" id="cerrar-error">Cerrar</button>
     </dialog>
 
-    <script src="js/registro.js"></script>
+    <!-- <script src="js/registro.js"></script> -->
 </body>
 
 </html>

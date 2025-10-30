@@ -31,7 +31,10 @@ $anuncio = ($id % 2 == 0) ? $anuncios[2] : $anuncios[1];
 </head>
 
 <body>
-    <?php include('cabecera.php'); ?>
+    <?php 
+        $zona = 'privada';
+        include('cabecera.php'); 
+    ?>
 
     <main>
         <article>

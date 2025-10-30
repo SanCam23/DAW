@@ -23,7 +23,10 @@
 
 <body class="inicio">
 
-    <?php include('cabecera.php'); ?>
+    <?php 
+        $zona = 'publica';
+        include('cabecera.php'); 
+    ?>
 
     <!-- Pop-up de inicio de sesión -->
     <section id="login-popup">

@@ -22,7 +22,11 @@
 
 <body>
 
-    <?php include('cabecera.php'); ?>
+    
+    <?php 
+        $zona = 'publica';
+        include('cabecera.php'); 
+    ?>
 
     <main>
         <h2>Error 404 — Página no encontrada</h2>

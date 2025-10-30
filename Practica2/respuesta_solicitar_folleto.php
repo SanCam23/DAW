@@ -83,7 +83,10 @@ $coste_total = $coste_unitario * $copias;
 </head>
 
 <body>
-    <?php include('cabecera.php'); ?>
+    <?php 
+        $zona = 'privada';
+        include('cabecera.php'); 
+    ?>
 
     <main>
         <h2>Solicitud de folleto recibida</h2>

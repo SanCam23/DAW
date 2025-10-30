@@ -20,9 +20,8 @@
 </head>
 
 <?php
-// añadir_foto.php
 
-// Datos simulados de anuncios del usuario
+
 $anuncios = [
     1 => 'Apartamento en Barcelona',
     2 => 'Vivienda en Madrid',
@@ -32,6 +31,7 @@ $anuncios = [
 // Obtener id del anuncio si viene de ver_anuncio.php o misanuncios.php
 $id_seleccionado = isset($_GET['id']) ? intval($_GET['id']) : null;
 
+$zona = 'privada';
 include('cabecera.php');
 ?>
 

@@ -22,7 +22,10 @@
 </head>
 
 <body>
-    <?php include('cabecera.php'); ?>
+    <?php
+        $zona = 'publica'; 
+        include('cabecera.php'); 
+    ?>
 
 
     <form action="resultados.php" method="get">

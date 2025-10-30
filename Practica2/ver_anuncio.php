@@ -61,7 +61,10 @@ $anuncio = $anuncios[$id];
         rel="stylesheet">
 </head>
 <body>
-    <?php include('cabecera.php'); ?>
+    <?php 
+        $zona = 'privada';
+        include('cabecera.php'); 
+    ?>
 
 <main>
     <article>

@@ -22,7 +22,10 @@
 </head>
 
 <body>
-    <?php include('cabecera.php'); ?>
+    <?php 
+        $zona = 'privada';
+        include('cabecera.php'); 
+    ?>
 
     <!-- Contenido principal -->
     <main>

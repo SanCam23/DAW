@@ -143,6 +143,25 @@ main {
     }
 }
 
+.centrado {
+    text-align: center;
+    margin-top: 20px;
+
+    .nuevo {
+        display: inline-block;
+        margin-top: 5px;
+        text-decoration: none;
+        color: #fff;
+        background-color: #66B266;
+        padding: 5px 10px;
+        border-radius: 3px;
+
+        &:hover {
+            background-color: #276927;
+        }
+    }
+}
+
 /* --------------------------------------------------
    MEDIA QUERIES
 -------------------------------------------------- */

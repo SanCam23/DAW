@@ -17,6 +17,11 @@
     transition: transform 0.3s;
 }
 
+h2{
+    width: 100%;
+    align-items: center;
+}
+
 .anuncio:hover {
     transform: scale(1.03);
 }
@@ -38,24 +43,35 @@
 }
 
 .crear-anuncio {
-    display: flex;            
-    justify-content: center;  
-    margin: 20px 0;        
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.boton-ver {
+    display: inline-block;
+    margin-top: 5px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #66B266;
+    padding: 5px 10px;
+    border-radius: 3px;
+
+    &:hover {
+        background-color: #276927;
+    }
 }
 
 .boton-crear {
-    display: inline-flex; 
-    align-items: center;
-    background-color: #1b9986;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
+    display: inline-block;
+    margin-top: 5px;
     text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
+    color: #fff;
+    background-color: #66B266;
+    padding: 5px 10px;
+    border-radius: 3px;
 }
 
 .boton-crear:hover {
-    background-color: #14806e;
+    background-color: #276927;
 }
-

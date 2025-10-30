@@ -59,7 +59,10 @@ for ($i = 0; $i < 15; $i++) {
 
 <body>
 
-    <?php include('cabecera.php'); ?>
+    <?php
+        $zona = 'privada'; 
+        include('cabecera.php'); 
+    ?>
 
     <!-- Contenido principal -->
     <main>

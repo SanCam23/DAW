@@ -20,7 +20,6 @@ if (!file_exists($fichero)) {
     exit();
 }
 
-// Leer y comprobar credenciales
 $usuarios_validos = file($fichero, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 $usuario_encontrado = false;
 $acceso_concedido = false;

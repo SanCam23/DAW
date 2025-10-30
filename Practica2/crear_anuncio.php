@@ -100,7 +100,7 @@
                 </select><br><br>
 
                 <button type="submit">Crear anuncio</button>
-                <button type="reset">Borrar</button>
+                <a href="crear_anuncio.php">Limpiar</a>
             </fieldset>
         </form>
     </main>

@@ -1,4 +1,3 @@
-/* ===== Estilo general del main ===== */
 main {
     max-width: 800px;
     margin: 30px auto;
@@ -8,14 +7,12 @@ main {
     border-radius: 8px;
 }
 
-/* ===== Título ===== */
 main h2 {
     text-align: center;
     color: #1b9986;
     margin-bottom: 25px;
 }
 
-/* ===== Bloque de errores ===== */
 .errores {
     background-color: #ffe8e8;
     border: 1px solid #ffb3b3;
@@ -37,7 +34,6 @@ main h2 {
     color: #900;
 }
 
-/* ===== Bloque de confirmación ===== */
 .confirmacion {
     background-color: #e8f8f5;
     border: 1px solid #a3e4d7;
@@ -66,7 +62,6 @@ main h2 {
     color: #333;
 }
 
-/* ===== Formulario ===== */
 form {
     background-color: #fff;
     border: 1px solid #ccc;
@@ -109,25 +104,24 @@ textarea {
     resize: vertical;
 }
 
-button {
-    background-color: #1b9986;
+button,
+a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #66B266;
     color: #fff;
+    text-decoration: none;
     border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    padding: 12px 0;
     cursor: pointer;
-    font-weight: bold;
-    margin-right: 10px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #148272;
-}
-
-button[type="reset"] {
-    background-color: #aaa;
-}
-
-button[type="reset"]:hover {
-    background-color: #888;
+button:hover,
+a:hover {
+    background-color: #276927;
 }

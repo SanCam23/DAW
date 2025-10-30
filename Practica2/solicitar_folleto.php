@@ -52,20 +52,6 @@ for ($i = 0; $i < 15; $i++) {
     <link rel="stylesheet" type="text/css" href="css/print_solicitar_folleto.css" media="print">
     <link rel="stylesheet" href="css/fontello.css">
     <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-
-    <script>
-        function toggleTablaCostes() {
-            var tabla = document.getElementById('tabla-costes-php');
-            var boton = document.getElementById('toggle-tabla-btn');
-            if (tabla.style.display === 'none') {
-                tabla.style.display = 'block';
-                boton.textContent = 'Ocultar tabla de costes';
-            } else {
-                tabla.style.display = 'none';
-                boton.textContent = 'Mostrar tabla de costes';
-            }
-        }
-    </script>
 </head>
 
 <body>
@@ -134,11 +120,8 @@ for ($i = 0; $i < 15; $i++) {
             </table>
         </section>
 
-        <button id="toggle-tabla-btn" onclick="toggleTablaCostes()">
-            Mostrar tabla de costes
-        </button>
 
-        <section id="tabla-costes-php" style="display: none;">
+        <section id="tabla-costes-php">
             <h3>Tabla de costes (generada con PHP)</h3>
             <table border="1">
                 <thead>
@@ -262,7 +245,7 @@ for ($i = 0; $i < 15; $i++) {
 
                 <br>
                 <button type="submit">Enviar solicitud</button>
-                <button type="reset">Borrar</button>
+                <a href="solicitar_folleto.php">Limpiar</a>
             </form>
         </section>
     </main>

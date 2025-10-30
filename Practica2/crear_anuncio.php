@@ -32,7 +32,6 @@
         <h2>Crear un nuevo anuncio</h2>
 
         <?php
-        // Inicializar variables
         $titulo = $_POST["titulo"] ?? "";
         $descripcion = $_POST["descripcion"] ?? "";
         $precio = $_POST["precio"] ?? "";
@@ -43,7 +42,6 @@
 
         // Si se envía el formulario
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Validaciones básicas
             if ($titulo == "") $errores[] = "El título es obligatorio.";
             if ($descripcion == "") $errores[] = "La descripción es obligatoria.";
             if ($precio == "" || !is_numeric($precio) || $precio <= 0) $errores[] = "El precio debe ser un número positivo.";
@@ -51,7 +49,6 @@
             if ($pais == "") $errores[] = "El país es obligatorio.";
             if ($tipo == "") $errores[] = "Debe seleccionar el tipo de anuncio.";
 
-            // Si no hay errores → mostrar resumen del anuncio
             if (empty($errores)) {
                 echo "<section class='confirmacion'>";
                 echo "<h3>Anuncio creado correctamente</h3>";
@@ -66,7 +63,6 @@
                 echo "</ul>";
                 echo "</section>";
             } else {
-                // Mostrar lista de errores
                 echo "<section class='errores'>";
                 echo "<h3>Se han encontrado errores:</h3>";
                 echo "<ul>";

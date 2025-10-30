@@ -28,7 +28,6 @@
         include('cabecera.php'); 
     ?>
 
-    <!-- Pop-up de inicio de sesión -->
     <section id="login-popup">
         <h2>Iniciar Sesión</h2>
         <form id="login" action="acceso.php" method="post">
@@ -43,16 +42,14 @@
     </section>
 
     <?php
-    session_start();
-    if (isset($_SESSION["mensaje_error"])) {
-        echo "<p class='mensaje-error'>" . $_SESSION["mensaje_error"] . "</p>";
-        unset($_SESSION["mensaje_error"]); // se borra tras mostrarlo
+    if (isset($_GET["error"])) {
+        echo "<p class='mensaje-error'>" . urldecode($_GET["error"]) . "</p>";
+        $index_page = 'index.php';
+        echo '<meta http-equiv="refresh" content="5;url=' . $index_page . '">'; 
     }
     ?>
 
-    <!-- Contenido principal -->
     <main>
-        <!-- Búsqueda rápida -->
         <section id="busqueda-rapida">
             <form action="resultados.php" method="get">
                 <input type="text" id="ciudad" name="ciudad" placeholder="Introduce la ciudad donde deseas buscar...">
@@ -60,7 +57,6 @@
             </form>
         </section>
 
-        <!-- Últimos anuncios -->
         <section id="ultimos-anuncios">
             <h2>Últimos anuncios</h2>
 
@@ -128,6 +124,5 @@
         <button class="cerrar" id="cerrar-error">Cerrar</button>
     </dialog>
 
-    <!-- <script src="js/index.js"></script> -->
-</body>
+    </body>
 </html>

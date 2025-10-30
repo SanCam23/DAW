@@ -1,3 +1,13 @@
+<?php
+// Recoger los datos enviados por GET (desde formulario o búsqueda rápida)
+$ciudad = $_GET["ciudad"] ?? "";
+$pais = $_GET["pais"] ?? "";
+$tipo_anuncio = $_GET["tipo_anuncio"] ?? "";
+$tipo_vivienda = $_GET["tipo_vivienda"] ?? "";
+$precio_min = $_GET["precio_min"] ?? "";
+$precio_max = $_GET["precio_max"] ?? "";
+$fecha = $_GET["fecha"] ?? "";
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -32,25 +42,24 @@
         <h2>Resultados de la búsqueda</h2>
 
         <?php
-        // Recoger los datos enviados por GET (desde formulario o búsqueda rápida)
-        $ciudad = $_GET["ciudad"] ?? "";
-        $pais = $_GET["pais"] ?? "";
-        $tipo_anuncio = $_GET["tipo_anuncio"] ?? "";
-        $tipo_vivienda = $_GET["tipo_vivienda"] ?? "";
-        $precio_min = $_GET["precio_min"] ?? "";
-        $precio_max = $_GET["precio_max"] ?? "";
-        $fecha = $_GET["fecha"] ?? "";
-
-        // Mostrar los datos introducidos
-        echo "<section>";
-        echo "<h3>Datos introducidos</h3>";
+        echo "<section id='datos-busqueda'>";
+        echo "<h3>Datos de la búsqueda</h3>";
         echo "<ul>";
 
         if ($ciudad != "") echo "<li><strong>Ciudad:</strong> $ciudad</li>";
         if ($pais != "") echo "<li><strong>País:</strong> $pais</li>";
         if ($tipo_anuncio != "") echo "<li><strong>Tipo de anuncio:</strong> $tipo_anuncio</li>";
         if ($tipo_vivienda != "") echo "<li><strong>Tipo de vivienda:</strong> $tipo_vivienda</li>";
-        if ($precio_min != "" && $precio_max != "") echo "<li><strong>Rango de precio:</strong> $precio_min € - $precio_max €</li>";
+        
+        // Manejo del rango de precio más detallado:
+        if ($precio_min != "" && $precio_max != "") {
+            echo "<li><strong>Rango de precio:</strong> $precio_min € - $precio_max €</li>";
+        } elseif ($precio_min != "") {
+            echo "<li><strong>Precio mínimo:</strong> $precio_min €</li>";
+        } elseif ($precio_max != "") {
+            echo "<li><strong>Precio máximo:</strong> $precio_max €</li>";
+        }
+
         if ($fecha != "") echo "<li><strong>Fecha desde:</strong> $fecha</li>";
 
         echo "</ul>";
@@ -60,6 +69,7 @@
         <section id="resultados">
             <h3>Anuncios encontrados</h3>
 
+            <!-- Se corrigen los id="destacado" a class="destacado" para consistencia -->
             <article class="destacado">
                 <figure>
                     <img src="./img/completo.jpg" alt="Vivienda en Madrid">
@@ -93,7 +103,7 @@
                 <a href="404.php">Ver detalle</a>
             </article>
 
-            <article id="destacado">
+            <article class="destacado">
                 <figure>
                     <img src="./img/balcon.jpg" alt="Casa en Málaga">
                 </figure>
@@ -103,7 +113,7 @@
                 <p>Precio: 170.000€</p>
                 <a href="404.php">Ver detalle</a>
             </article>
-            <article id="destacado">
+            <article class="destacado">
                 <figure>
                     <img src="./img/salon.jpg" alt="Piso en Castellón">
                 </figure>

@@ -1,10 +1,7 @@
 <?php
-// -------------------------
-// Cálculo tabla de costes
-// -------------------------
 $tarifas = array(
     "envio" => 10,
-    "paginas" => array("menos5" => 2, "entre5y10" => 1.8, "mas10" => 1.6),
+    "paginas" => array("p1a4" => 2.0, "p5a10" => 1.8, "p11ymas" => 1.6),
     "color" => array("bn" => 0, "color" => 0.5),
     "resol" => array("baja" => 0, "alta" => 0.2)
 );
@@ -13,15 +10,15 @@ function calcularCoste($pags, $fotos, $color, $resol, $t)
 {
     $costePaginas = 0;
 
-    if ($pags < 5) {
-        $costePaginas = $pags * $t["paginas"]["menos5"];
+    if ($pags <= 4) {
+        $costePaginas = $pags * $t["paginas"]["p1a4"];
     } elseif ($pags <= 10) {
-        $costePaginas = 5 * $t["paginas"]["menos5"];
-        $costePaginas += ($pags - 5) * $t["paginas"]["entre5y10"];
+        $costePaginas += 4 * $t["paginas"]["p1a4"];
+        $costePaginas += ($pags - 4) * $t["paginas"]["p5a10"];
     } else {
-        $costePaginas = 5 * $t["paginas"]["menos5"];
-        $costePaginas += 5 * $t["paginas"]["entre5y10"];
-        $costePaginas += ($pags - 10) * $t["paginas"]["mas10"];
+        $costePaginas += 4 * $t["paginas"]["p1a4"];
+        $costePaginas += 6 * $t["paginas"]["p5a10"];
+        $costePaginas += ($pags - 10) * $t["paginas"]["p11ymas"];
     }
 
     $costeColor = ($color == "color") ? $fotos * $t["color"]["color"] : 0;
@@ -55,6 +52,20 @@ for ($i = 0; $i < 15; $i++) {
     <link rel="stylesheet" type="text/css" href="css/print_solicitar_folleto.css" media="print">
     <link rel="stylesheet" href="css/fontello.css">
     <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <script>
+        function toggleTablaCostes() {
+            var tabla = document.getElementById('tabla-costes-php');
+            var boton = document.getElementById('toggle-tabla-btn');
+            if (tabla.style.display === 'none') {
+                tabla.style.display = 'block';
+                boton.textContent = 'Ocultar tabla de costes';
+            } else {
+                tabla.style.display = 'none';
+                boton.textContent = 'Mostrar tabla de costes';
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -64,7 +75,6 @@ for ($i = 0; $i < 15; $i++) {
         include('cabecera.php'); 
     ?>
 
-    <!-- Contenido principal -->
     <main>
         <h2>Solicitar folleto publicitario</h2>
         <p>
@@ -72,7 +82,6 @@ for ($i = 0; $i < 15; $i++) {
             de uno de tus anuncios. Los campos marcados con * son obligatorios.
         </p>
 
-        <!-- Tabla de tarifas -->
         <section>
             <h3>Tarifas</h3>
             <table border="1">
@@ -92,15 +101,15 @@ for ($i = 0; $i < 15; $i++) {
                     </tr>
                     <tr>
                         <td rowspan="3">Número de páginas</td>
-                        <td>&lt; 5 páginas</td>
+                        <td>De 1 a 4 páginas</td>
                         <td>2 € / página</td>
                     </tr>
                     <tr>
-                        <td>Entre 5 y 10 páginas</td>
+                        <td>De 5 a 10 páginas</td>
                         <td>1.8 € / página</td>
                     </tr>
                     <tr>
-                        <td>&gt; 10 páginas</td>
+                        <td>Más de 10 páginas</td>
                         <td>1.6 € / página</td>
                     </tr>
                     <tr>
@@ -114,19 +123,22 @@ for ($i = 0; $i < 15; $i++) {
                     </tr>
                     <tr>
                         <td rowspan="2">Resolución</td>
-                        <td>≤ 300 dpi</td>
+                        <td>150-300 dpi</td>
                         <td>0 € / foto</td>
                     </tr>
                     <tr>
-                        <td>&gt; 300 dpi</td>
+                        <td>450-900 dpi</td>
                         <td>0.2 € / foto</td>
                     </tr>
                 </tbody>
             </table>
         </section>
 
-        <!-- Tabla de costes generada en PHP -->
-        <section>
+        <button id="toggle-tabla-btn" onclick="toggleTablaCostes()">
+            Mostrar tabla de costes
+        </button>
+
+        <section id="tabla-costes-php" style="display: none;">
             <h3>Tabla de costes (generada con PHP)</h3>
             <table border="1">
                 <thead>
@@ -150,16 +162,16 @@ for ($i = 0; $i < 15; $i++) {
                         echo "<td>$p</td><td>{$fotos[$i]}</td>";
 
                         $coste = calcularCoste($p, $fotos[$i], "bn", "baja", $tarifas);
-                        echo "<td>" . number_format($coste, 2) . " €</td>";
+                        echo "<td>" . number_format($coste, 2, ',', '.') . " €</td>";
 
                         $coste = calcularCoste($p, $fotos[$i], "bn", "alta", $tarifas);
-                        echo "<td>" . number_format($coste, 2) . " €</td>";
+                        echo "<td>" . number_format($coste, 2, ',', '.') . " €</td>";
 
                         $coste = calcularCoste($p, $fotos[$i], "color", "baja", $tarifas);
-                        echo "<td>" . number_format($coste, 2) . " €</td>";
+                        echo "<td>" . number_format($coste, 2, ',', '.') . " €</td>";
 
                         $coste = calcularCoste($p, $fotos[$i], "color", "alta", $tarifas);
-                        echo "<td>" . number_format($coste, 2) . " €</td>";
+                        echo "<td>" . number_format($coste, 2, ',', '.') . " €</td>";
                         echo "</tr>";
                     }
                     ?>
@@ -167,7 +179,6 @@ for ($i = 0; $i < 15; $i++) {
             </table>
         </section>
 
-        <!-- Formulario -->
         <section>
             <form id="formularioFolleto" method="post" action="respuesta_solicitar_folleto.php">
                 <fieldset>
@@ -236,7 +247,7 @@ for ($i = 0; $i < 15; $i++) {
                     </select><br><br>
 
                     <label for="fecha">Fecha de recepción deseada:</label>
-                    <input type="text" id="fecha" name="fecha"><br><br>
+                    <input type="text" id="fecha" name="fecha" placeholder="dd/mm/yyyy"><br><br>
 
                     <label>Impresión a color:</label>
                     <input type="radio" id="color_si" name="impresion_color" value="color" checked>
@@ -264,7 +275,7 @@ for ($i = 0; $i < 15; $i++) {
         <button class="cerrar" id="cerrarModal">Cerrar</button>
     </dialog>
 
-    <script src="./js/solicitar_folleto.js"></script>
+    <!-- <script src="./js/solicitar_folleto.js"></script> -->
 </body>
 
 </html>

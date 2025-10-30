@@ -84,7 +84,7 @@
         <button class="cerrar" id="cerrar-error">Cerrar</button>
     </dialog>
 
-    <script src="js/formulario.js"></script>
+    <!-- <script src="js/formulario.js"></script> -->
 </body>
 
 </html>

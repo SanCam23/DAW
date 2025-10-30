@@ -39,33 +39,10 @@
     </section>
 
     <?php
-    // CÓDIGO CORREGIDO PARA BORRAR EL MENSAJE AL RECARGAR
-
-    // 1. Verificar si existe el mensaje de error en la URL ($_GET)
     if (isset($_GET["error"])) {
-        // Muestra el mensaje de error
-        echo "<p class='mensaje-error'>" . htmlspecialchars(urldecode($_GET["error"])) . "</p>";
-
-        // 2. Ejecutar la redirección al mismo fichero (index.php) pero sin el parámetro 'error'
-        // Esto se ejecutará inmediatamente después de que el navegador muestre el contenido.
-        // La siguiente vez que el usuario recargue o navegue, el parámetro 'error' no estará presente.
-        
-        // La redirección DEBE hacerse DESPUÉS de mostrar el mensaje, para que el usuario lo vea.
-        // Como el navegador procesa la página antes de la redirección, el usuario verá el mensaje.
-
-        $host = $_SERVER['HTTP_HOST'];
-        $uri  = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+        echo "<p class='mensaje-error'>" . urldecode($_GET["error"]) . "</p>";
         $index_page = 'index.php';
-
-        // Redirige al mismo fichero, pero sin parámetros de error.
-        $url_limpia = "http://$host$uri/$index_page"; 
-
-        // Se usa un encabezado 'Refresh' simple o una redirección meta.
-        // En un entorno de desarrollo, un <meta http-equiv="refresh"> es más sencillo de ver y depurar 
-        // y cumple el requisito sin una doble redirección de PHP.
-
-        echo '<meta http-equiv="refresh" content="7;url=' . $url_limpia . '">'; 
-        // El 'content="1"' indica que se redirija en 1 segundo, dando tiempo al usuario a leer el mensaje.
+        echo '<meta http-equiv="refresh" content="5;url=' . $index_page . '">'; 
     }
     ?>
 

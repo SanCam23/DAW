@@ -1,7 +1,4 @@
 <?php
-// -------------------------
-// Recibir los datos del formulario
-// -------------------------
 $nombre = $_POST["nombre"] ?? "";
 $email = $_POST["email"] ?? "";
 $telefono = $_POST["telefono"] ?? "";
@@ -12,7 +9,7 @@ $localidad = $_POST["localidad"] ?? "";
 $provincia = $_POST["provincia"] ?? "";
 $pais = $_POST["pais"] ?? "";
 $color_portada = $_POST["color"] ?? "";
-$copias = (int) ($_POST["copias"] ?? 1);
+$copias = max(1, (int) ($_POST["copias"] ?? 1)); 
 $resolucion = (int) ($_POST["resolucion"] ?? 150);
 $anuncio = $_POST["anuncio"] ?? "";
 $fecha = $_POST["fecha"] ?? "";
@@ -20,36 +17,37 @@ $impresion = $_POST["impresion_color"] ?? "bn";
 $mostrar_precio = isset($_POST["mostrar_precio"]) ? "Sí" : "No";
 $texto = $_POST["texto"] ?? "";
 
-// -------------------------
-// Calcular coste del folleto (según práctica 6)
-// -------------------------
+
 $tarifas = array(
     "envio" => 10,
-    "paginas" => array("menos5" => 2, "entre5y10" => 1.8, "mas10" => 1.6),
+    "paginas" => array("p1a4" => 2.0, "p5a10" => 1.8, "p11ymas" => 1.6),
     "color" => array("bn" => 0, "color" => 0.5),
     "resol" => array("baja" => 0, "alta" => 0.2)
 );
 
-// Usamos valores genéricos de ejemplo: 8 páginas, 12 fotos
+
 $paginas = 8;
 $fotos = 12;
 
-// Determinar si resolución es baja o alta
 $resolucion_tipo = ($resolucion > 300) ? "alta" : "baja";
 
-// Calcular coste
+
 function calcularCoste($pags, $fotos, $color, $resol, $t) {
     $costePaginas = 0;
 
-    if ($pags < 5) {
-        $costePaginas = $pags * $t["paginas"]["menos5"];
-    } elseif ($pags <= 10) {
-        $costePaginas = 5 * $t["paginas"]["menos5"];
-        $costePaginas += ($pags - 5) * $t["paginas"]["entre5y10"];
-    } else {
-        $costePaginas = 5 * $t["paginas"]["menos5"];
-        $costePaginas += 5 * $t["paginas"]["entre5y10"];
-        $costePaginas += ($pags - 10) * $t["paginas"]["mas10"];
+    if ($pags <= 4) {
+        $costePaginas = $pags * $t["paginas"]["p1a4"];
+    } 
+
+    elseif ($pags <= 10) {
+        $costePaginas += 4 * $t["paginas"]["p1a4"];
+        $costePaginas += ($pags - 4) * $t["paginas"]["p5a10"];
+    } 
+
+    else {
+        $costePaginas += 4 * $t["paginas"]["p1a4"]; 
+        $costePaginas += 6 * $t["paginas"]["p5a10"];
+        $costePaginas += ($pags - 10) * $t["paginas"]["p11ymas"];
     }
 
     $costeColor = ($color == "color") ? $fotos * $t["color"]["color"] : 0;
@@ -59,7 +57,7 @@ function calcularCoste($pags, $fotos, $color, $resol, $t) {
 }
 
 $coste_unitario = calcularCoste($paginas, $fotos, $impresion, $resolucion_tipo, $tarifas);
-$coste_total = $coste_unitario * $copias;
+    $coste_total = $coste_unitario * $copias; 
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -88,11 +86,11 @@ $coste_total = $coste_unitario * $copias;
     <main>
         <h2>Solicitud de folleto recibida</h2>
 
-        <p>Gracias — su solicitud de folleto ha sido registrada correctamente. A continuación se muestran los datos
+        <p>Gracias **<?php echo $nombre; ?>**— su solicitud de folleto ha sido registrada correctamente. A continuación se muestran los datos
             introducidos y el coste calculado.</p>
 
         <section aria-labelledby="datos-titulo">
-            <h3 id="datos-titulo">Datos recibidos</h3>
+            <h3 id="datos-titulo">Datos del folleto y envío</h3>
             <dl>
                 <dt>Nombre</dt>
                 <dd><?php echo $nombre; ?></dd>
@@ -109,10 +107,11 @@ $coste_total = $coste_unitario * $copias;
                 <dt>Anuncio seleccionado</dt>
                 <dd>
                     <?php
-                    if ($anuncio == "1") echo "Vivienda en Madrid (ID: 1)";
-                    elseif ($anuncio == "2") echo "Piso en Barcelona (ID: 2)";
-                    elseif ($anuncio == "3") echo "Casa en Sevilla (ID: 3)";
-                    else echo "No especificado";
+                    $anuncio_nombre = "No especificado";
+                    if ($anuncio == "1") $anuncio_nombre = "Vivienda en Madrid (ID: 1)";
+                    elseif ($anuncio == "2") $anuncio_nombre = "Piso en Barcelona (ID: 2)";
+                    elseif ($anuncio == "3") $anuncio_nombre = "Casa en Sevilla (ID: 3)";
+                    echo $anuncio_nombre;
                     ?>
                 </dd>
 
@@ -123,9 +122,9 @@ $coste_total = $coste_unitario * $copias;
                 <dd><?php echo $copias; ?></dd>
 
                 <dt>Resolución elegida</dt>
-                <dd><?php echo $resolucion; ?> DPI</dd>
+                <dd><?php echo $resolucion; ?> DPI (Tipo: <?php echo $resolucion_tipo == "alta" ? "Alta" : "Baja"; ?>)</dd>
 
-                <dt>Impresión</dt>
+                <dt>Tipo de Impresión</dt>
                 <dd><?php echo ($impresion == "color") ? "Color" : "Blanco y negro"; ?></dd>
 
                 <dt>Mostrar precio en folleto</dt>
@@ -138,17 +137,26 @@ $coste_total = $coste_unitario * $copias;
                 <dd><?php echo nl2br($texto); ?></dd>
             </dl>
         </section>
-
-        <section aria-labelledby="coste-titulo">
-            <h3 id="coste-titulo">Coste del folleto</h3>
+        
+        <section aria-labelledby="ficticios-titulo">
+            <h3 id="ficticios-titulo">Detalles Ficticios del Anuncio</h3>
             <p>
-                <strong>Coste por folleto:</strong> <?php echo number_format($coste_unitario, 2); ?> €<br>
-                <strong>Número de copias:</strong> <?php echo $copias; ?><br>
-                <strong>Coste total:</strong> <?php echo number_format($coste_total, 2); ?> €
+                *Para el cálculo del coste, se han usado los siguientes valores ficticios del anuncio:<br>
+                **Número de páginas:** <?php echo $paginas; ?> páginas<br>
+                **Número de fotos:** <?php echo $fotos; ?> fotos
             </p>
         </section>
 
-        <a href="solicitar_folleto.php">Volver al formulario</a>
+        <section aria-labelledby="coste-titulo">
+            <h3 id="coste-titulo">Coste final del folleto publicitario</h3>
+            <p>
+                **Coste unitario por folleto:** <?php echo number_format($coste_unitario, 2, ',', '.'); ?> €<br>
+                **Número de copias:** <?php echo $copias; ?><br>
+                <strong class="coste-total">Coste TOTAL (<?php echo $copias; ?> copias):</strong> <?php echo number_format($coste_total, 2, ',', '.'); ?> €
+            </p>
+        </section>
+
+        <a href="solicitar_folleto.php" class="volver-formulario">Volver al formulario</a>
     </main>
 
     <?php include('pie.php'); ?>

@@ -104,24 +104,26 @@ textarea {
     resize: vertical;
 }
 
-button,
-a {
-    display: block;
-    width: 100%;
-    text-align: center;
-    background-color: #66B266;
-    color: #fff;
-    text-decoration: none;
-    border: none;
-    border-radius: 6px;
-    font-size: 1.1em;
-    padding: 12px 0;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover,
-a:hover {
-    background-color: #276927;
-}
+fieldset{
+    button,
+    a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background-color: #66B266;
+        color: #fff;
+        text-decoration: none;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1em;
+        padding: 12px 0;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background-color 0.3s ease;
+    }
+    
+    button:hover,
+    a:hover {
+        background-color: #276927;
+    }
+} 

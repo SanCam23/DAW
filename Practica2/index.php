@@ -45,7 +45,7 @@
     if (isset($_GET["error"])) {
         echo "<p class='mensaje-error'>" . urldecode($_GET["error"]) . "</p>";
         $index_page = 'index.php';
-        echo '<meta http-equiv="refresh" content="5;url=' . $index_page . '">'; 
+        echo '<meta http-equiv="refresh" content="3;url=' . $index_page . '">'; 
     }
     ?>
 

@@ -71,7 +71,7 @@
                     echo "<li>" . $error . "</li>";
                 }
                 echo "</ul>";
-                echo "<p><a href='enviarmensaje.php'>Volver al formulario</a></p>";
+                echo "<p><a href='enviar.php'>Volver al formulario</a></p>";
                 echo "</section>";
             }
             ?>

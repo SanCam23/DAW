@@ -64,7 +64,7 @@
         <button class="cerrar" id="cerrarModal">Cerrar</button>
     </dialog>
 
-    <script src="./js/enviar.js"></script>
+    <!-- <script src="./js/enviar.js"></script> -->
 </body>
 
 </html>

@@ -1,10 +1,8 @@
 <?php
-include 'anuncios.php'; // Cargamos los datos de los anuncios
+include 'anuncios.php';
 
-// Recogemos el ID del anuncio desde la URL
-$id = $_GET['id'] ?? 1; // Si no hay id, por defecto usamos 1
+$id = $_GET['id'] ?? 1;
 
-// Si el ID es par, mostramos el anuncio 2; si es impar, el 1
 $anuncio = ($id % 2 == 0) ? $anuncios[2] : $anuncios[1];
 ?>
 <!DOCTYPE html>

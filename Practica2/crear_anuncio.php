@@ -40,12 +40,12 @@
         $errores = [];
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if ($titulo == "") $errores[] = "El título es obligatorio.";
-            if ($descripcion == "") $errores[] = "La descripción es obligatoria.";
-            if ($precio == "" || !is_numeric($precio) || $precio <= 0) $errores[] = "El precio debe ser un número positivo.";
-            if ($ciudad == "") $errores[] = "La ciudad es obligatoria.";
-            if ($pais == "") $errores[] = "El país es obligatorio.";
-            if ($tipo == "") $errores[] = "Debe seleccionar el tipo de anuncio.";
+            if (trim($titulo) == "") $errores[] = "El título es obligatorio.";
+            if (trim($descripcion) == "") $errores[] = "La descripción es obligatoria.";
+            if (trim($precio) == "" || !is_numeric($precio) || $precio <= 0) $errores[] = "El precio debe ser un número positivo.";
+            if (trim($ciudad) == "") $errores[] = "La ciudad es obligatoria.";
+            if (trim($pais) == "") $errores[] = "El país es obligatorio.";
+            if (trim($tipo) == "") $errores[] = "Debe seleccionar el tipo de anuncio.";
 
             if (empty($errores)) {
                 echo "<section class='confirmacion'>";

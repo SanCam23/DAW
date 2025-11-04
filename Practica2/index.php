@@ -23,9 +23,9 @@
 
 <body class="inicio">
 
-    <?php 
-        $zona = 'publica';
-        include('cabecera.php'); 
+    <?php
+    $zona = 'publica';
+    include('cabecera.php');
     ?>
 
     <section id="login-popup">
@@ -45,7 +45,7 @@
     if (isset($_GET["error"])) {
         echo "<p class='mensaje-error'>" . urldecode($_GET["error"]) . "</p>";
         $index_page = 'index.php';
-        echo '<meta http-equiv="refresh" content="3;url=' . $index_page . '">'; 
+        echo '<meta http-equiv="refresh" content="3;url=' . $index_page . '">';
     }
     ?>
 
@@ -115,6 +115,7 @@
                 <a href="404.php">Ver detalle</a>
             </section>
         </section>
+        <?php require_once 'panel_visitados.php'; ?>
     </main>
 
     <?php include('pie.php'); ?>
@@ -124,5 +125,6 @@
         <button class="cerrar" id="cerrar-error">Cerrar</button>
     </dialog>
 
-    </body>
+</body>
+
 </html>

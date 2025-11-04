@@ -119,6 +119,8 @@
             <a href="formulario.php">Limpiar</a>
             <button type="submit">Buscar</button>
         </form>
+        <?php require_once 'panel_visitados.php'; ?>
+
     </main>
 
     <?php include('pie.php'); ?>

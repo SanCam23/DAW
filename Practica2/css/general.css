@@ -20,27 +20,27 @@ header.Cabecera {
     padding: 15px 20px;
     flex-wrap: wrap;
     position: relative;
-
+    
     .texto {
         display: flex;
         align-items: center;
         gap: 10px;
-
+        
         figure img {
             max-width: 70px;
         }
     }
-
+    
     .titulo {
         display: flex;
         flex-direction: column;
-
+        
         h1 {
             font-family: 'Playfair Display', serif;
             margin: 0;
             font-size: 2em;
         }
-
+        
         h3 {
             font-family: 'Leckerli One', cursive;
             margin: 0;
@@ -48,19 +48,19 @@ header.Cabecera {
             font-size: 1.5em;
         }
     }
-
+    
     .menu-escritorio {
         ul {
             list-style: none;
             display: flex;
             gap: 20px;
             margin: 0;
-
+            
             li {
                 display: flex;
                 align-items: center;
                 gap: 5px;
-
+                
                 a {
                     text-decoration: none;
                     background-color: #66B266;
@@ -68,12 +68,96 @@ header.Cabecera {
                     font-weight: bold;
                     padding: 8px 12px;
                     border-radius: 5px;
-
+                    
                     &:hover {
                         background-color: #276927;
                     }
                 }
             }
+        }
+    }
+}
+/* Panel de Anuncios y Visitados Recientemente */
+
+#ultimos-anuncios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+
+    h2 {
+        width: 100%;
+        color: #10bb82;
+    }
+
+    .anuncio {
+        flex: 1 1 220px;
+        max-width: 250px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        min-width: 200px;
+
+        figure {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+        }
+
+        h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        p {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 5px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #66B266;
+            padding: 5px 10px;
+            border-radius: 3px;
+
+            &:hover {
+                background-color: #276927;
+            }
+        }
+    }
+}
+
+
+.centrado {
+    text-align: center;
+    margin-top: 20px;
+
+    .nuevo {
+        display: inline-block;
+        margin-top: 5px;
+        text-decoration: none;
+        color: #fff;
+        background-color: #66B266;
+        padding: 5px 10px;
+        border-radius: 3px;
+
+        &:hover {
+            background-color: #276927;
         }
     }
 }
@@ -158,6 +242,32 @@ footer {
             text-align: center;
         }
     }
+
+    main {
+        #ultimos-anuncios {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+
+            .anuncio {
+                width: 100%;
+                max-width: 350px;
+                box-sizing: border-box;
+
+                figure {
+                    width: 100%;
+                    height: 220px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: inherit;
+                    }
+                }
+            }
+        }
+    }
 }
 
 
@@ -192,6 +302,32 @@ footer {
             flex-wrap: wrap;
         }
     }
+
+    main {
+        #ultimos-anuncios {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+
+            .anuncio {
+                flex: 1 1 45%;
+                max-width: 45%;
+                box-sizing: border-box;
+
+                figure {
+                    width: 100%;
+                    height: 250px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: inherit;
+                    }
+                }
+            }
+        }
+    }
 }
 
 
@@ -212,6 +348,18 @@ footer {
 
         nav ul {
             gap: 20px;
+        }
+    }
+
+    main {
+        #ultimos-anuncios {
+            justify-content: center;
+            gap: 20px;
+
+            .anuncio {
+                flex: 1 1 220px;
+                max-width: 220px;
+            }
         }
     }
 }
@@ -290,5 +438,5 @@ footer {
     max-width: 600px;
     margin: 20px auto;
     font-weight: 500;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }

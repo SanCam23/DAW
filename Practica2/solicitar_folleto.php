@@ -58,7 +58,8 @@ for ($i = 0; $i < 15; $i++) {
 
     <?php
         $zona = 'privada'; 
-        include('cabecera.php'); 
+        include('cabecera.php');
+        require_once 'verificar_sesion.php'; 
     ?>
 
     <main>

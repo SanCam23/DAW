@@ -1,3 +1,12 @@
+<?php
+// PRIMERO: cabecera.php (para session_start)
+$zona = 'privada';
+include('cabecera.php');
+
+// LUEGO: verificar_sesion.php (después de session_start)
+require_once 'verificar_sesion.php';
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -22,10 +31,7 @@
 </head>
 
 <body>
-    <?php 
-        $zona = 'privada';
-        include('cabecera.php'); 
-    ?>
+    <!-- QUITAR include('cabecera.php') de aquí - YA SE INCLUYÓ ARRIBA -->
 
     <main>
         <article>
@@ -38,7 +44,7 @@
                     <li><a id="opcion" href="crear_anuncio.php">Crear un anuncio nuevo</a></li>
                     <li><a id="opcion" href="mensajes.php">Mis mensajes</a></li>
                     <li><a id="opcion" href="solicitar_folleto.php">Solicitar folleto publicitario impreso</a></li>
-                    <li><a id="opcion" href="index.php">Salir</a></li>
+                    <li><a id="opcion" href="salir.php">Salir</a></li>
                 </ul>
             </section>
         </article>

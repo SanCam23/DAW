@@ -81,9 +81,10 @@ $coste_unitario = calcularCoste($paginas, $fotos, $impresion, $resolucion_tipo, 
 </head>
 
 <body>
-    <?php 
+    <?php     
         $zona = 'privada';
         include('cabecera.php'); 
+        require_once 'verificar_sesion.php';
     ?>
 
     <main>

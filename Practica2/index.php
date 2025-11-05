@@ -24,32 +24,69 @@
 <body class="inicio">
 
     <?php
-    $zona = 'publica';
     include('cabecera.php');
-    ?>
-
-    <section id="login-popup">
-        <h2>Iniciar Sesión</h2>
-        <form id="login" action="acceso.php" method="post">
-            <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" name="usuario">
-
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password">
-
-            <button type="submit">Entrar</button>
-        </form>
-    </section>
-
-    <?php
-    if (isset($_GET["error"])) {
-        echo "<p class='mensaje-error'>" . urldecode($_GET["error"]) . "</p>";
-        $index_page = 'index.php';
-        echo '<meta http-equiv="refresh" content="3;url=' . $index_page . '">';
+    
+    // Determinar la zona según si está autenticado o no - DESPUÉS de cabecera.php
+    if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] === true) {
+        $zona = 'privada';
+    } else {
+        $zona = 'publica';
     }
     ?>
 
+    <!-- SECCIÓN DE LOGIN SOLO PARA USUARIOS NO AUTENTICADOS -->
+    <?php if (!isset($_SESSION['usuario_autenticado']) || $_SESSION['usuario_autenticado'] !== true): ?>
+        <section id="login-popup">
+            <h2>Iniciar Sesión</h2>
+            
+            <!-- Mostrar mensajes de error desde flashdata -->
+            <?php if (isset($_SESSION['error_login'])): ?>
+                <div class="mensaje-error" id="mensaje-error">
+                    <p><?php echo $_SESSION['error_login']; ?></p>
+                </div>
+                <?php unset($_SESSION['error_login']); ?>
+                
+                <script>
+                    setTimeout(function() {
+                        document.getElementById('mensaje-error').style.display = 'none';
+                    }, 5000);
+                </script>
+            <?php endif; ?>
+
+            <!-- Formulario de login solo si NO está autenticado -->
+            <form id="login" action="acceso.php" method="post">
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="usuario" value="<?php echo htmlspecialchars($_POST['usuario'] ?? ''); ?>">
+
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password">
+
+                <!-- Checkbox "Recordarme" -->
+                <label class="recordarme-label">
+                    <input type="checkbox" name="recordarme" value="1" id="recordarme">
+                    Recordarme en este equipo
+                </label>
+
+                <button type="submit">Entrar</button>
+            </form>
+        </section>
+    <?php endif; ?>
+
     <main>
+        <!-- SECCIÓN DE BIENVENIDA SOLO PARA USUARIOS AUTENTICADOS -->
+        <?php if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] === true): ?>
+            <section class="bienvenida-usuario">
+                <h2>Bienvenido a VENTAPLUS</h2>
+                <div class="info-usuario">
+                    <p>Hola, <strong><?php echo $_SESSION['nombre_usuario']; ?></strong>!</p>
+                    <?php if (isset($_SESSION['ultima_visita'])): ?>
+                        <p>Su última visita fue el <?php echo $_SESSION['ultima_visita']; ?></p>
+                    <?php endif; ?>
+                </div>
+            </section>
+        <?php endif; ?>
+
+        <!-- BÚSQUEDA RÁPIDA (SIEMPRE VISIBLE) -->
         <section id="busqueda-rapida">
             <form action="resultados.php" method="get">
                 <input type="text" id="ciudad" name="ciudad" placeholder="Introduce la ciudad donde deseas buscar...">
@@ -57,6 +94,7 @@
             </form>
         </section>
 
+        <!-- ÚLTIMOS ANUNCIOS (SIEMPRE VISIBLE) -->
         <section id="ultimos-anuncios">
             <h2>Últimos anuncios</h2>
 
@@ -115,6 +153,7 @@
                 <a href="404.php">Ver detalle</a>
             </section>
         </section>
+        
         <?php require_once 'panel_visitados.php'; ?>
     </main>
 

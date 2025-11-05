@@ -31,6 +31,7 @@ $id_seleccionado = isset($_GET['id']) ? intval($_GET['id']) : null;
 
 $zona = 'privada';
 include('cabecera.php');
+require_once 'verificar_sesion.php';
 ?>
 
 <main>

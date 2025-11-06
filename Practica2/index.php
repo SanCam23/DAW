@@ -25,7 +25,7 @@
 
     <?php
     include('cabecera.php');
-    
+
     // Determinar la zona según si está autenticado o no - DESPUÉS de cabecera.php
     if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] === true) {
         $zona = 'privada';
@@ -38,14 +38,14 @@
     <?php if (!isset($_SESSION['usuario_autenticado']) || $_SESSION['usuario_autenticado'] !== true): ?>
         <section id="login-popup">
             <h2>Iniciar Sesión</h2>
-            
+
             <!-- Mostrar mensajes de error desde flashdata -->
             <?php if (isset($_SESSION['error_login'])): ?>
                 <div class="mensaje-error" id="mensaje-error">
                     <p><?php echo $_SESSION['error_login']; ?></p>
                 </div>
                 <?php unset($_SESSION['error_login']); ?>
-                
+
                 <script>
                     setTimeout(function() {
                         document.getElementById('mensaje-error').style.display = 'none';
@@ -63,8 +63,8 @@
 
                 <!-- Checkbox "Recordarme" -->
                 <label class="recordarme-label">
-                    <input type="checkbox" name="recordarme" value="1" id="recordarme">
                     Recordarme en este equipo
+                    <input type="checkbox" name="recordarme" value="1" id="recordarme">
                 </label>
 
                 <button type="submit">Entrar</button>
@@ -73,17 +73,8 @@
     <?php endif; ?>
 
     <main>
-        <!-- SECCIÓN DE BIENVENIDA SOLO PARA USUARIOS AUTENTICADOS -->
-        <?php if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] === true): ?>
-            <section class="bienvenida-usuario">
-                <h2>Bienvenido a VENTAPLUS</h2>
-                <div class="info-usuario">
-                    <p>Hola, <strong><?php echo $_SESSION['nombre_usuario']; ?></strong>!</p>
-                    <?php if (isset($_SESSION['ultima_visita'])): ?>
-                        <p>Su última visita fue el <?php echo $_SESSION['ultima_visita']; ?></p>
-                    <?php endif; ?>
-                </div>
-            </section>
+        <?php if (isset($_SESSION['ultima_visita'])): ?>
+            <p id="visita">Su última visita fue el <?php echo $_SESSION['ultima_visita']; ?></p>
         <?php endif; ?>
 
         <!-- BÚSQUEDA RÁPIDA (SIEMPRE VISIBLE) -->
@@ -153,7 +144,7 @@
                 <a href="404.php">Ver detalle</a>
             </section>
         </section>
-        
+
         <?php require_once 'panel_visitados.php'; ?>
     </main>
 

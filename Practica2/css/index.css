@@ -10,11 +10,13 @@
         display: flex;
         flex-direction: column;
 
-        label {
+        label:not(.recordarme-label) {
             margin-top: 10px;
         }
 
-        input {
+        /* CORRECCIÓN 1: Aplicar el width: 100% solo a text y password */
+        input[type="text"],
+        input[type="password"] {
             width: 100%;
             padding: 5px;
             margin-top: 5px;
@@ -31,6 +33,21 @@
 
             &:hover {
                 background-color: #276927;
+            }
+        }
+
+        label.recordarme-label {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9em;
+
+            input[type="checkbox"] {
+                width: auto;
+                margin-top: 0;
+                margin-left: 10px;
             }
         }
     }
@@ -81,7 +98,7 @@ main {
 }
 
 /* --------------------------------------------------
-   MEDIA QUERIES
+   MEDIA QUERIES (SOLO PARA #busqueda-rapida)
 -------------------------------------------------- */
 
 @media (max-width: 767px) {

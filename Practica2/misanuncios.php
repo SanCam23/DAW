@@ -21,9 +21,10 @@
 </head>
 
 <body>
-    <?php 
+    <?php
+        session_start(); 
         $zona = 'privada';
-        include('cabecera.php'); 
+        require('cabecera.php'); 
         require_once 'verificar_sesion.php';
     ?>
 
@@ -76,6 +77,6 @@
         </p>
     </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 </body>
 </html>

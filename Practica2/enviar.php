@@ -19,7 +19,7 @@
 
     <?php 
         $zona = 'publica';
-        include('cabecera.php'); 
+        require('cabecera.php'); 
     ?>
 
     <main>
@@ -50,7 +50,7 @@
         </form>
     </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 
     <dialog class="modal" id="modalErrores">
         <h2>Errores en el formulario</h2>

@@ -18,7 +18,7 @@
 <body>
     <?php
         $zona = 'publica'; 
-        include('cabecera.php'); 
+        require('cabecera.php'); 
     ?>
 
     <main>
@@ -72,6 +72,6 @@
         </article>
     </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 </body>
 </html>

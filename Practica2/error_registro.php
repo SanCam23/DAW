@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <?php include('cabecera.php'); ?>
+    <?php require('cabecera.php'); ?>
     <main>
         <h2>Se han producido errores en el registro</h2>
         <p class="mensaje-error">
@@ -30,7 +30,7 @@
         </p>
         <a href="registro.php" class="volver">Volver al formulario de registro</a>
     </main>
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 </body>
 
 </html>

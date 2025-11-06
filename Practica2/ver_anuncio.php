@@ -61,7 +61,8 @@ $anuncio = $anuncios[$id];
         rel="stylesheet">
 </head>
 <body>
-    <?php 
+    <?php
+        session_start();
         $zona = 'privada';
         include('cabecera.php');
         require_once 'verificar_sesion.php'; 

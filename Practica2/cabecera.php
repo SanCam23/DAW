@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 // NUEVO: Determinar la zona automáticamente según la sesión
 if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] === true) {
     $zona = 'privada';
@@ -26,18 +24,6 @@ if (isset($_SESSION['nombre_usuario'])) {
         $saludo = "Buenas noches, $nombre_usuario";
     }
 }
-
-// El resto del código de estilos se mantiene igual...
-$estilos_disponibles = [
-    'normal' => 'css/general.css',
-    'contraste_alto' => 'css/contraste_alto.css',
-    'letra_grande' => 'css/letra_grande.css',
-    'contraste_letra' => 'css/contraste_letra.css'
-];
-
-$estilo_usuario = $_SESSION['estilo_css'] ?? 'normal';
-$fichero_css = $estilos_disponibles[$estilo_usuario] ?? $estilos_disponibles['normal'];
-$titulo_css = $estilo_usuario;
 ?>
 
 <header class="Cabecera">
@@ -90,4 +76,3 @@ $titulo_css = $estilo_usuario;
         </ul>
     </nav>
 </header>
-<link rel="stylesheet" href="<?php echo $fichero_css; ?>" title="<?php echo $titulo_css; ?>">

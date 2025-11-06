@@ -1,5 +1,6 @@
 <?php
 // PRIMERO: cabecera.php (para session_start)
+session_start();
 $zona = 'privada';
 include('cabecera.php');
 

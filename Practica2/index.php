@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -10,11 +11,27 @@
     <meta name="author" content="Santino Campessi Lojo">
     <meta name="author" content="Mario Laguna Contreras">
     <title>Inicio - VENTAPLUS</title>
-    <link rel="stylesheet" href="css/general.css" title="Estilo normal">
     <link rel="stylesheet" href="css/index.css">
-    <link rel="alternate stylesheet" href="css/contraste_alto.css" title="Alto contraste">
-    <link rel="alternate stylesheet" href="css/letra_grande.css" title="Letra Grande">
-    <link rel="alternate stylesheet" href="css/contraste_letra.css" title="Letra Grande+Alto contraste">
+    <?php
+    // --- INICIO TAREA S3 (CORREGIDA) ---
+    // Leemos la variable de sesión
+    $estilo_activo = $_SESSION['estilo_css'] ?? 'normal';
+
+    // 1. Cargar SIEMPRE el CSS general
+    echo '<link rel="stylesheet" href="css/general.css" title="Estilo normal">';
+
+    // 2. Cargar el estilo alternativo SÓLO SI NO es el normal
+    // Estos archivos (contraste_alto, etc.) SOBREESCRIBIRÁN las reglas de general.css
+    if ($estilo_activo === 'contraste_alto') {
+        echo '<link rel="stylesheet" href="css/contraste_alto.css" title="Alto contraste">';
+    } elseif ($estilo_activo === 'letra_grande') {
+        echo '<link rel="stylesheet" href="css/letra_grande.css" title="Letra Grande">';
+    } elseif ($estilo_activo === 'contraste_letra') {
+        echo '<link rel="stylesheet" href="css/contraste_letra.css" title="Letra Grande+Alto contraste">';
+    }
+
+    // --- FIN TAREA S3 (CORREGIDA) ---
+    ?>
     <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
     <link rel="stylesheet" href="css/fontello.css">
     <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap"

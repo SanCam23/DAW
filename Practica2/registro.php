@@ -23,34 +23,27 @@
 
 <body>
     
-    <?php 
-        $zona = 'publica';
-        include('cabecera.php'); 
+    <?php
+    session_start();
+    $zona = 'publica';
+    require('cabecera.php'); 
     ?>
 
     <main>
         <?php
+        // Flashdata para errores en lugar de parámetros URL
         $redireccionar = false;
         
-        if (isset($_GET["error"])) {
+        if (isset($_SESSION['error_registro'])) {
             $redireccionar = true;
-            echo "<p class='mensaje-error'>";
-            if ($_GET["error"] === "campos_vacios") {
-                echo "Debe completar los campos obligatorios: usuario, contraseña y repetir contraseña.";
-            } elseif ($_GET["error"] === "contrasenas_no_coinciden") {
-                echo "Las contraseñas no coinciden. Inténtelo de nuevo.";
-            }
-            echo "</p>";
+            echo "<p class='mensaje-error'>" . $_SESSION['error_registro'] . "</p>";
+            unset($_SESSION['error_registro']);
         }
-        ?>
 
-        <?php
-
-        if (isset($_GET["motivo"]) && $_GET["motivo"] === "no_registrado") {
+        if (isset($_SESSION['motivo_registro'])) {
             $redireccionar = true;
-            echo "<p class='mensaje-error'>";
-            echo "El usuario introducido no está registrado. Por favor, complete el formulario para crear una nueva cuenta.";
-            echo "</p>";
+            echo "<p class='mensaje-error'>" . $_SESSION['motivo_registro'] . "</p>";
+            unset($_SESSION['motivo_registro']);
         }
 
         if ($redireccionar) {
@@ -101,13 +94,13 @@
         <p>¿Ya tienes cuenta? <a href="./index.php">Iniciar Sesión</a></p>
     </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 
     <dialog class="modal" id="error-dialog">
         <p id="error-mensaje"></p>
         <button class="cerrar" id="cerrar-error">Cerrar</button>
     </dialog>
 
-    </body>
+</body>
 
 </html>

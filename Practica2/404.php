@@ -25,7 +25,7 @@
     
     <?php 
         $zona = 'publica';
-        include('cabecera.php'); 
+        require('cabecera.php'); 
     ?>
 
     <main>
@@ -34,7 +34,7 @@
         <p>Lo sentimos, la página que intentas consultar no existe o ha sido movida.</p>
     </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 </body>
 
 </html>

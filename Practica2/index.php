@@ -41,7 +41,12 @@
 <body class="inicio">
 
     <?php
-    include('cabecera.php');
+    // Verificar cookie "Recordarme" para acceso automático
+    if (!isset($_SESSION['usuario_autenticado']) && isset($_COOKIE['recordarme_token'])) {
+        require_once 'verificar_cookie_recordarme.php';
+    }
+    
+    require('cabecera.php');
 
     // Determinar la zona según si está autenticado o no - DESPUÉS de cabecera.php
     if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] === true) {
@@ -165,7 +170,7 @@
         <?php require_once 'panel_visitados.php'; ?>
     </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 
     <dialog class="modal" id="error-dialog">
         <p id="error-mensaje"></p>

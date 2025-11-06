@@ -84,7 +84,7 @@ $anuncio = ($id % 2 == 0) ? $anuncios[2] : $anuncios[1];
 <body>
     <?php
     $zona = 'publica';
-    include('cabecera.php');
+    require('cabecera.php');
     ?>
 
     <main>
@@ -140,7 +140,7 @@ $anuncio = ($id % 2 == 0) ? $anuncios[2] : $anuncios[1];
         </section>
     </main>
     <?php require_once 'panel_visitados.php'; ?>
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 </body>
 
 </html>

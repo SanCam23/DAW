@@ -21,7 +21,7 @@
 <body>
     <?php 
         $zona = 'publica';
-        include('cabecera.php'); 
+        require('cabecera.php'); 
     ?>
 
 

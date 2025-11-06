@@ -30,7 +30,7 @@ $anuncios = [
 $id_seleccionado = isset($_GET['id']) ? intval($_GET['id']) : null;
 
 $zona = 'privada';
-include('cabecera.php');
+require('cabecera.php');
 require_once 'verificar_sesion.php';
 ?>
 
@@ -73,4 +73,4 @@ require_once 'verificar_sesion.php';
     </form>
 </main>
 
-<?php include('pie.php'); ?>
+<?php require('pie.php'); ?>

@@ -24,7 +24,7 @@
 <body>
     <?php
     $zona = 'publica';
-    include('cabecera.php');
+    require('cabecera.php');
 
     $tipo_anuncio = $_GET["tipo_anuncio"] ?? "";
     $tipo_vivienda = $_GET["tipo_vivienda"] ?? "";

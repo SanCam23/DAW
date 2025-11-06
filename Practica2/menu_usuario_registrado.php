@@ -2,7 +2,7 @@
 // PRIMERO: Iniciar sesión (Esto es correcto y cumple la práctica)
 session_start();
 $zona = 'privada';
-include('cabecera.php');
+require('cabecera.php');
 
 // LUEGO: verificar_sesion.php (después de session_start)
 require_once 'verificar_sesion.php';
@@ -51,7 +51,7 @@ require_once 'verificar_sesion.php';
         </article>
     </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 </body>
 
 </html>

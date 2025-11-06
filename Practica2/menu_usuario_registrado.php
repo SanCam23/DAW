@@ -1,5 +1,5 @@
 <?php
-// PRIMERO: cabecera.php (para session_start)
+// PRIMERO: Iniciar sesión (Esto es correcto y cumple la práctica)
 session_start();
 $zona = 'privada';
 include('cabecera.php');
@@ -20,20 +20,20 @@ require_once 'verificar_sesion.php';
     <meta name="author" content="Santino Campessi Lojo">
     <meta name="author" content="Mario Laguna Contreras">
     <title>Menú Usuario Registrado - VENTAPLUS</title>
-    <link rel="stylesheet" href="css/general.css" title="Estilo normal">
+    
+    <?php
+    // 1. Incluimos el nuevo manejador de estilos
+    // Cargará general.css y luego contraste_alto.css (si aplica)
+    include('estilos.php'); 
+    ?>
+    
     <link rel="stylesheet" href="css/menu_usuario_registrado.css">
-    <link rel="alternate stylesheet" href="css/contraste_alto.css" title="Alto contraste">
-    <link rel="alternate stylesheet" href="css/letra_grande.css" title="Letra Grande">
-    <link rel="alternate stylesheet" href="css/contraste_letra.css" title="Letra Grande+Alto contraste">
+    
     <link rel="stylesheet" type="text/css" href="css/print_menu_usuario_registrado.css" media="print">
-    <link rel="stylesheet" href="css/fontello.css">
-    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap"
-        rel="stylesheet">
+    
 </head>
 
 <body>
-    <!-- QUITAR include('cabecera.php') de aquí - YA SE INCLUYÓ ARRIBA -->
-
     <main>
         <article>
             <h2>Menú de usuario registrado</h2>

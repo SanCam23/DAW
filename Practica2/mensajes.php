@@ -24,6 +24,7 @@
 <body>
 
     <?php
+        session_start();
         $zona = 'privada';
         include('cabecera.php');
         require_once 'verificar_sesion.php'; 

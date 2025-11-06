@@ -29,6 +29,8 @@ $anuncios = [
 
 $id_seleccionado = isset($_GET['id']) ? intval($_GET['id']) : null;
 
+session_start();
+
 $zona = 'privada';
 require('cabecera.php');
 require_once 'verificar_sesion.php';

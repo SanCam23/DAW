@@ -8,21 +8,13 @@
     <meta name="keywords" content="mis anuncios, viviendas, pisos, venta, alquiler">
     <meta name="author" content="Tu nombre">
     <title>Mis anuncios - VENTAPLUS</title>
-
-    <link rel="stylesheet" href="css/general.css" title="Estilo normal">
+    <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/index.css">
-    <link rel="alternate stylesheet" href="css/contraste_alto.css" title="Alto contraste">
-    <link rel="alternate stylesheet" href="css/letra_grande.css" title="Letra Grande">
-    <link rel="alternate stylesheet" href="css/contraste_letra.css" title="Letra Grande+Alto contraste">
     <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
-    <link rel="stylesheet" href="css/fontello.css">
-    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap"
-        rel="stylesheet">
 </head>
 
 <body>
     <?php
-        session_start(); 
         $zona = 'privada';
         require('cabecera.php'); 
         require_once 'verificar_sesion.php';

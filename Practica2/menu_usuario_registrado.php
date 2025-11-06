@@ -2,7 +2,6 @@
 // PRIMERO: Iniciar sesión (Esto es correcto y cumple la práctica)
 session_start();
 $zona = 'privada';
-include('cabecera.php');
 
 // LUEGO: verificar_sesion.php (después de session_start)
 require_once 'verificar_sesion.php';
@@ -10,20 +9,18 @@ require_once 'verificar_sesion.php';
 
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="VENTAPLUS: portal de anuncios de venta y alquiler de viviendas. Menú de usuario registrado.">
-    <meta name="keywords" content="usuario, perfil, anuncios, mensajes, VENTAPLUS">
-    <meta name="author" content="Santino Campessi Lojo">
-    <meta name="author" content="Mario Laguna Contreras">
-    <title>Menú Usuario Registrado - VENTAPLUS</title>
     
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description"
+        content="VENTAPLUS: portal de anuncios de venta y alquiler de viviendas. Menú de usuario registrado.">
+        <meta name="keywords" content="usuario, perfil, anuncios, mensajes, VENTAPLUS">
+        <meta name="author" content="Santino Campessi Lojo">
+        <meta name="author" content="Mario Laguna Contreras">
+        <title>Menú Usuario Registrado - VENTAPLUS</title>
+        
     <?php
-    // 1. Incluimos el nuevo manejador de estilos
-    // Cargará general.css y luego contraste_alto.css (si aplica)
     include('estilos.php'); 
     ?>
     
@@ -34,6 +31,9 @@ require_once 'verificar_sesion.php';
 </head>
 
 <body>
+    <?php
+    include('cabecera.php');
+    ?>
     <main>
         <article>
             <h2>Menú de usuario registrado</h2>

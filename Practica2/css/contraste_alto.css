@@ -71,6 +71,10 @@ header.Cabecera {
             font-size: 1.4em;
             color: #ffeb3b;
         }
+
+        p{
+            color: #ffeb3b !important;
+        }
     }
 
     .menu-escritorio {
@@ -118,6 +122,9 @@ header.Cabecera {
 
 main {
     background-color: black !important;
+    h1{
+        color: #ffeb3b !important;
+    }
 
     p {
         color: #fff !important;

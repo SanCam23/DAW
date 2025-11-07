@@ -12,7 +12,7 @@ $mapa_estilos = [
     'contraste_letra' => 'css/contraste_letra.css'
 ];
 
-// 1️⃣ Cargar SIEMPRE el CSS base PRIMERO
+// Cargar SIEMPRE el CSS base PRIMERO
 if (isset($mapa_estilos[$estilo])) {
     echo '<link rel="stylesheet" href="' . htmlspecialchars($mapa_estilos[$estilo]) . '" title="' . htmlspecialchars($estilo) . '">' . PHP_EOL;
 } else {
@@ -20,7 +20,7 @@ if (isset($mapa_estilos[$estilo])) {
     echo '<link rel="stylesheet" href="css/general.css" title="Normal">' . PHP_EOL;
 }
 
-// 2️⃣ Estilos globales adicionales
+// Estilos globales adicionales
 echo '<link rel="stylesheet" href="css/fontello.css">' . PHP_EOL;
 echo '<link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">' . PHP_EOL;
 ?>

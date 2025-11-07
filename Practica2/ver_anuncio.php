@@ -56,14 +56,13 @@ $anuncio = $anuncios[$id];
 </head>
 <body>
     <?php
-        session_start();
         $zona = 'privada';
         include('cabecera.php');
         require_once 'verificar_sesion.php'; 
     ?>
 
 <main>
-    <article>
+    <article class="anuncios-mios">
         <section class="col-izquierda">
             <h2><?php echo $anuncio['titulo']; ?></h2>
             <figure class="foto-principal">

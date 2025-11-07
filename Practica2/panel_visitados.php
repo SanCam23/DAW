@@ -1,8 +1,4 @@
 <?php
-// Archivo: Practica2/panel_visitados.php
-// NUEVO: Tarea C3 - Lógica para MOSTRAR el panel de últimos visitados
-// -----------------------------------------------------------------
-
 // 1. Incluimos los datos de anuncios para poder mostrar la info
 // Usamos _once para evitar incluirlo múltiples veces si otra pág. ya lo tiene
 include_once 'anuncios.php';
@@ -49,6 +45,4 @@ if (isset($_COOKIE['ultimos_visitados']) && $_COOKIE['ultimos_visitados'] !== '[
         echo '</section>';
     }
 }
-// FIN Tarea C3 - Mostrar Panel
-// -----------------------------------------------------------------
 ?>

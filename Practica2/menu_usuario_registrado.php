@@ -1,5 +1,4 @@
 <?php
-// PRIMERO: Iniciar sesión (Esto es correcto y cumple la práctica)
 session_start();
 $zona = 'privada';
 require('cabecera.php');
@@ -22,9 +21,8 @@ require_once 'verificar_sesion.php';
     <title>Menú Usuario Registrado - VENTAPLUS</title>
     
     <?php
-    // 1. Incluimos el nuevo manejador de estilos
-    // Cargará general.css y luego contraste_alto.css (si aplica)
-    include('estilos.php'); 
+    // Cargará general.css y luego contraste_alto.css u otro (si aplica)
+    require('estilos.php'); 
     ?>
     
     <link rel="stylesheet" href="css/menu_usuario_registrado.css">

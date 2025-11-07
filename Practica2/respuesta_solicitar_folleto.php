@@ -9,7 +9,7 @@ $localidad = $_POST["localidad"] ?? "";
 $provincia = $_POST["provincia"] ?? "";
 $pais = $_POST["pais"] ?? "";
 $color_portada = $_POST["color"] ?? "";
-$copias = max(1, (int) ($_POST["copias"] ?? 1)); 
+$copias = max(1, (int) ($_POST["copias"] ?? 1));
 $resolucion = (int) ($_POST["resolucion"] ?? 150);
 $anuncio = $_POST["anuncio"] ?? "";
 $fecha = $_POST["fecha"] ?? "";
@@ -32,20 +32,17 @@ $fotos = 12;
 $resolucion_tipo = ($resolucion > 300) ? "alta" : "baja";
 
 
-function calcularCoste($pags, $fotos, $color, $resol, $t) {
+function calcularCoste($pags, $fotos, $color, $resol, $t)
+{
     $costePaginas = 0;
 
     if ($pags <= 4) {
         $costePaginas = $pags * $t["paginas"]["p1a4"];
-    } 
-
-    elseif ($pags <= 10) {
+    } elseif ($pags <= 10) {
         $costePaginas += 4 * $t["paginas"]["p1a4"];
         $costePaginas += ($pags - 4) * $t["paginas"]["p5a10"];
-    } 
-
-    else {
-        $costePaginas += 4 * $t["paginas"]["p1a4"]; 
+    } else {
+        $costePaginas += 4 * $t["paginas"]["p1a4"];
         $costePaginas += 6 * $t["paginas"]["p5a10"];
         $costePaginas += ($pags - 10) * $t["paginas"]["p11ymas"];
     }
@@ -57,7 +54,7 @@ function calcularCoste($pags, $fotos, $color, $resol, $t) {
 }
 
 $coste_unitario = calcularCoste($paginas, $fotos, $impresion, $resolucion_tipo, $tarifas);
-    $coste_total = $coste_unitario * $copias; 
+$coste_total = $coste_unitario * $copias;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -70,22 +67,16 @@ $coste_unitario = calcularCoste($paginas, $fotos, $impresion, $resolucion_tipo, 
     <meta name="author" content="Santino Campessi Lojo">
     <meta name="author" content="Mario Laguna Contreras">
     <title>Respuesta Solicitud Folleto - VENTAPLUS</title>
-    <link rel="stylesheet" href="css/general.css" title="Estilo normal">
+    <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/respuesta_solicitar_folleto.css">
-    <link rel="alternate stylesheet" href="css/contraste_alto.css" title="Alto contraste">
-    <link rel="alternate stylesheet" href="css/letra_grande.css" title="Letra Grande">
-    <link rel="alternate stylesheet" href="css/contraste_letra.css" title="Letra Grande+Alto contraste">
     <link rel="stylesheet" type="text/css" href="css/print_respuesta_solicitar_folleto.css" media="print">
-    <link rel="stylesheet" href="css/fontello.css">
-    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <?php 
-        session_start();    
-        $zona = 'privada';
-        include('cabecera.php'); 
-        require_once 'verificar_sesion.php';
+    <?php
+    $zona = 'privada';
+    include('cabecera.php');
+    require_once 'verificar_sesion.php';
     ?>
 
     <main>
@@ -142,7 +133,7 @@ $coste_unitario = calcularCoste($paginas, $fotos, $impresion, $resolucion_tipo, 
                 <dd><?php echo nl2br($texto); ?></dd>
             </dl>
         </section>
-        
+
         <section aria-labelledby="ficticios-titulo">
             <h3 id="ficticios-titulo">Detalles Ficticios del Anuncio</h3>
             <p>
@@ -166,4 +157,5 @@ $coste_unitario = calcularCoste($paginas, $fotos, $impresion, $resolucion_tipo, 
 
     <?php include('pie.php'); ?>
 </body>
+
 </html>

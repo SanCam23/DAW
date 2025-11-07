@@ -77,8 +77,9 @@ $anuncio = ($id % 2 == 0) ? $anuncios[2] : $anuncios[1];
 
 <body>
     <?php
-    $zona = 'publica';
-    require('cabecera.php');
+        $zona = 'privada';
+        require('cabecera.php');
+        require_once 'verificar_sesion.php'; 
     ?>
 
     <main>

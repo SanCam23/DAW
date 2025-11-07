@@ -1,4 +1,6 @@
 <?php
+session_start(); // <-- 1. AÑADIDO
+
 $usuario = $_POST["usuario"] ?? "";
 $password = $_POST["password"] ?? "";
 $confirm_password = $_POST["confirm_password"] ?? "";
@@ -45,8 +47,12 @@ if ($fecha_nacimiento === "") {
 }
 
 if (!empty($errores)) {
-    $mensaje = urlencode(implode(" ", $errores));
-    header("Location: error_registro.php?error=$mensaje");
+    // --- 2. SECCIÓN MODIFICADA ---
+    // Antes: $mensaje = urlencode(...); header("Location: error_registro.php?error=$mensaje");
+    
+    // Ahora: Usamos flashdata (sesión) y redirigimos de vuelta al formulario
+    $_SESSION['error_registro'] = implode(" ", $errores);
+    header("Location: registro.php");
     exit();
 }
 

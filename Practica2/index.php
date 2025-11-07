@@ -34,12 +34,10 @@
     }
     ?>
 
-    <!-- SECCIÓN DE LOGIN SOLO PARA USUARIOS NO AUTENTICADOS -->
     <?php if (!isset($_SESSION['usuario_autenticado']) || $_SESSION['usuario_autenticado'] !== true): ?>
         <section id="login-popup">
             <h2>Iniciar Sesión</h2>
 
-            <!-- Mostrar mensajes de error desde flashdata -->
             <?php if (isset($_SESSION['error_login'])): ?>
                 <div class="mensaje-error" id="mensaje-error">
                     <p><?php echo $_SESSION['error_login']; ?></p>
@@ -53,7 +51,6 @@
                 </script>
             <?php endif; ?>
 
-            <!-- Formulario de login solo si NO está autenticado -->
             <form id="login" action="acceso.php" method="post">
                 <label for="usuario">Usuario:</label>
                 <input type="text" id="usuario" name="usuario" value="<?php echo htmlspecialchars($_POST['usuario'] ?? ''); ?>">
@@ -61,7 +58,6 @@
                 <label for="password">Contraseña:</label>
                 <input type="password" id="password" name="password">
 
-                <!-- Checkbox "Recordarme" -->
                 <label class="recordarme-label">
                     Recordarme en este equipo
                     <input type="checkbox" name="recordarme" value="1" id="recordarme">
@@ -73,11 +69,10 @@
     <?php endif; ?>
 
     <main>
-        <?php if (isset($_SESSION['ultima_visita'])): ?>
-            <p id="visita">Su última visita fue el <?php echo $_SESSION['ultima_visita']; ?></p>
+        <?php if (isset($_SESSION['visita_para_mostrar'])): ?>
+            <p id="visita">Su última visita fue el <?php echo $_SESSION['visita_para_mostrar']; ?></p>
         <?php endif; ?>
 
-        <!-- BÚSQUEDA RÁPIDA (SIEMPRE VISIBLE) -->
         <section id="busqueda-rapida">
             <form action="resultados.php" method="get">
                 <input type="text" id="ciudad" name="ciudad" placeholder="Introduce la ciudad donde deseas buscar...">
@@ -85,7 +80,6 @@
             </form>
         </section>
 
-        <!-- ÚLTIMOS ANUNCIOS (SIEMPRE VISIBLE) -->
         <section id="ultimos-anuncios">
             <h2>Últimos anuncios</h2>
 

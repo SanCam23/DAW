@@ -17,8 +17,30 @@ if (isset($_COOKIE['recordarme_token']) && !isset($_SESSION['usuario_autenticado
                 $_SESSION['usuario_autenticado'] = true;
                 $_SESSION['nombre_usuario'] = $usuario_guardado;
                 
-                // Actualizar última visita
-                $_SESSION['ultima_visita'] = date('d/m/Y H:i:s');
+                // --- LÓGICA DE ÚLTIMA VISITA (MODIFICADA) ---
+                
+                // 1. LEER la visita anterior (de la cookie) y prepararla para MOSTRAR AHORA
+                if (isset($_COOKIE['ultima_visita_timestamp'])) {
+                    $_SESSION['visita_para_mostrar'] = date('d/m/Y H:i:s', (int)$_COOKIE['ultima_visita_timestamp']);
+                } else {
+                    unset($_SESSION['visita_para_mostrar']); // No hay visita anterior registrada
+                }
+
+                // 2. GUARDAR la hora ACTUAL para la PRÓXIMA visita (en sesión y cookie)
+                $hora_actual_str = date('d/m/Y H:i:s');
+                $hora_actual_ts = time();
+                
+                $_SESSION['ultima_visita'] = $hora_actual_str; // Actualizar la sesión
+                
+                // Actualizar la cookie de timestamp para la próxima vez
+                setcookie('ultima_visita_timestamp', $hora_actual_ts, [
+                    'expires' => (int)$expiracion_guardada, // Reutiliza la expiración del token
+                    'path' => '/',
+                    'httponly' => true
+                ]);
+                
+                // --- FIN LÓGICA DE VISITA ---
+
                 break;
             }
         }

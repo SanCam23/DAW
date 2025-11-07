@@ -57,6 +57,17 @@ if ($acceso_concedido) {
         $_SESSION['estilo_css'] = 'normal';
     }
 
+    // --- LÓGICA DE ÚLTIMA VISITA (MODIFICADA) ---
+    // 1. En login manual, NO mostramos visita anterior.
+    unset($_SESSION['visita_para_mostrar']);
+    
+    // 2. Guardamos la hora ACTUAL para la PRÓXIMA visita (en sesión y cookie si aplica)
+    $hora_actual_str = date('d/m/Y H:i:s');
+    $hora_actual_ts = time();
+    $_SESSION['ultima_visita'] = $hora_actual_str; // Para la sesión activa
+    // --- FIN LÓGICA DE VISITA ---
+
+
     // Lógica para "Recordarme" con tokens seguros (C1)
     if ($recordarme) {
         // Generar token seguro
@@ -77,15 +88,14 @@ if ($acceso_concedido) {
         file_put_contents('tokens.txt', $token_data, FILE_APPEND | LOCK_EX);
 
         // También guardar timestamp de última visita para la cookie
-        setcookie('ultima_visita_timestamp', time(), [
+        setcookie('ultima_visita_timestamp', $hora_actual_ts, [ // <-- USA la hora actual
             'expires' => $expiracion,
             'path' => '/',
             'httponly' => true
         ]);
     }
 
-    // Guardar fecha de última visita en sesión (C2)
-    $_SESSION['ultima_visita'] = date('d/m/Y H:i:s');
+    // (Se elimina la línea duplicada de $_SESSION['ultima_visita'] que estaba aquí)
 
     // Redirigir a página destino o menú principal
     if (isset($_SESSION['pagina_destino'])) {

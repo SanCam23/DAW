@@ -1,4 +1,12 @@
-<?php session_start(); ?>
+<?php
+session_start();
+if (!isset($_SESSION['estilo_css']) && isset($_COOKIE['estilo_css'])) {
+    $_SESSION['estilo_css'] = $_COOKIE['estilo_css'];
+} elseif (!isset($_SESSION['estilo_css'])) {
+    // Si no hay cookie ni sesión, aplicamos el estilo por defecto
+    $_SESSION['estilo_css'] = 'normal';
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -23,7 +31,7 @@
     if (!isset($_SESSION['usuario_autenticado']) && isset($_COOKIE['recordarme_token'])) {
         require_once 'verificar_cookie_recordarme.php';
     }
-    
+
     require('cabecera.php');
 
     // Determinar la zona según si está autenticado o no
@@ -45,7 +53,7 @@
                 <?php unset($_SESSION['error_login']); ?>
 
                 <script>
-                    setTimeout(function() {
+                    setTimeout(function () {
                         document.getElementById('mensaje-error').style.display = 'none';
                     }, 5000);
                 </script>
@@ -53,7 +61,8 @@
 
             <form id="login" action="acceso.php" method="post">
                 <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" name="usuario" value="<?php echo htmlspecialchars($_POST['usuario'] ?? ''); ?>">
+                <input type="text" id="usuario" name="usuario"
+                    value="<?php echo htmlspecialchars($_POST['usuario'] ?? ''); ?>">
 
                 <label for="password">Contraseña:</label>
                 <input type="password" id="password" name="password">

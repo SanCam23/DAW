@@ -57,14 +57,19 @@ if ($acceso_concedido) {
         $_SESSION['estilo_css'] = 'normal';
     }
 
+
     // --- LÓGICA DE ÚLTIMA VISITA ---
     // 1. En login manual, NO mostramos visita anterior.
     unset($_SESSION['visita_para_mostrar']);
-    
+
     // 2. Guardamos la hora ACTUAL para la PRÓXIMA visita (en sesión y cookie si aplica)
-    $hora_actual_str = date('d/m/Y H:i:s');
-    $hora_actual_ts = time();
-    $_SESSION['ultima_visita'] = $hora_actual_str; // Para la sesión activa
+    date_default_timezone_set('Europe/Madrid'); // Cambia a tu zona local si es necesario
+
+    $hora_actual = new DateTime('now', new DateTimeZone(date_default_timezone_get()));
+    $hora_actual_str = $hora_actual->format('Y-m-d H:i:s'); // Ej: 2025-11-07 18:30:45
+    $hora_actual_ts = $hora_actual->getTimestamp();
+
+    $_SESSION['ultima_visita'] = $hora_actual_str; // Fecha legible
     // --- FIN LÓGICA DE VISITA ---
 
 
@@ -92,6 +97,14 @@ if ($acceso_concedido) {
             'expires' => $expiracion,
             'path' => '/',
             'httponly' => true
+        ]);
+        
+        $expiracion_estilo = time() + (90 * 24 * 60 * 60);
+        setcookie('estilo_css', $_SESSION['estilo_css'], [
+            'expires' => $expiracion_estilo,
+            'path' => '/',
+            'httponly' => false,  // Permitimos acceso desde JS o CSS si hace falta
+            'samesite' => 'Lax'
         ]);
     }
 

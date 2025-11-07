@@ -22,6 +22,10 @@ if (isset($_COOKIE['ultimos_visitados'])) {
     setcookie('ultimos_visitados', '', time() - 42000, '/');
 }
 
+if (isset($_COOKIE['estilo_css'])) {
+    setcookie('estilo_css', '', time() - 42000, '/');
+}
+
 // 5. Destruir la sesión
 session_destroy();
 

@@ -57,7 +57,7 @@ if ($acceso_concedido) {
         $_SESSION['estilo_css'] = 'normal';
     }
 
-    // --- LÓGICA DE ÚLTIMA VISITA (MODIFICADA) ---
+    // --- LÓGICA DE ÚLTIMA VISITA ---
     // 1. En login manual, NO mostramos visita anterior.
     unset($_SESSION['visita_para_mostrar']);
     
@@ -94,8 +94,6 @@ if ($acceso_concedido) {
             'httponly' => true
         ]);
     }
-
-    // (Se elimina la línea duplicada de $_SESSION['ultima_visita'] que estaba aquí)
 
     // Redirigir a página destino o menú principal
     if (isset($_SESSION['pagina_destino'])) {

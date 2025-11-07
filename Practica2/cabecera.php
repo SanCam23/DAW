@@ -1,12 +1,12 @@
 <?php
-// NUEVO: Determinar la zona automáticamente según la sesión
+// Determinar la zona automáticamente según la sesión
 if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] === true) {
     $zona = 'privada';
 } else {
     $zona = 'publica';
 }
 
-// NUEVO: Tarea S2 - Saludo por Franja Horaria
+// Saludo por Franja Horaria
 $saludo = "";
 if (isset($_SESSION['nombre_usuario'])) {
     $nombre_usuario = $_SESSION['nombre_usuario'];
@@ -48,7 +48,7 @@ if (isset($_SESSION['nombre_usuario'])) {
                 <li><a href="index.php"><i class="icon-home"></i>Inicio</a></li>
                 <li><a href="formulario.php"><i class="icon-search"></i>Buscar</a></li>
                 <li><a href="menu_usuario_registrado.php"><i class="icon-user"></i>Mi Perfil</a></li>
-                <!-- NUEVO: Opción Salir -->
+                <!-- Opción Salir -->
                 <li><a href="salir.php"><i class="icon-logout"></i>Salir</a></li>
             <?php else: ?>
                 <li><a href="index.php"><i class="icon-home"></i>Inicio</a></li>
@@ -65,7 +65,7 @@ if (isset($_SESSION['nombre_usuario'])) {
                 <li><a href="index.php"><i class="icon-home"></i></a></li>
                 <li><a href="formulario.php"><i class="icon-search"></i></a></li>
                 <li><a href="menu_usuario_registrado.php"><i class="icon-user"></i></a></li>
-                <!-- NUEVO: Salir en móvil -->
+                <!-- Salir en móvil -->
                 <li><a href="salir.php"><i class="icon-logout"></i></a></li>
             <?php else: ?>
                 <li><a href="index.php"><i class="icon-home"></i></a></li>

@@ -6,7 +6,6 @@ $cookie_name = 'ultimos_visitados';
 
 // 2. Obtenemos el ID del anuncio actual
 $id_actual = $_GET['id'] ?? 1;
-// Forzamos que sea un entero para seguridad
 $id_actual = (int)$id_actual;
 
 // 3. Leemos la cookie actual. Usamos '[]' (un JSON array vacío) si no existe.
@@ -38,8 +37,8 @@ $path = '/'; // Disponible en todo el sitio
 
 // 9. Guardamos la cookie
 setcookie(
-    $cookie_name,       // Nombre
-    $json_visitados,    // Valor (el JSON)
+    $cookie_name,
+    $json_visitados,
     [
         'expires' => $expiracion,
         'path' => $path,

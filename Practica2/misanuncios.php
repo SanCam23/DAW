@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Listado de anuncios del usuario en VENTAPLUS.">
     <meta name="keywords" content="mis anuncios, viviendas, pisos, venta, alquiler">
-    <meta name="author" content="Tu nombre">
+    <meta name="author" content="Santino Campessi Lojo">
+    <meta name="author" content="Mario Laguna Contreras">
     <title>Mis anuncios - VENTAPLUS</title>
     <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/index.css">
@@ -15,9 +16,9 @@
 
 <body>
     <?php
-        $zona = 'privada';
-        require('cabecera.php'); 
-        require_once 'verificar_sesion.php';
+    $zona = 'privada';
+    require('cabecera.php');
+    require_once 'verificar_sesion.php';
     ?>
 
     <main>
@@ -50,7 +51,7 @@
                 ]
             ];
 
-           foreach ($anuncios as $id => $a) {
+            foreach ($anuncios as $id => $a) {
                 echo "<article class='anuncio'>";
                 echo "<figure><img src='" . $a['imagen'] . "' alt='Foto del anuncio'></figure>";
                 echo "<h3>" . $a['titulo'] . "</h3>";
@@ -71,4 +72,5 @@
 
     <?php require('pie.php'); ?>
 </body>
+
 </html>

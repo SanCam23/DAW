@@ -75,7 +75,7 @@ $coste_total = $coste_unitario * $copias;
 <body>
     <?php
     $zona = 'privada';
-    include('cabecera.php');
+    require('cabecera.php');
     require_once 'verificar_sesion.php';
     ?>
 
@@ -155,7 +155,7 @@ $coste_total = $coste_unitario * $copias;
         <a href="solicitar_folleto.php" class="volver-formulario">Volver al formulario</a>
     </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 </body>
 
 </html>

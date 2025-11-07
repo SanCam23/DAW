@@ -1,7 +1,7 @@
 <?php
 // 1. Incluimos los datos de anuncios para poder mostrar la info
 // Usamos _once para evitar incluirlo múltiples veces si otra pág. ya lo tiene
-include_once 'anuncios.php';
+require_once 'anuncios.php';
 
 // 2. Comprobamos si la cookie existe y no está vacía
 if (isset($_COOKIE['ultimos_visitados']) && $_COOKIE['ultimos_visitados'] !== '[]') {

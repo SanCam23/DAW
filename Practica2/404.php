@@ -10,7 +10,7 @@
     <meta name="author" content="Santino Campessi Lojo">
     <meta name="author" content="Mario Laguna Contreras">
     <title>404 - Página no encontrada - VENTAPLUS</title>
-    <?php include('estilos.php'); ?>
+    <?php require('estilos.php'); ?>
     <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
 </head>
 

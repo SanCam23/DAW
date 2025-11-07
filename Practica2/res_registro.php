@@ -76,7 +76,7 @@ if (!empty($errores)) {
 </head>
 
 <body>
-    <?php include('cabecera.php'); ?>
+    <?php require('cabecera.php'); ?>
 
     <main>
         <h2>Registro completado correctamente</h2>
@@ -104,7 +104,7 @@ if (!empty($errores)) {
         <a href="index.php" class="volver">Volver al inicio</a>
     </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 </body>
 
 </html>

@@ -57,7 +57,7 @@ $anuncio = $anuncios[$id];
 <body>
     <?php
         $zona = 'privada';
-        include('cabecera.php');
+        require('cabecera.php');
         require_once 'verificar_sesion.php'; 
     ?>
 
@@ -109,6 +109,6 @@ $anuncio = $anuncios[$id];
     </article>
 </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 </body>
 </html>

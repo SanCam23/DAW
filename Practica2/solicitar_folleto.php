@@ -53,7 +53,7 @@ for ($i = 0; $i < 15; $i++) {
 
     <?php
         $zona = 'privada'; 
-        include('cabecera.php');
+        require('cabecera.php');
         require_once 'verificar_sesion.php'; 
     ?>
 
@@ -246,7 +246,7 @@ for ($i = 0; $i < 15; $i++) {
         </section>
     </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 
     <dialog class="modal" id="modalErrores">
         <h2>Errores en el formulario</h2>

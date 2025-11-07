@@ -137,6 +137,10 @@ main {
 
     ul {
         color: #fff !important;
+
+        li {
+            color: #ffeb3b !important;
+        }
     }
 
     a {
@@ -217,9 +221,13 @@ main {
         }
     }
 
-    #destacado,
+    .destacado,
     .anuncio {
         background-color: grey !important;
+
+        h4 {
+            color: #ffcc00 !important;
+        }
 
         a {
             background-color: #ffcc00 !important;
@@ -231,6 +239,18 @@ main {
                 background-color: #003366 !important;
                 color: #ffcc00 !important;
             }
+        }
+    }
+
+    a {
+        background-color: #ffcc00 !important;
+        color: #000 !important;
+        border: 2px solid #000;
+        font-weight: bold !important;
+
+        &:hover {
+            background-color: #003366 !important;
+            color: #ffcc00 !important;
         }
     }
 

@@ -27,7 +27,7 @@ $fecha = $_GET["fecha"] ?? "";
 <body>
     <?php 
         $zona = 'publica';
-        include('cabecera.php'); 
+        require('cabecera.php'); 
     ?>
 
     <main>
@@ -118,7 +118,7 @@ $fecha = $_GET["fecha"] ?? "";
         <a href="formulario.php">Volver al formulario de búsqueda</a>
     </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 </body>
 
 </html>

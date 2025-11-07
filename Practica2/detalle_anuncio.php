@@ -1,5 +1,5 @@
 <?php
-include 'anuncios.php';
+require 'anuncios.php';
 
 // NUEVO: Tarea C3 - Lógica para GUARDAR la cookie de últimos visitados
 // -----------------------------------------------------------------

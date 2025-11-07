@@ -117,7 +117,7 @@
 
     </main>
 
-    <?php include('pie.php'); ?>
+    <?php require('pie.php'); ?>
 </body>
 
 </html>

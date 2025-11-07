@@ -26,7 +26,7 @@
     
     require('cabecera.php');
 
-    // Determinar la zona según si está autenticado o no - DESPUÉS de cabecera.php
+    // Determinar la zona según si está autenticado o no
     if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] === true) {
         $zona = 'privada';
     } else {

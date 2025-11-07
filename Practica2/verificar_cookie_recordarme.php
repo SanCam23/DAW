@@ -1,6 +1,4 @@
 <?php
-// Archivo: verificar_cookie_recordarme.php
-
 if (isset($_COOKIE['recordarme_token']) && !isset($_SESSION['usuario_autenticado'])) {
     $token = $_COOKIE['recordarme_token'];
     
@@ -17,7 +15,7 @@ if (isset($_COOKIE['recordarme_token']) && !isset($_SESSION['usuario_autenticado
                 $_SESSION['usuario_autenticado'] = true;
                 $_SESSION['nombre_usuario'] = $usuario_guardado;
                 
-                // --- LÓGICA DE ÚLTIMA VISITA (MODIFICADA) ---
+                // --- LÓGICA DE ÚLTIMA VISITA ---
                 
                 // 1. LEER la visita anterior (de la cookie) y prepararla para MOSTRAR AHORA
                 if (isset($_COOKIE['ultima_visita_timestamp'])) {
@@ -38,8 +36,6 @@ if (isset($_COOKIE['recordarme_token']) && !isset($_SESSION['usuario_autenticado
                     'path' => '/',
                     'httponly' => true
                 ]);
-                
-                // --- FIN LÓGICA DE VISITA ---
 
                 break;
             }

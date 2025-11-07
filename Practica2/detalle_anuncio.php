@@ -1,13 +1,10 @@
 <?php
 require 'anuncios.php';
 
-// NUEVO: Tarea C3 - Lógica para GUARDAR la cookie de últimos visitados
-// -----------------------------------------------------------------
-
 // 1. Definimos el nombre de la cookie
 $cookie_name = 'ultimos_visitados';
 
-// 2. Obtenemos el ID del anuncio actual (tu código ya lo hacía)
+// 2. Obtenemos el ID del anuncio actual
 $id_actual = $_GET['id'] ?? 1;
 // Forzamos que sea un entero para seguridad
 $id_actual = (int)$id_actual;
@@ -21,14 +18,14 @@ if (!is_array($visitados_array)) {
     $visitados_array = [];
 }
 
-// 5. Lógica de la lista [cite: 207]
+// 5. Lógica de la lista
 // Si el anuncio YA está en la lista, lo eliminamos para volver a añadirlo al final.
 $visitados_array = array_diff($visitados_array, [$id_actual]);
 
 // 6. Añadimos el ID actual al FINAL del array
 $visitados_array[] = $id_actual;
 
-// 7. Nos aseguramos de que solo haya 4 anuncios [cite: 202]
+// 7. Nos aseguramos de que solo haya 4 anuncios
 // Si hay más de 4, eliminamos el más antiguo (el primero del array)
 while (count($visitados_array) > 4) {
     array_shift($visitados_array); // array_shift() elimina el primer elemento
@@ -36,22 +33,20 @@ while (count($visitados_array) > 4) {
 
 // 8. Preparamos los datos para guardar la cookie
 $json_visitados = json_encode($visitados_array);
-$expiracion = time() + (7 * 24 * 60 * 60); // 1 semana [cite: 209]
+$expiracion = time() + (7 * 24 * 60 * 60); // 1 semana
 $path = '/'; // Disponible en todo el sitio
 
-// 9. ¡Guardamos la cookie!
-// Usamos httponly: true para que NO sea accesible por JavaScript [cite: 847]
+// 9. Guardamos la cookie
 setcookie(
     $cookie_name,       // Nombre
     $json_visitados,    // Valor (el JSON)
     [
         'expires' => $expiracion,
         'path' => $path,
-        'httponly' => true // Recomendación de seguridad de la práctica [cite: 847]
+        'httponly' => true
     ]
 );
-// FIN Tarea C3 - Guardar Cookie
-// -----------------------------------------------------------------
+
 
 
 $id = $_GET['id'] ?? 1;

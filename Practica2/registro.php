@@ -31,7 +31,7 @@
 
     <main>
         <?php
-        // Flashdata para errores en lugar de parámetros URL
+        // Flashdata para errores
         $redireccionar = false;
         
         if (isset($_SESSION['error_registro'])) {

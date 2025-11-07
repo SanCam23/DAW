@@ -1,5 +1,4 @@
 <?php
-// Archivo: salir.php
 session_start();
 
 // 1. Destruir todas las variables de sesión
@@ -18,7 +17,7 @@ if (isset($_COOKIE['recordarme_token'])) {
     }
 }
 
-// 4. NUEVO: Borrar cookies de últimos anuncios visitados
+// 4. Borrar cookies de últimos anuncios visitados
 if (isset($_COOKIE['ultimos_visitados'])) {
     setcookie('ultimos_visitados', '', time() - 42000, '/');
 }

@@ -1,6 +1,4 @@
 <?php
-// Archivo: verificar_sesion.php
-// NO poner session_start() aquí - ya se hace en cabecera.php
 
 // Función para verificar si el usuario está autenticado
 function usuarioAutenticado() {

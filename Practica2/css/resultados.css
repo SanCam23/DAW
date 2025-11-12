@@ -55,7 +55,7 @@ main {
     #resultados {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: center;
         gap: 20px;
 
         h3 {
@@ -67,7 +67,10 @@ main {
         }
 
         article {
-            flex: 1 1 calc(20% - 20px);
+            /* MODIFICADO: Cambiado flex-grow de '1' a '0' */
+            flex: 0 1 calc(20% - 20px);
+            /* Ponemos un min-width por si '20%' es muy pequeño */
+            min-width: 200px;
             background-color: #ffffff;
             border: 1px solid #d9e6e2;
             border-radius: 8px;
@@ -144,19 +147,19 @@ main {
 
     @media (max-width: 1000px) {
         #resultados article {
-            flex: 1 1 calc(33.333% - 20px);
+            flex: 0 1 calc(33.333% - 20px);
         }
     }
 
     @media (max-width: 700px) {
         #resultados article {
-            flex: 1 1 calc(50% - 20px);
+            flex: 0 1 calc(50% - 20px);
         }
     }
 
     @media (max-width: 480px) {
         #resultados article {
-            flex: 1 1 100%;
+            flex: 0 1 100%;
         }
     }
 }

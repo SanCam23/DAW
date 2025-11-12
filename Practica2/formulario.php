@@ -1,3 +1,56 @@
+<?php
+
+require_once __DIR__ . '/db.php';
+
+$db = conectarDB();
+
+// Preparamos arrays para guardar los datos
+$paises = [];
+$tipos_anuncio = [];
+$tipos_vivienda = [];
+
+if ($db) {
+
+    /* 1. Consultar Países */
+    $sql_paises = "SELECT IdPais, NomPais FROM PAISES ORDER BY NomPais ASC";
+    $res_paises = $db->query($sql_paises);
+    if ($res_paises) {
+        $paises = $res_paises->fetch_all(MYSQLI_ASSOC);
+        $res_paises->close();
+    }
+
+    /* 2. Consultar Tipos de Anuncio */
+    $sql_anuncios = "SELECT IdTAnuncio, NomTAnuncio FROM TIPOSANUNCIOS ORDER BY NomTAnuncio ASC";
+    $res_anuncios = $db->query($sql_anuncios);
+    if ($res_anuncios) {
+        $tipos_anuncio = $res_anuncios->fetch_all(MYSQLI_ASSOC);
+        $res_anuncios->close();
+    }
+
+    /* 3. Consultar Tipos de Vivienda */
+    $sql_viviendas = "SELECT IdTVivienda, NomTVivienda FROM TIPOSVIVIENDAS ORDER BY NomTVivienda ASC";
+    $res_viviendas = $db->query($sql_viviendas);
+    if ($res_viviendas) {
+        $tipos_vivienda = $res_viviendas->fetch_all(MYSQLI_ASSOC);
+        $res_viviendas->close();
+    }
+
+    // Cerramos la conexión, ya tenemos los datos
+    $db->close();
+}
+
+/*
+ * Lógica de "sticky form" para que los valores de búsqueda se queden seleccionados.
+ */
+$tipo_anuncio  = $_GET["tipo_anuncio"] ?? "";
+$tipo_vivienda = $_GET["tipo_vivienda"] ?? "";
+$ciudad        = $_GET["ciudad"] ?? "";
+$pais          = $_GET["pais"] ?? "";
+$precio_min    = $_GET["precio_min"] ?? "";
+$precio_max    = $_GET["precio_max"] ?? "";
+$fecha         = $_GET["fecha"] ?? "";
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -19,95 +72,78 @@
     <?php
     $zona = 'publica';
     require('cabecera.php');
-
-    $tipo_anuncio = $_GET["tipo_anuncio"] ?? "";
-    $tipo_vivienda = $_GET["tipo_vivienda"] ?? "";
-    $ciudad = $_GET["ciudad"] ?? "";
-    $pais = $_GET["pais"] ?? "";
-    $precio_min = $_GET["precio_min"] ?? "";
-    $precio_max = $_GET["precio_max"] ?? "";
-    $fecha = $_GET["fecha"] ?? "";
-    $errores = [];
-
-    if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["validar"])) {
-
-        if ($tipo_anuncio === "") $errores[] = "Debe seleccionar un tipo de anuncio (Venta o Alquiler).";
-        if ($tipo_vivienda === "") $errores[] = "Debe seleccionar un tipo de vivienda.";
-        if (trim($ciudad) === "") $errores[] = "Debe indicar una ciudad.";
-        if (trim($pais) === "") $errores[] = "Debe indicar un país.";
-        if ($precio_min !== "" && $precio_max !== "" && $precio_min > $precio_max)
-            $errores[] = "El precio mínimo no puede ser mayor que el máximo.";
-        if ($fecha !== "") {
-            $partes = explode("/", $fecha);
-            if (count($partes) !== 3 || !checkdate($partes[1], $partes[0], $partes[2])) {
-                $errores[] = "La fecha debe tener formato válido (dd/mm/yyyy).";
-            } else {
-                $fecha_introducida = mktime(0, 0, 0, $partes[1], $partes[0], $partes[2]);
-                $fecha_actual = time();
-                if ($fecha_introducida > $fecha_actual) {
-                    $errores[] = "La fecha no puede ser posterior a la actual.";
-                }
-            }
-        }
-
-        if (empty($errores)) {
-            $query = http_build_query($_GET);
-            header("Location: resultados.php?$query");
-            exit();
-        }
-    }
     ?>
 
     <main>
-        <?php
-        if (!empty($errores)) {
-            echo "<div class='mensaje-error'>";
-            echo "<p><strong>Se han encontrado los siguientes errores:</strong></p><ul>";
-            foreach ($errores as $e) {
-                echo "<li>$e</li>";
-            }
-            echo "</ul></div>";
-        }
-        ?>
 
-        <form action="formulario.php" method="get">
-            <input type="hidden" name="validar" value="1">
+        <form action="resultados.php" method="get">
 
             <section>
                 <h3>Tipo de anuncio</h3>
-                <label><input type="radio" name="tipo_anuncio" value="venta" <?php if ($tipo_anuncio === "venta") echo "checked"; ?>> Venta</label>
-                <label><input type="radio" name="tipo_anuncio" value="alquiler" <?php if ($tipo_anuncio === "alquiler") echo "checked"; ?>> Alquiler</label>
+                <label for="tipo_anuncio">Tipo:</label>
+                <select id="tipo_anuncio" name="tipo_anuncio">
+                    <option value="">-- Seleccione tipo --</option>
+                    <?php if (empty($tipos_anuncio)): ?>
+                        <option value="" disabled>Error al cargar tipos</option>
+                    <?php else: ?>
+                        <?php foreach ($tipos_anuncio as $tipo): ?>
+                            <option value="<?php echo $tipo['IdTAnuncio']; ?>" <?php if ($tipo_anuncio == $tipo['IdTAnuncio']) echo "selected"; ?>>
+                                <?php echo htmlspecialchars($tipo['NomTAnuncio']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
             </section>
 
             <section>
                 <h3>Tipo de vivienda</h3>
-                <label><input type="radio" name="tipo_vivienda" value="obra_nueva" <?php if ($tipo_vivienda === "obra_nueva") echo "checked"; ?>> Obra nueva</label>
-                <label><input type="radio" name="tipo_vivienda" value="vivienda" <?php if ($tipo_vivienda === "vivienda") echo "checked"; ?>> Vivienda</label>
-                <label><input type="radio" name="tipo_vivienda" value="oficina" <?php if ($tipo_vivienda === "oficina") echo "checked"; ?>> Oficina</label>
-                <label><input type="radio" name="tipo_vivienda" value="local" <?php if ($tipo_vivienda === "local") echo "checked"; ?>> Local</label>
-                <label><input type="radio" name="tipo_vivienda" value="garaje" <?php if ($tipo_vivienda === "garaje") echo "checked"; ?>> Garaje</label>
+                <label for="tipo_vivienda">Vivienda:</label>
+                <select id="tipo_vivienda" name="tipo_vivienda">
+                    <option value="">-- Seleccione vivienda --</option>
+                    <?php if (empty($tipos_vivienda)): ?>
+                        <option value="" disabled>Error al cargar viviendas</option>
+                    <?php else: ?>
+                        <?php foreach ($tipos_vivienda as $vivienda): ?>
+                            <option value="<?php echo $vivienda['IdTVivienda']; ?>" <?php if ($tipo_vivienda == $vivienda['IdTVivienda']) echo "selected"; ?>>
+                                <?php echo htmlspecialchars($vivienda['NomTVivienda']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
             </section>
 
             <section>
                 <h3>Ubicación</h3>
                 <label for="ciudad">Ciudad:</label>
-                <input type="text" id="ciudad" name="ciudad" value="<?php echo $ciudad; ?>">
+                <input type="text" id="ciudad" name="ciudad" value="<?php echo htmlspecialchars($ciudad); ?>">
+
                 <label for="pais">País:</label>
-                <input type="text" id="pais" name="pais" value="<?php echo $pais; ?>">
+                <select id="pais" name="pais">
+                    <option value="">-- Todos los países --</option>
+                    <?php if (empty($paises)): ?>
+                        <option value="" disabled>Error al cargar países</option>
+                    <?php else: ?>
+                        <?php foreach ($paises as $pais_item): ?>
+                            <option value="<?php echo $pais_item['IdPais']; ?>" <?php if ($pais == $pais_item['IdPais']) echo "selected"; ?>>
+                                <?php echo htmlspecialchars($pais_item['NomPais']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
             </section>
 
             <section>
                 <h3>Precio (€)</h3>
                 <label for="precio_min">Mínimo:</label>
-                <input type="number" id="precio_min" name="precio_min" min="0" step="1000" value="<?php echo $precio_min; ?>">
+                <input type="number" id="precio_min" name="precio_min" min="0" step="1000" value="<?php echo htmlspecialchars($precio_min); ?>">
                 <label for="precio_max">Máximo:</label>
-                <input type="number" id="precio_max" name="precio_max" min="0" step="1000" value="<?php echo $precio_max; ?>">
+                <input type="number" id="precio_max" name="precio_max" min="0" step="1000" value="<?php echo htmlspecialchars($precio_max); ?>">
             </section>
 
             <section>
                 <h3>Fecha de publicación</h3>
                 <label for="fecha">Desde (dd/mm/yyyy):</label>
-                <input type="text" id="fecha" name="fecha" value="<?php echo $fecha; ?>">
+                <input type="text" id="fecha" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
             </section>
 
             <a href="formulario.php">Limpiar</a>

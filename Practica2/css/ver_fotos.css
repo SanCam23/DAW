@@ -1,0 +1,60 @@
+        main {
+                max-width: 900px;
+                margin: 20px auto;
+                padding: 20px;
+        }
+
+        .info-basica {
+                background-color: #f7fdfc;
+                border: 1px solid #cce3dd;
+                border-radius: 10px;
+                padding: 20px;
+                margin-bottom: 20px;
+        }
+
+        .info-basica h2 {
+                color: #1b9986;
+        }
+
+        .info-basica p {
+                a {
+                        text-decoration: none;
+                        color: #10bb82;
+                        font-weight: bold;
+
+                        &:hover {
+                                text-decoration: underline;
+                        }
+                }
+        }
+
+        /* Hacemos la galería de esta página más grande */
+        .galeria-ver-fotos {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+                justify-content: center;
+                /* Centramos las fotos */
+        }
+
+        .galeria-ver-fotos figure {
+                flex-basis: 400px;
+                /* Base más ancha */
+                flex-grow: 1;
+        }
+
+        .galeria-ver-fotos img {
+                width: 100%;
+                height: 300px;
+                /* Más altas */
+                object-fit: cover;
+                border-radius: 8px;
+                border: 1px solid #ddd;
+        }
+
+        .galeria-ver-fotos figcaption {
+                text-align: center;
+                font-style: italic;
+                color: #555;
+                padding: 5px 0;
+        }

@@ -111,7 +111,6 @@ if ($anuncio === null) {
 
 <body>
     <?php
-    /* Cambiamos $zona a 'publica' y quitamos 'verificar_sesion.php' */
     $zona = 'publica';
     require('cabecera.php');
     ?>
@@ -136,7 +135,13 @@ if ($anuncio === null) {
                             </figure>
                         <?php endforeach; ?>
                     <?php endif; ?>
-                </section>
+                </section> <?php if (!empty($fotos)): ?>
+                    <p>
+                        <a href="ver_fotos.php?id=<?php echo $anuncio['IdAnuncio']; ?>">
+                            Ver todas las fotos (<?php echo count($fotos); ?>)
+                        </a>
+                    </p>
+                <?php endif; ?>
             </section>
 
             <section class="col-derecha">
@@ -173,7 +178,7 @@ if ($anuncio === null) {
                     </ul>
                 </section>
 
-                <p>
+                <p class="publicado">
                     <strong>Publicado por:</strong>
                     <a href="perfil_usuario.php?id=<?php echo $anuncio['Usuario']; ?>">
                         <?php echo htmlspecialchars($anuncio["NomUsuario"]); ?>

@@ -1,44 +1,65 @@
 <?php
-// Datos simulados de todos los anuncios
-$anuncios = [
-    1 => [
-        'titulo' => 'Apartamento en Barcelona',
-        'tipo_anuncio' => 'Venta',
-        'tipo_vivienda' => 'Apartamento',
-        'precio' => '180.000 €',
-        'fecha' => '28/08/2025',
-        'ciudad' => 'Barcelona',
-        'pais' => 'España',
-        'descripcion' => 'Acogedor apartamento de 60 m² en el centro de Barcelona. Dispone de 2 habitaciones, 1 baño, salón y cocina equipada.',
-        'imagen_principal' => 'img/barcelona.jpeg',
-        'galeria' => ['img/salon.jpg', 'img/balcon.jpg'],
-        'caracteristicas' => ['2 habitaciones', '1 baño', 'Cocina equipada', 'Salón']
-    ],
-    2 => [
-        'titulo' => 'Vivienda en Madrid',
-        'tipo_anuncio' => 'Venta',
-        'tipo_vivienda' => 'Piso',
-        'precio' => '350.000 €',
-        'fecha' => '23/09/2025',
-        'ciudad' => 'Madrid',
-        'pais' => 'España',
-        'descripcion' => 'Piso moderno de 90 m² en el centro de Madrid con 2 habitaciones, 2 baños, salón luminoso y cocina equipada.',
-        'imagen_principal' => 'img/completo.jpg',
-        'galeria' => ['img/salon.jpg', 'img/balcon.jpg'],
-        'caracteristicas' => ['2 habitaciones', '2 baños', 'Cocina equipada', 'Balcón', 'Salón']
-    ]
-];
+session_start();
+require_once 'verificar_sesion.php';
+require_once __DIR__ . '/db.php';
 
-// Obtener el id por GET
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
+// Obtener ID del anuncio desde la URL
+$id_anuncio = $_GET['id'] ?? 0;
+$id_anuncio = (int)$id_anuncio;
 
-// Comprobar que el anuncio existe
-if (!isset($anuncios[$id])) {
+if ($id_anuncio <= 0) {
     echo "Anuncio no encontrado.";
     exit;
 }
 
-$anuncio = $anuncios[$id];
+// Conectar a la BD y obtener datos del anuncio
+$db = conectarDB();
+$anuncio = null;
+$fotos = [];
+
+if ($db && isset($_SESSION['usuario_id'])) {
+    $usuario_id = $_SESSION['usuario_id'];
+    
+    // Consulta que verifica que el anuncio pertenece al usuario logueado
+    $sql = "SELECT a.*, p.NomPais, u.NomUsuario, ta.NomTAnuncio, tv.NomTVivienda
+            FROM ANUNCIOS a
+            LEFT JOIN PAISES p ON a.Pais = p.IdPais
+            LEFT JOIN USUARIOS u ON a.Usuario = u.IdUsuario
+            LEFT JOIN TIPOSANUNCIOS ta ON a.TAnuncio = ta.IdTAnuncio
+            LEFT JOIN TIPOSVIVIENDAS tv ON a.TVivienda = tv.IdTVivienda
+            WHERE a.IdAnuncio = ? AND a.Usuario = ?";
+    
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("ii", $id_anuncio, $usuario_id);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    
+    if ($resultado && $resultado->num_rows > 0) {
+        $anuncio = $resultado->fetch_assoc();
+    }
+    $stmt->close();
+    
+    // Obtener fotos de la galería si el anuncio existe y pertenece al usuario
+    if ($anuncio) {
+        $sql_fotos = "SELECT Foto, Alternativo, Titulo FROM FOTOS WHERE Anuncio = ?";
+        $stmt_fotos = $db->prepare($sql_fotos);
+        $stmt_fotos->bind_param("i", $id_anuncio);
+        $stmt_fotos->execute();
+        $res_fotos = $stmt_fotos->get_result();
+        if ($res_fotos->num_rows > 0) {
+            $fotos = $res_fotos->fetch_all(MYSQLI_ASSOC);
+        }
+        $stmt_fotos->close();
+    }
+    
+    $db->close();
+}
+
+// Si el anuncio no existe o no pertenece al usuario
+if ($anuncio === null) {
+    echo "Anuncio no encontrado o no tienes permisos para verlo.";
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -47,11 +68,11 @@ $anuncio = $anuncios[$id];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Listado de anuncios del usuario en VENTAPLUS.">
+    <meta name="description" content="Detalle del anuncio del usuario en VENTAPLUS.">
     <meta name="keywords" content="mis anuncios, viviendas, pisos, venta, alquiler">
     <meta name="author" content="Santino Campessi Lojo">
     <meta name="author" content="Mario Laguna Contreras">
-    <title>Mis anuncios - VENTAPLUS</title>
+    <title><?php echo $anuncio['Titulo']; ?> - VENTAPLUS</title>
     <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/ver_anuncio.css">
     <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
@@ -61,53 +82,71 @@ $anuncio = $anuncios[$id];
     <?php
     $zona = 'privada';
     require('cabecera.php');
-    require_once 'verificar_sesion.php';
     ?>
 
     <main>
         <article class="anuncios-mios">
             <section class="col-izquierda">
-                <h2><?php echo $anuncio['titulo']; ?></h2>
+                <h2><?php echo $anuncio['Titulo']; ?></h2>
                 <figure class="foto-principal">
-                    <img src="<?php echo $anuncio['imagen_principal']; ?>" alt="Foto principal del anuncio">
+                    <img src="<?php echo $anuncio['FPrincipal']; ?>" alt="<?php echo $anuncio['Alternativo']; ?>">
                 </figure>
 
                 <section class="galeria">
                     <h3>Galería de imágenes</h3>
-                    <?php foreach ($anuncio['galeria'] as $img): ?>
-                        <figure>
-                            <img src="<?php echo $img; ?>" alt="Imagen del anuncio">
-                        </figure>
-                    <?php endforeach; ?>
+                    <?php if (empty($fotos)): ?>
+                        <p>No hay más fotos en la galería.</p>
+                    <?php else: ?>
+                        <?php foreach ($fotos as $foto): ?>
+                            <figure>
+                                <img src="<?php echo $foto['Foto']; ?>" alt="<?php echo $foto['Alternativo']; ?>">
+                            </figure>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </section>
+                
+                <?php if (!empty($fotos)): ?>
+                    <p>
+                        <a href="ver_fotos.php?id=<?php echo $anuncio['IdAnuncio']; ?>">
+                            Ver todas las fotos (<?php echo count($fotos); ?>)
+                        </a>
+                    </p>
+                <?php endif; ?>
             </section>
 
             <section class="col-derecha">
                 <section class="info-general">
                     <h3>Información general</h3>
-                    <p>Tipo de anuncio: <?php echo $anuncio['tipo_anuncio']; ?></p>
-                    <p>Tipo de vivienda: <?php echo $anuncio['tipo_vivienda']; ?></p>
-                    <p>Fecha: <?php echo $anuncio['fecha']; ?></p>
-                    <p>Ciudad: <?php echo $anuncio['ciudad']; ?></p>
-                    <p>País: <?php echo $anuncio['pais']; ?></p>
-                    <p>Precio: <?php echo $anuncio['precio']; ?></p>
+                    <p><strong><?php echo $anuncio['Titulo']; ?></strong></p>
+                    <p>Tipo de anuncio: <?php echo $anuncio['NomTAnuncio']; ?></p>
+                    <p>Tipo de vivienda: <?php echo $anuncio['NomTVivienda']; ?></p>
+                    <p>Fecha: <?php echo date("d/m/Y", strtotime($anuncio['FRegistro'])); ?></p>
+                    <p>Ciudad: <?php echo $anuncio['Ciudad']; ?></p>
+                    <p>País: <?php echo $anuncio['NomPais']; ?></p>
+                    <p>Precio: <?php echo number_format($anuncio['Precio'], 0, ',', '.'); ?> €</p>
                 </section>
 
                 <section class="descripcion">
                     <h3>Descripción</h3>
-                    <p><?php echo $anuncio['descripcion']; ?></p>
+                    <p><?php echo nl2br($anuncio['Texto']); ?></p>
                 </section>
 
                 <section class="caracteristicas">
                     <h3>Características</h3>
                     <ul>
-                        <?php foreach ($anuncio['caracteristicas'] as $caracteristica): ?>
-                            <li><?php echo $caracteristica; ?></li>
-                        <?php endforeach; ?>
+                        <li>Habitaciones: <?php echo $anuncio['NHabitaciones']; ?></li>
+                        <li>Baños: <?php echo $anuncio['NBanyos']; ?></li>
+                        <li>Superficie: <?php echo $anuncio['Superficie']; ?> m²</li>
+                        <?php if ($anuncio['Planta']): ?>
+                            <li>Planta: <?php echo $anuncio['Planta']; ?></li>
+                        <?php endif; ?>
+                        <?php if ($anuncio['Anyo']): ?>
+                            <li>Año: <?php echo $anuncio['Anyo']; ?></li>
+                        <?php endif; ?>
                     </ul>
                 </section>
 
-                <p><a href="añadir_foto.php?id=<?php echo $id; ?>">Añadir foto a este anuncio</a></p>
+                <p><a href="añadir_foto.php?id=<?php echo $anuncio['IdAnuncio']; ?>">Añadir foto a este anuncio</a></p>
             </section>
         </article>
     </main>

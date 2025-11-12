@@ -1,11 +1,53 @@
 <?php
 session_start();
+
+/*
+ * TAREA 1 (Persona 2): Incluir el conector de BD.
+ * db.php ya incluye config.php, así que solo necesitamos este.
+ */
+require_once __DIR__ . '/db.php';
+
 if (!isset($_SESSION['estilo_css']) && isset($_COOKIE['estilo_css'])) {
     $_SESSION['estilo_css'] = $_COOKIE['estilo_css'];
 } elseif (!isset($_SESSION['estilo_css'])) {
-    // Si no hay cookie ni sesión, aplicamos el estilo por defecto
     $_SESSION['estilo_css'] = 'normal';
 }
+
+/*
+ * TAREA 1 (Persona 2): Conectar a la BD y preparar datos.
+ */
+$db = conectarDB();
+$anuncios = []; // Array para guardar los anuncios
+
+if ($db) {
+    /*
+     * TAREA 1 (Persona 2): Preparar la consulta SQL.
+     * Requisito: Obtener resumen de los 5 últimos anuncios.
+     * Pedimos Id, Titulo, Foto(FPrincipal), Alternativo, Ciudad, Precio y Fecha(FRegistro).
+     * También pedimos el Nombre del País (NomPais) usando un JOIN con la tabla PAISES.
+     * Ordenamos por FRegistro DESC (descendente) para obtener los más nuevos.
+     * Limitamos a 5 resultados.
+     */
+    $sql = "SELECT a.IdAnuncio, a.Titulo, a.FPrincipal, a.Alternativo, a.Ciudad, 
+                   a.Precio, a.FRegistro, p.NomPais
+            FROM ANUNCIOS a
+            LEFT JOIN PAISES p ON a.Pais = p.IdPais
+            ORDER BY a.FRegistro DESC
+            LIMIT 5";
+
+    // Ejecutamos la consulta
+    $resultado = $db->query($sql);
+
+    // Si la consulta fue exitosa y trajo filas, las guardamos
+    if ($resultado && $resultado->num_rows > 0) {
+        $anuncios = $resultado->fetch_all(MYSQLI_ASSOC);
+        $resultado->close(); // Liberamos memoria [cite: 957, 1083-1084]
+    }
+
+    // Cerramos la conexión
+    $db->close(); // [cite: 948, 1085]
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -27,14 +69,12 @@ if (!isset($_SESSION['estilo_css']) && isset($_COOKIE['estilo_css'])) {
 <body class="inicio">
 
     <?php
-    // Verificar cookie "Recordarme" para acceso automático
     if (!isset($_SESSION['usuario_autenticado']) && isset($_COOKIE['recordarme_token'])) {
         require_once 'verificar_cookie_recordarme.php';
     }
 
     require('cabecera.php');
 
-    // Determinar la zona según si está autenticado o no
     if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] === true) {
         $zona = 'privada';
     } else {
@@ -45,33 +85,27 @@ if (!isset($_SESSION['estilo_css']) && isset($_COOKIE['estilo_css'])) {
     <?php if (!isset($_SESSION['usuario_autenticado']) || $_SESSION['usuario_autenticado'] !== true): ?>
         <section id="login-popup">
             <h2>Iniciar Sesión</h2>
-
             <?php if (isset($_SESSION['error_login'])): ?>
                 <div class="mensaje-error" id="mensaje-error">
                     <p><?php echo $_SESSION['error_login']; ?></p>
                 </div>
                 <?php unset($_SESSION['error_login']); ?>
-
                 <script>
-                    setTimeout(function () {
+                    setTimeout(function() {
                         document.getElementById('mensaje-error').style.display = 'none';
                     }, 5000);
                 </script>
             <?php endif; ?>
-
             <form id="login" action="acceso.php" method="post">
                 <label for="usuario">Usuario:</label>
                 <input type="text" id="usuario" name="usuario"
                     value="<?php echo htmlspecialchars($_POST['usuario'] ?? ''); ?>">
-
                 <label for="password">Contraseña:</label>
                 <input type="password" id="password" name="password">
-
                 <label class="recordarme-label">
                     Recordarme en este equipo
                     <input type="checkbox" name="recordarme" value="1" id="recordarme">
                 </label>
-
                 <button type="submit">Entrar</button>
             </form>
         </section>
@@ -84,68 +118,53 @@ if (!isset($_SESSION['estilo_css']) && isset($_COOKIE['estilo_css'])) {
 
         <section id="busqueda-rapida">
             <form action="resultados.php" method="get">
-                <input type="text" id="ciudad" name="ciudad" placeholder="Introduce la ciudad donde deseas buscar...">
+                <input type="text" id="ciudad" name="q" placeholder="Búsqueda rápida (ej: piso alquiler madrid)...">
                 <button type="submit"><b><i class="icon-search"></i>Buscar</b></button>
             </form>
         </section>
 
+
         <section id="ultimos-anuncios">
             <h2>Últimos anuncios</h2>
 
-            <section class="anuncio">
-                <figure>
-                    <img src="./img/completo.jpg" alt="Vivienda en Madrid">
-                </figure>
-                <h3>Vivienda en Madrid</h3>
-                <p>Fecha: 23/09/2025</p>
-                <p>Ciudad: Madrid</p>
-                <p>Precio: 350.000€</p>
-                <a href="detalle_anuncio.php?id=1">Ver detalle</a>
-            </section>
+            <?php
+            /*
+             * TAREA 1 (Persona 2): Mostrar los resultados de la BD.
+             * Comprobamos si el array $anuncios tiene contenido.
+             */
+            if (!empty($anuncios)) {
 
-            <section class="anuncio">
-                <figure>
-                    <img src="./img/barcelona.jpeg" alt="Piso en Barcelona">
-                </figure>
-                <h3>Piso en Barcelona</h3>
-                <p>Fecha: 28/08/2025</p>
-                <p>Ciudad: Barcelona</p>
-                <p>Precio: 180.000€</p>
-                <a href="detalle_anuncio.php?id=2">Ver detalle</a>
-            </section>
+                /*
+                 * TAREA 1 (Persona 2): Bucle para mostrar anuncios.
+                 * Recorremos el array y pintamos el HTML.
+                 * [cite: 1000-1001, 1024-1031]
+                 */
+                foreach ($anuncios as $anuncio) {
 
-            <section class="anuncio">
-                <figure>
-                    <img src="./img/sevilla.jpeg" alt="Casa en Sevilla">
-                </figure>
-                <h3>Casa en Sevilla</h3>
-                <p>Fecha: 15/08/2025</p>
-                <p>Ciudad: Sevilla</p>
-                <p>Precio: 250.000€</p>
-                <a href="404.php">Ver detalle</a>
-            </section>
+                    // Formateamos la fecha de registro para que sea legible
+                    $fecha_formateada = date("d/m/Y", strtotime($anuncio['FRegistro']));
+            ?>
+                    <section class="anuncio">
+                        <figure>
+                            <img src="<?php echo htmlspecialchars($anuncio['FPrincipal']); ?>" alt="<?php echo htmlspecialchars($anuncio['Alternativo']); ?>">
+                        </figure>
+                        <h3><?php echo htmlspecialchars($anuncio['Titulo']); ?></h3>
+                        <p>Fecha: <?php echo $fecha_formateada; ?></p>
+                        <p>Ciudad: <?php echo htmlspecialchars($anuncio['Ciudad']); ?> (<?php echo htmlspecialchars($anuncio['NomPais']); ?>)</p>
+                        <p>Precio: <?php echo number_format($anuncio['Precio'], 0, ',', '.'); ?>€</p>
 
-            <section class="anuncio">
-                <figure>
-                    <img src="./img/valencia.jpeg" alt="Apartamento en Valencia">
-                </figure>
-                <h3>Apartamento en Valencia</h3>
-                <p>Fecha: 01/07/2025</p>
-                <p>Ciudad: Valencia</p>
-                <p>Precio: 220.000€</p>
-                <a href="404.php">Ver detalle</a>
-            </section>
+                        <a href="detalle_anuncio.php?id=<?php echo $anuncio['IdAnuncio']; ?>">Ver detalle</a>
+                    </section>
 
-            <section class="anuncio">
-                <figure>
-                    <img src="./img/bilbao.jpeg" alt="Estudio en Bilbao">
-                </figure>
-                <h3>Estudio en Bilbao</h3>
-                <p>Fecha: 20/06/2025</p>
-                <p>Ciudad: Bilbao</p>
-                <p>Precio: 120.000€</p>
-                <a href="404.php">Ver detalle</a>
-            </section>
+            <?php
+                } // Fin del foreach
+
+            } else {
+                // Si la BD no devolvió nada (pero la conexión fue bien)
+                echo "<p>No hay anuncios disponibles en este momento.</p>";
+            }
+            ?>
+
         </section>
 
         <?php require_once 'panel_visitados.php'; ?>

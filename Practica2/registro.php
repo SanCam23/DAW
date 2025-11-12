@@ -1,33 +1,57 @@
+<?php
+session_start();
+
+// Conexión a BD para cargar países
+require_once __DIR__ . '/db.php';
+$db = conectarDB();
+
+$paises = [];
+$estilos = [];
+
+if ($db) {
+    // Cargar países desde la tabla PAISES
+    $sql_paises = "SELECT IdPais, NomPais FROM PAISES ORDER BY NomPais ASC";
+    $resultado_paises = $db->query($sql_paises);
+    if ($resultado_paises) {
+        $paises = $resultado_paises->fetch_all(MYSQLI_ASSOC);
+        $resultado_paises->close();
+    }
+    
+    // Cargar estilos desde la tabla ESTILOS (para posible selección o valor por defecto)
+    $sql_estilos = "SELECT IdEstilo, Nombre FROM ESTILOS ORDER BY IdEstilo ASC";
+    $resultado_estilos = $db->query($sql_estilos);
+    if ($resultado_estilos) {
+        $estilos = $resultado_estilos->fetch_all(MYSQLI_ASSOC);
+        $resultado_estilos->close();
+    }
+    
+    $db->close();
+}
+
+// Valor por defecto para el estilo (primer estilo de la tabla)
+$estilo_por_defecto = !empty($estilos) ? $estilos[0]['IdEstilo'] : 1;
+
+$zona = 'publica';
+?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="VENTAPLUS: portal de anuncios de venta y alquiler de viviendas. Busca tu próximo hogar fácilmente.">
+    <meta name="description" content="VENTAPLUS: portal de anuncios de venta y alquiler de viviendas.">
     <meta name="keywords" content="viviendas, pisos, casas, alquiler, compra, venta, inmuebles">
     <meta name="author" content="Santino Campessi Lojo">
     <meta name="author" content="Mario Laguna Contreras">
     <title>Registro - VENTAPLUS</title>
-    <link rel="stylesheet" href="css/general.css" title="Estilo normal">
+    <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/registro.css">
-    <link rel="alternate stylesheet" href="css/contraste_alto.css" title="Alto contraste">
-    <link rel="alternate stylesheet" href="css/letra_grande.css" title="Letra Grande">
-    <link rel="alternate stylesheet" href="css/contraste_letra.css" title="Letra Grande+Alto contraste">
     <link rel="stylesheet" type="text/css" href="css/print_formulario.css" media="print">
-    <link rel="stylesheet" href="css/fontello.css">
-    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap"
-        rel="stylesheet">
 </head>
 
 <body>
     
-    <?php
-    session_start();
-    $zona = 'publica';
-    require('cabecera.php'); 
-    ?>
+    <?php require('cabecera.php'); ?>
 
     <main>
         <?php
@@ -56,7 +80,7 @@
         }
         ?>
 
-        <form id="registro-form" action="res_registro.php" method="POST">
+        <form id="registro-form" action="res_registro.php" method="POST" enctype="multipart/form-data">
             <label for="usuario">Nombre de usuario:</label>
             <input type="text" id="usuario" name="usuario" placeholder="Nombre de usuario">
 
@@ -72,9 +96,9 @@
             <label for="sexo">Sexo:</label>
             <select id="sexo" name="sexo">
                 <option value="">Selecciona tu sexo</option>
-                <option value="masculino">Masculino</option>
-                <option value="femenino">Femenino</option>
-                <option value="otro">Otro</option>
+                <option value="0">Masculino</option>
+                <option value="1">Femenino</option>
+                <option value="2">Otro</option>
             </select>
 
             <label for="fecha_nacimiento">Fecha de nacimiento:</label>
@@ -84,10 +108,24 @@
             <input type="text" id="ciudad" name="ciudad">
 
             <label for="pais">País:</label>
-            <input type="text" id="pais" name="pais">
+            <select id="pais" name="pais">
+                <option value="">-- Seleccione un país --</option>
+                <?php if (empty($paises)): ?>
+                    <option value="" disabled>Error al cargar países</option>
+                <?php else: ?>
+                    <?php foreach ($paises as $pais_item): ?>
+                        <option value="<?php echo $pais_item['IdPais']; ?>">
+                            <?php echo htmlspecialchars($pais_item['NomPais']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
 
             <label for="foto">Foto de perfil:</label>
             <input type="file" id="foto" name="foto" accept="image/*">
+
+            <!-- Campo oculto para el estilo por defecto -->
+            <input type="hidden" name="estilo" value="<?php echo $estilo_por_defecto; ?>">
 
             <button type="submit">Registrarse</button>
         </form>

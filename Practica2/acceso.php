@@ -17,74 +17,87 @@ if (trim($usuario) === "" || trim($clave) === "") {
     exit();
 }
 
-// Verificar existencia del fichero de usuarios
-$fichero = "usuarios.txt";
-if (!file_exists($fichero)) {
-    $_SESSION['error_login'] = "Error interno: Fichero de credenciales no disponible.";
+// Conexión a la base de datos usando mysqli
+require_once __DIR__ . '/db.php';
+$db = conectarDB();
+
+if (!$db) {
+    $_SESSION['error_login'] = "Error interno: No se pudo conectar con la base de datos.";
     header("Location: $index_page");
     exit();
 }
 
-// Validar credenciales
-$usuarios_validos = file($fichero, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+// Consulta con sentencia preparada y JOIN con ESTILOS
+$sql = "SELECT u.IdUsuario, u.NomUsuario, u.Clave, u.Email, e.Fichero 
+        FROM USUARIOS u 
+        INNER JOIN ESTILOS e ON u.Estilo = e.IdEstilo 
+        WHERE u.NomUsuario = ?";
+$stmt = $db->prepare($sql);
+
+if (!$stmt) {
+    $_SESSION['error_login'] = "Error interno en la consulta.";
+    $db->close();
+    header("Location: $index_page");
+    exit();
+}
+
+$stmt->bind_param("s", $usuario);
+$stmt->execute();
+$resultado = $stmt->get_result();
+
 $usuario_encontrado = false;
 $acceso_concedido = false;
+$id_usuario = null;
+$fichero_estilo = 'normal'; // Valor por defecto
 
-foreach ($usuarios_validos as $linea) {
-    list($u, $p) = explode(":", $linea, 2);
-
-    if (trim($u) === $usuario) {
-        $usuario_encontrado = true;
-
-        if (trim($p) === $clave) {
-            $acceso_concedido = true;
-        }
-        break;
+if ($fila = $resultado->fetch_assoc()) {
+    $usuario_encontrado = true;
+    
+    // Verificar contraseña encriptada con password_verify()
+    if (password_verify($clave, $fila['Clave'])) {
+        $acceso_concedido = true;
+        $id_usuario = $fila['IdUsuario'];
+        
+        // Obtener el nombre del estilo sin la extensión .css
+        $fichero_estilo = pathinfo($fila['Fichero'], PATHINFO_FILENAME);
     }
 }
+
+$stmt->close();
+$db->close();
 
 if ($acceso_concedido) {
     // Establecer sesión de usuario autenticado
     $_SESSION['usuario_autenticado'] = true;
     $_SESSION['nombre_usuario'] = $usuario;
-
-    if ($usuario === 'santino') {
-        $_SESSION['estilo_css'] = 'contraste_alto';
-    } elseif ($usuario === 'mario') {
-        $_SESSION['estilo_css'] = 'letra_grande';
-    } else {
-        // Estilo por defecto para otros usuarios
-        $_SESSION['estilo_css'] = 'normal';
-    }
-
+    $_SESSION['usuario_id'] = $id_usuario; // Para usar en otras páginas
+    $_SESSION['estilo_css'] = $fichero_estilo;
 
     // --- LÓGICA DE ÚLTIMA VISITA ---
     // 1. En login manual, NO mostramos visita anterior.
     unset($_SESSION['visita_para_mostrar']);
 
     // 2. Guardamos la hora ACTUAL para la PRÓXIMA visita (en sesión y cookie si aplica)
-    date_default_timezone_set('Europe/Madrid'); // Cambia a tu zona local si es necesario
+    date_default_timezone_set('Europe/Madrid');
 
     $hora_actual = new DateTime('now', new DateTimeZone(date_default_timezone_get()));
-    $hora_actual_str = $hora_actual->format('Y-m-d H:i:s'); // Ej: 2025-11-07 18:30:45
+    $hora_actual_str = $hora_actual->format('Y-m-d H:i:s');
     $hora_actual_ts = $hora_actual->getTimestamp();
 
-    $_SESSION['ultima_visita'] = $hora_actual_str; // Fecha legible
-    // --- FIN LÓGICA DE VISITA ---
+    $_SESSION['ultima_visita'] = $hora_actual_str;
 
-
-    // Lógica para "Recordarme" con tokens seguros (C1)
+    // Lógica para "Recordarme" con tokens seguros
     if ($recordarme) {
         // Generar token seguro
         $token = bin2hex(random_bytes(32));
         $expiracion = time() + (90 * 24 * 60 * 60); // 90 días
 
-        // Crear cookie con token (NO usuario/contraseña)
+        // Crear cookie con token
         setcookie('recordarme_token', $token, [
             'expires' => $expiracion,
             'path' => '/',
-            'secure' => false,    // Cambiar a true en producción con HTTPS
-            'httponly' => true,   // No accesible por JavaScript
+            'secure' => false,
+            'httponly' => true,
             'samesite' => 'Lax'
         ]);
 
@@ -93,17 +106,17 @@ if ($acceso_concedido) {
         file_put_contents('tokens.txt', $token_data, FILE_APPEND | LOCK_EX);
 
         // También guardar timestamp de última visita para la cookie
-        setcookie('ultima_visita_timestamp', $hora_actual_ts, [ // <-- USA la hora actual
+        setcookie('ultima_visita_timestamp', $hora_actual_ts, [
             'expires' => $expiracion,
             'path' => '/',
             'httponly' => true
         ]);
         
         $expiracion_estilo = time() + (90 * 24 * 60 * 60);
-        setcookie('estilo_css', $_SESSION['estilo_css'], [
+        setcookie('estilo_css', $fichero_estilo, [
             'expires' => $expiracion_estilo,
             'path' => '/',
-            'httponly' => false,  // Permitimos acceso desde JS o CSS si hace falta
+            'httponly' => false,
             'samesite' => 'Lax'
         ]);
     }
@@ -126,3 +139,4 @@ if ($acceso_concedido) {
     header("Location: $registro_page");
     exit();
 }
+?>

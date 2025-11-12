@@ -1,0 +1,110 @@
+/* Script para crear las 10 tablas en 'pibd' */
+
+CREATE TABLE PAISES (
+    IdPais INT AUTO_INCREMENT PRIMARY KEY,
+    NomPais VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE ESTILOS (
+    IdEstilo INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Descripcion TEXT,
+    Fichero VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE TIPOSANUNCIOS (
+    IdTAnuncio SMALLINT AUTO_INCREMENT PRIMARY KEY,
+    NomTAnuncio VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE TIPOSVIVIENDAS (
+    IdTVivienda SMALLINT AUTO_INCREMENT PRIMARY KEY,
+    NomTVivienda VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE TIPOSMENSAJES (
+    IdTMensaje SMALLINT AUTO_INCREMENT PRIMARY KEY,
+    NomTMensaje VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE USUARIOS (
+    IdUsuario INT AUTO_INCREMENT PRIMARY KEY,
+    NomUsuario VARCHAR(15) NOT NULL UNIQUE,
+    Clave VARCHAR(255) NOT NULL,
+    Email VARCHAR(254) NOT NULL,
+    Sexo SMALLINT,
+    FNacimiento DATE,
+    Ciudad VARCHAR(100),
+    Pais INT,
+    Foto VARCHAR(100),
+    FRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Estilo INT,
+    FOREIGN KEY (Pais) REFERENCES PAISES(IdPais),
+    FOREIGN KEY (Estilo) REFERENCES ESTILOS(IdEstilo)
+);
+
+CREATE TABLE ANUNCIOS (
+    IdAnuncio INT AUTO_INCREMENT PRIMARY KEY,
+    TAnuncio SMALLINT,
+    TVivienda SMALLINT,
+    FPrincipal VARCHAR(100),
+    Alternativo VARCHAR(255) NOT NULL,
+    Titulo VARCHAR(255) NOT NULL,
+    Precio DECIMAL(10, 2),
+    Texto TEXT,
+    Ciudad VARCHAR(100),
+    Pais INT,
+    Superficie DECIMAL(8, 2),
+    NHabitaciones INT,
+    NBanyos INT,
+    Planta INT,
+    Anyo INT,
+    FRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Usuario INT,
+    FOREIGN KEY (TAnuncio) REFERENCES TIPOSANUNCIOS(IdTAnuncio),
+    FOREIGN KEY (TVivienda) REFERENCES TIPOSVIVIENDAS(IdTVivienda),
+    FOREIGN KEY (Pais) REFERENCES PAISES(IdPais),
+    FOREIGN KEY (Usuario) REFERENCES USUARIOS(IdUsuario)
+);
+
+CREATE TABLE FOTOS (
+    IdFoto INT AUTO_INCREMENT PRIMARY KEY,
+    Titulo VARCHAR(255),
+    Foto VARCHAR(100) NOT NULL,
+    Alternativo VARCHAR(255) NOT NULL,
+    Anuncio INT NOT NULL,
+    FOREIGN KEY (Anuncio) REFERENCES ANUNCIOS(IdAnuncio)
+);
+
+CREATE TABLE SOLICITUDES (
+    IdSolicitud INT AUTO_INCREMENT PRIMARY KEY,
+    Anuncio INT,
+    Texto TEXT,
+    Nombre VARCHAR(200),
+    Email VARCHAR(254),
+    Direccion TEXT,
+    Telefono VARCHAR(20),
+    Color VARCHAR(7),
+    Copias INT,
+    Resolucion INT,
+    Fecha DATE,
+    IColor TINYINT(1),
+    IPrecio TINYINT(1),
+    FRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Coste DECIMAL(10, 2),
+    FOREIGN KEY (Anuncio) REFERENCES ANUNCIOS(IdAnuncio)
+);
+
+CREATE TABLE MENSAJES (
+    IdMensaje INT AUTO_INCREMENT PRIMARY KEY,
+    TMensaje SMALLINT,
+    Texto TEXT,
+    Anuncio INT,
+    UsuOrigen INT,
+    UsuDestino INT,
+    FRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (TMensaje) REFERENCES TIPOSMENSAJES(IdTMensaje),
+    FOREIGN KEY (Anuncio) REFERENCES ANUNCIOS(IdAnuncio),
+    FOREIGN KEY (UsuOrigen) REFERENCES USUARIOS(IdUsuario),
+    FOREIGN KEY (UsuDestino) REFERENCES USUARIOS(IdUsuario)
+);

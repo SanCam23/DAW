@@ -173,7 +173,12 @@ if ($anuncio === null) {
                     </ul>
                 </section>
 
-                <p><strong>Publicado por:</strong> <?php echo htmlspecialchars($anuncio["NomUsuario"]); ?></p>
+                <p>
+                    <strong>Publicado por:</strong>
+                    <a href="perfil_usuario.php?id=<?php echo $anuncio['Usuario']; ?>">
+                        <?php echo htmlspecialchars($anuncio["NomUsuario"]); ?>
+                    </a>
+                </p>
             </section>
         </article>
 

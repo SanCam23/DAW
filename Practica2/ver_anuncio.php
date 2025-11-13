@@ -107,7 +107,7 @@ if ($anuncio === null) {
                 
                 <?php if (!empty($fotos)): ?>
                     <p>
-                        <a href="ver_fotos.php?id=<?php echo $anuncio['IdAnuncio']; ?>">
+                        <a href="ver_fotos_privada.php?id=<?php echo $anuncio['IdAnuncio']; ?>">
                             Ver todas las fotos (<?php echo count($fotos); ?>)
                         </a>
                     </p>
@@ -145,6 +145,12 @@ if ($anuncio === null) {
                         <?php endif; ?>
                     </ul>
                 </section>
+
+                <p>
+                    <a href="mensajes_anuncio.php?id=<?php echo $anuncio['IdAnuncio']; ?>">
+                        Ver mensajes recibidos
+                    </a>
+                </p>
 
                 <p><a href="añadir_foto.php?id=<?php echo $anuncio['IdAnuncio']; ?>">Añadir foto a este anuncio</a></p>
             </section>

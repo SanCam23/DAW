@@ -300,6 +300,72 @@ footer {
     border-left: 4px solid #ffeb3b !important;
 }
 
+/* ===== MENSAJES ANUNCIO ===== */
+.info-anuncio {
+    background: #333 !important;
+    border-left: 4px solid #ffeb3b !important;
+}
+
+.info-anuncio h3 {
+    color: #ffeb3b !important;
+}
+
+.info-anuncio p {
+    color: #fff !important;
+}
+
+.info-anuncio strong {
+    color: #ffeb3b !important;
+}
+
+.lista-mensajes h3 {
+    color: #ffeb3b !important;
+}
+
+.mensaje-item {
+    background: #333 !important;
+    border: 2px solid #ffcc00 !important;
+}
+
+.mensaje-header {
+    border-bottom: 1px solid #ffcc00 !important;
+}
+
+.mensaje-header h4 {
+    color: #ffeb3b !important;
+}
+
+.fecha {
+    color: #ccc !important;
+}
+
+.mensaje-remitente {
+    color: #fff !important;
+}
+
+.mensaje-remitente strong {
+    color: #ffeb3b !important;
+}
+
+.mensaje-remitente a {
+    color: #ffeb3b !important;
+}
+
+.mensaje-texto {
+    background: #444 !important;
+    border-left: 3px solid #ffeb3b !important;
+}
+
+.mensaje-texto p {
+    color: #fff !important;
+}
+
+.sin-mensajes {
+    background: #333 !important;
+    border: 2px dashed #ffcc00 !important;
+    color: #ccc !important;
+}
+
 @media (max-width: 767px) {
     .menu-escritorio {
         display: none;

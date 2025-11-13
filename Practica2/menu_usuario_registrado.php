@@ -37,8 +37,9 @@ require_once 'verificar_sesion.php';
             <h2>Menú de usuario registrado</h2>
             <section>
                 <ul>
-                    <li><a id="opcion" href="404.php">Modificar mis datos</a></li>
+                    <li><a id="opcion" href="mis_datos.php">Modificar mis datos</a></li>
                     <li><a id="opcion" href="404.php">Darme de baja</a></li>
+                    <li><a id="opcion" href="configurar.php">Configurar estilo visual</a></li>
                     <li><a id="opcion" href="misanuncios.php">Visualizar mis anuncios</a></li>
                     <li><a id="opcion" href="crear_anuncio.php">Crear un anuncio nuevo</a></li>
                     <li><a id="opcion" href="mensajes.php">Mis mensajes</a></li>

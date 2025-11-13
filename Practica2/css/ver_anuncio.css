@@ -1,5 +1,5 @@
 /* Contenedor principal del artículo */
-article {
+main {
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
@@ -13,7 +13,8 @@ article {
 
 /* Columna izquierda: foto principal y galería */
 .col-izquierda {
-    flex: 1 1 300px; /* crece pero no menos de 300px */
+    flex: 1 1 300px;
+    /* crece pero no menos de 300px */
     max-width: 480px;
 }
 
@@ -21,7 +22,7 @@ article {
     width: 100%;
     border-radius: 8px;
     object-fit: cover;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Galería de imágenes */
@@ -64,7 +65,8 @@ article {
     color: #1b9986;
 }
 
-.descripcion p, .info-general p {
+.descripcion p,
+.info-general p {
     margin: 0.3rem 0;
 }
 
@@ -99,7 +101,8 @@ article {
         flex-direction: column;
     }
 
-    .col-izquierda, .col-derecha {
+    .col-izquierda,
+    .col-derecha {
         max-width: 100%;
     }
 

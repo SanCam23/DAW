@@ -143,8 +143,7 @@ if ($db) {
                     </section>
 
             <?php
-                } // Fin del foreach
-
+                }
             } else {
                 // Si la BD no devolvió nada (pero la conexión fue bien)
                 echo "<p>No hay anuncios disponibles en este momento.</p>";

@@ -105,6 +105,7 @@ if ($anuncio === null) {
     <meta name="author" content="Mario Laguna Contreras">
     <title><?php echo htmlspecialchars($anuncio["Titulo"]); ?> - VENTAPLUS</title>
     <?php require('estilos.php'); ?>
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/anuncio.css">
     <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
 </head>
@@ -191,9 +192,10 @@ if ($anuncio === null) {
             <h3>Enviar mensaje</h3>
             <p><a href="enviar.php">Ir al formulario de contacto</a></p>
         </section>
+
+        <?php require_once 'panel_visitados.php'; ?>
     </main>
 
-    <?php require_once 'panel_visitados.php'; ?>
     <?php require('pie.php'); ?>
 </body>
 

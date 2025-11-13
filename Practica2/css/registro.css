@@ -115,6 +115,7 @@ main {
     border-radius: 8px;
     max-width: 600px;
 }
+
 a.volver {
     display: inline-block;
     margin-top: 20px;
@@ -124,6 +125,7 @@ a.volver {
     border-radius: 6px;
     text-decoration: none;
 }
+
 a.volver:hover {
     background-color: #157568;
 }

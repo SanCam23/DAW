@@ -1,15 +1,46 @@
 <?php
+
+session_start();
+require_once __DIR__ . '/db.php';
+
+require_once 'verificar_sesion.php';
+
+// Si el script de verificación pasa, tenemos garantizado que $_SESSION['usuario_id'] existe.
+$id_usuario_logueado = $_SESSION['usuario_id'];
+
+
+/* Lógica de BD para obtener los anuncios del usuario */
+$db = conectarDB();
+$anuncios_usuario = [];
+
+if ($db) {
+    /* Muestra un listado con todos los anuncios del usuario */
+    $sql = "SELECT IdAnuncio, Titulo FROM ANUNCIOS WHERE Usuario = ? ORDER BY Titulo ASC";
+
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("i", $id_usuario_logueado);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado && $resultado->num_rows > 0) {
+        $anuncios_usuario = $resultado->fetch_all(MYSQLI_ASSOC);
+    }
+
+    $stmt->close();
+    $db->close();
+}
+
+
+// Calculo de tarifas ---
 $tarifas = array(
     "envio" => 10,
     "paginas" => array("p1a4" => 2.0, "p5a10" => 1.8, "p11ymas" => 1.6),
     "color" => array("bn" => 0, "color" => 0.5),
     "resol" => array("baja" => 0, "alta" => 0.2)
 );
-
 function calcularCoste($pags, $fotos, $color, $resol, $t)
 {
     $costePaginas = 0;
-
     if ($pags <= 4) {
         $costePaginas = $pags * $t["paginas"]["p1a4"];
     } elseif ($pags <= 10) {
@@ -20,13 +51,10 @@ function calcularCoste($pags, $fotos, $color, $resol, $t)
         $costePaginas += 6 * $t["paginas"]["p5a10"];
         $costePaginas += ($pags - 10) * $t["paginas"]["p11ymas"];
     }
-
     $costeColor = ($color == "color") ? $fotos * $t["color"]["color"] : 0;
     $costeResol = ($resol == "alta") ? $fotos * $t["resol"]["alta"] : 0;
-
     return $t["envio"] + $costePaginas + $costeColor + $costeResol;
 }
-
 $paginas = range(1, 15);
 $fotos = array();
 for ($i = 0; $i < 15; $i++) {
@@ -38,11 +66,7 @@ for ($i = 0; $i < 15; $i++) {
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="VENTAPLUS: portal de anuncios de venta y alquiler de viviendas. Busca tu próximo hogar fácilmente.">
-    <meta name="keywords" content="viviendas, pisos, casas, alquiler, compra, venta, inmuebles">
-    <meta name="author" content="Santino Campessi Lojo">
-    <meta name="author" content="Mario Laguna Contreras">
+    <meta name="viewport" content="width=device-width, initial-scale1.0">
     <title>Solicitar Folleto - VENTAPLUS</title>
     <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/solicitar_folleto.css">
@@ -50,11 +74,9 @@ for ($i = 0; $i < 15; $i++) {
 </head>
 
 <body>
-
     <?php
-        $zona = 'privada'; 
-        require('cabecera.php');
-        require_once 'verificar_sesion.php'; 
+    $zona = 'privada';
+    require('cabecera.php');
     ?>
 
     <main>
@@ -116,7 +138,6 @@ for ($i = 0; $i < 15; $i++) {
             </table>
         </section>
 
-
         <section id="tabla-costes-php">
             <h3>Tabla de costes (generada con PHP)</h3>
             <table border="1">
@@ -139,16 +160,12 @@ for ($i = 0; $i < 15; $i++) {
                     foreach ($paginas as $i => $p) {
                         echo "<tr>";
                         echo "<td>$p</td><td>{$fotos[$i]}</td>";
-
                         $coste = calcularCoste($p, $fotos[$i], "bn", "baja", $tarifas);
                         echo "<td>" . number_format($coste, 2, ',', '.') . " €</td>";
-
                         $coste = calcularCoste($p, $fotos[$i], "bn", "alta", $tarifas);
                         echo "<td>" . number_format($coste, 2, ',', '.') . " €</td>";
-
                         $coste = calcularCoste($p, $fotos[$i], "color", "baja", $tarifas);
                         echo "<td>" . number_format($coste, 2, ',', '.') . " €</td>";
-
                         $coste = calcularCoste($p, $fotos[$i], "color", "alta", $tarifas);
                         echo "<td>" . number_format($coste, 2, ',', '.') . " €</td>";
                         echo "</tr>";
@@ -170,10 +187,8 @@ for ($i = 0; $i < 15; $i++) {
                     <legend>Datos personales</legend>
                     <label for="nombre">Nombre completo*:</label>
                     <input type="text" id="nombre" name="nombre" maxlength="200"><br><br>
-
                     <label for="email">Correo electrónico*:</label>
                     <input type="text" id="email" name="email" maxlength="200"><br><br>
-
                     <label for="telefono">Teléfono:</label>
                     <input type="tel" id="telefono" name="telefono"><br><br>
                 </fieldset>
@@ -182,19 +197,14 @@ for ($i = 0; $i < 15; $i++) {
                     <legend>Dirección de envío</legend>
                     <label for="calle">Calle*:</label>
                     <input type="text" id="calle" name="calle"><br><br>
-
                     <label for="numero">Número*:</label>
                     <input type="text" id="numero" name="numero"><br><br>
-
                     <label for="cp">Código postal*:</label>
                     <input type="text" id="cp" name="cp"><br><br>
-
                     <label for="localidad">Localidad*:</label>
                     <input type="text" id="localidad" name="localidad"><br><br>
-
                     <label for="provincia">Provincia*:</label>
                     <input type="text" id="provincia" name="provincia"><br><br>
-
                     <label for="pais">País*:</label>
                     <select id="pais" name="pais">
                         <option value="">Seleccione</option>
@@ -209,20 +219,24 @@ for ($i = 0; $i < 15; $i++) {
                     <legend>Opciones del folleto</legend>
                     <label for="color">Color de la portada:</label>
                     <input type="color" id="color" name="color" value="#000000"><br><br>
-
                     <label for="copias">Número de copias (1-99):</label>
                     <input type="number" id="copias" name="copias" min="1" max="99" value="1"><br><br>
-
                     <label for="resolucion">Resolución de las fotos (150-900 DPI):</label>
                     <input type="range" id="resolucion" name="resolucion" min="150" max="900" step="150" value="150">
                     <output for="resolucion">150 DPI</output><br><br>
 
                     <label for="anuncio">Anuncio a imprimir*:</label>
                     <select id="anuncio" name="anuncio">
-                        <option value="">Seleccione un anuncio</option>
-                        <option value="1">Vivienda en Madrid</option>
-                        <option value="2">Piso en Barcelona</option>
-                        <option value="3">Casa en Sevilla</option>
+                        <option value="">-- Seleccione un anuncio --</option>
+                        <?php if (empty($anuncios_usuario)): ?>
+                            <option value="" disabled>No tienes anuncios para imprimir</option>
+                        <?php else: ?>
+                            <?php foreach ($anuncios_usuario as $anuncio_item): ?>
+                                <option value="<?php echo $anuncio_item['IdAnuncio']; ?>">
+                                    <?php echo htmlspecialchars($anuncio_item['Titulo']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </select><br><br>
 
                     <label for="fecha">Fecha de recepción deseada:</label>
@@ -254,7 +268,6 @@ for ($i = 0; $i < 15; $i++) {
         <button class="cerrar" id="cerrarModal">Cerrar</button>
     </dialog>
 
-    <!-- <script src="./js/solicitar_folleto.js"></script> -->
 </body>
 
 </html>

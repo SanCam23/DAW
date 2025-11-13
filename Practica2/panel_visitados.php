@@ -1,42 +1,82 @@
 <?php
-require_once 'anuncios.php';
+require_once __DIR__ . '/db.php';
 
-// 2. Comprobamos si la cookie existe y no está vacía
+// 1. Comprobamos si la cookie existe y no está vacía
 if (isset($_COOKIE['ultimos_visitados']) && $_COOKIE['ultimos_visitados'] !== '[]') {
-    
-    // 3. Decodificamos el JSON
+
+    // 2. Decodificamos el JSON
     $visitados = json_decode($_COOKIE['ultimos_visitados'], true);
 
     if (is_array($visitados) && !empty($visitados)) {
-        
-        // 4. Invertimos el array para mostrar los más nuevos primero
+
+        // 3. Invertimos el array para mostrar los más nuevos primero
         $visitados = array_reverse($visitados);
-        
-        // 5. Empezamos a dibujar el panel
+
+        // 4. Conectamos a la BD para buscar ESTOS IDs
+        $db = conectarDB();
+        $anuncios_visitados = [];
+
+        if ($db) {
+            /* 5. Preparamos una consulta IN () para traer solo los anuncios que están en nuestra cookie, de forma segura */
+            // Creamos los placeholders: (?,?,?,?)
+            $placeholders = implode(',', array_fill(0, count($visitados), '?'));
+
+            // Creamos los tipos: "iiii"
+            $types = str_repeat('i', count($visitados));
+
+            $sql = "SELECT a.IdAnuncio, a.Titulo, a.FPrincipal, a.Alternativo, 
+                           a.Ciudad, a.Precio, p.NomPais
+                    FROM ANUNCIOS a
+                    LEFT JOIN PAISES p ON a.Pais = p.IdPais
+                    WHERE a.IdAnuncio IN ($placeholders)";
+
+            $stmt = $db->prepare($sql);
+
+            // $visitados "desempaqueta" el array [5, 4, 3] en argumentos
+            $stmt->bind_param($types, ...$visitados);
+
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            // Mapa para reordenar los resultados
+            // (Ej: [ 5 => [datos_anuncio_5], 3 => [datos_anuncio_3] ])
+            if ($resultado) {
+                while ($row = $resultado->fetch_assoc()) {
+                    $anuncios_visitados[$row['IdAnuncio']] = $row;
+                }
+            }
+            $stmt->close();
+            $db->close();
+        }
+
+        // 6. Empezamos a dibujar el panel
         echo '<section id="ultimos-anuncios">';
         echo '<h2 style="width: 100%; text-align: center;">Últimos anuncios visitados</h2>';
 
-        // 6. Recorremos los IDs guardados
+        /*
+         * 7. Recorremos el array de la cookie (que tiene el orden correcto)
+         * y usamos el "mapa" de anuncios que trajimos de la BD.
+         */
         foreach ($visitados as $id) {
-            
-            // 7. Obtenemos los datos del anuncio
-            // Si el ID es par, anuncio 2; si es impar, anuncio 1.
-            $id = (int)$id;
-            $anuncio_visitado = ($id % 2 == 0) ? $anuncios[2] : $anuncios[1];
 
-            // 8. Mostramos el anuncio
-            echo '<section class="anuncio">';
-            echo '  <figure>';
-            echo '    <img src="' . $anuncio_visitado["foto_principal"] . '" alt="Foto de ' . $anuncio_visitado["titulo"] . '">';
-            echo '  </figure>';
-            echo '  <h3>' . $anuncio_visitado["titulo"] . '</h3>';
-            echo '  <p>Ciudad: ' . $anuncio_visitado["ciudad"] . '</p>';
-            echo '  <p>País: ' . $anuncio_visitado["pais"] . '</p>';
-            echo '  <p>Precio: ' . $anuncio_visitado["precio"] . '</p>';
-            echo '  <a href="detalle_anuncio.php?id=' . $id . '">Ver detalle</a>';
-            echo '</section>';
+            // Si el anuncio existe en nuestro mapa, lo mostramos
+            if (isset($anuncios_visitados[$id])) {
+                $anuncio = $anuncios_visitados[$id];
+?>
+                <section class="anuncio">
+                    <figure>
+                        <img src="<?php echo htmlspecialchars($anuncio["FPrincipal"]); ?>" alt="<?php echo htmlspecialchars($anuncio["Alternativo"]); ?>">
+                    </figure>
+                    <h3><?php echo htmlspecialchars($anuncio["Titulo"]); ?></h3>
+                    <p>Ciudad: <?php echo htmlspecialchars($anuncio["Ciudad"]); ?></p>
+                    <p>País: <?php echo htmlspecialchars($anuncio["NomPais"]); ?></p>
+                    <p>Precio: <?php echo number_format($anuncio["Precio"], 0, ',', '.'); ?> €</p>
+                    <a href="detalle_anuncio.php?id=<?php echo $anuncio["IdAnuncio"]; ?>">Ver detalle</a>
+                </section>
+<?php
+            }
         }
-        
+
         echo '</section>';
     }
 }

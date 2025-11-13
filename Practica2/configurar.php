@@ -35,6 +35,9 @@ if ($db && isset($_SESSION['usuario_id'])) {
 }
 
 $zona = 'privada';
+
+
+$clase_contraste = ($estilo_actual === 'Alto contraste') ? 'inicio' : '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -55,7 +58,7 @@ $zona = 'privada';
 <body>
     <?php require('cabecera.php'); ?>
 
-    <main>
+    <main class="<?php echo $clase_contraste; ?>">
         <h2>Configurar estilo visual</h2>
         
         <section class="estilo-actual">
@@ -71,19 +74,18 @@ $zona = 'privada';
             <?php else: ?>
                 <div class="estilos-grid">
                     <?php foreach ($estilos as $estilo): ?>
-                        <article class="estilo-item <?php echo $estilo['Nombre'] == $estilo_actual ? 'estilo-activo' : ''; ?>">
+                        <article class="estilo-item anuncio <?php echo $estilo['Nombre'] == $estilo_actual ? 'estilo-activo' : ''; ?>">
                             <h4><?php echo $estilo['Nombre']; ?></h4>
                             <?php if (!empty($estilo['Descripcion'])): ?>
                                 <p class="descripcion"><?php echo $estilo['Descripcion']; ?></p>
                             <?php endif; ?>
-                            <p class="fichero"><small>Archivo: <?php echo $estilo['Fichero']; ?></small></p>
                             
                             <?php if ($estilo['Nombre'] == $estilo_actual): ?>
-                                <div class="estado-activo">✓ Actualmente activo</div>
+                                <div class="estado-activo"> Actualmente activo</div>
                             <?php else: ?>
                                 <form action="#" method="POST" style="display: inline;">
                                     <input type="hidden" name="cambiar_estilo" value="<?php echo $estilo['IdEstilo']; ?>">
-                                    <button type="submit" disabled class="btn-cambiar">Seleccionar este estilo</button>
+                                    <button type="submit" disabled class="btn-cambiar alto-contraste-boton">Seleccionar este estilo</button>
                                 </form>
                             <?php endif; ?>
                         </article>
@@ -92,12 +94,8 @@ $zona = 'privada';
             <?php endif; ?>
         </section>
         
-        <p class="nota" style="text-align: center; color: #7f8c8d; font-style: italic; margin: 20px 0;">
-            La selección de estilos estará disponible en la próxima práctica.
-        </p>
-        
         <p style="text-align: center; margin-top: 20px;">
-            <a href="menu_usuario_registrado.php" class="volver">Volver al menú de usuario</a>
+            <a href="menu_usuario_registrado.php" class="volver alto-contraste-boton">Volver al menú de usuario</a>
         </p>
     </main>
 

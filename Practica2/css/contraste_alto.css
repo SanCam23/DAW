@@ -295,6 +295,11 @@ footer {
     }
 }
 
+.estilo-actual {
+    background: grey !important;
+    border-left: 4px solid #ffeb3b !important;
+}
+
 @media (max-width: 767px) {
     .menu-escritorio {
         display: none;

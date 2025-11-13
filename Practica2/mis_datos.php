@@ -49,7 +49,7 @@ if ($usuario === null) {
 $fecha_nacimiento_formateada = $usuario['FNacimiento'] ? date("d/m/Y", strtotime($usuario['FNacimiento'])) : '';
 $fecha_registro_formateada = $usuario['FRegistro'] ? date("d/m/Y", strtotime($usuario['FRegistro'])) : '';
 
-// Mapear sexo a texto (igual que en registro.php)
+// Mapear sexo a texto 
 $sexo_texto = '';
 switch ($usuario['Sexo']) {
     case 1:
@@ -107,7 +107,7 @@ $zona = 'privada';
         </section>
 
 
-        <!-- Formulario deshabilitado (igual que registro.php) -->
+        <!-- Formulario deshabilitado -->
         <form id="form-mis-datos" action="#" method="POST" enctype="multipart/form-data" style="opacity: 0.6; pointer-events: none;">
             <h3>Modificar mis datos</h3>
 

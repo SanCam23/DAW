@@ -1,5 +1,4 @@
 <?php
-// Archivo: acceso.php
 session_start();
 
 $usuario = $_POST["usuario"] ?? "";
@@ -48,7 +47,7 @@ $resultado = $stmt->get_result();
 $usuario_encontrado = false;
 $acceso_concedido = false;
 $id_usuario = null;
-$fichero_estilo = 'normal'; // Valor por defecto
+$fichero_estilo = 'normal';
 
 if ($fila = $resultado->fetch_assoc()) {
     $usuario_encontrado = true;
@@ -73,11 +72,10 @@ if ($acceso_concedido) {
     $_SESSION['usuario_id'] = $id_usuario; // Para usar en otras páginas
     $_SESSION['estilo_css'] = $fichero_estilo;
 
-    // --- LÓGICA DE ÚLTIMA VISITA ---
     // 1. En login manual, NO mostramos visita anterior.
     unset($_SESSION['visita_para_mostrar']);
 
-    // 2. Guardamos la hora ACTUAL para la PRÓXIMA visita (en sesión y cookie si aplica)
+    // 2. Guardamos la hora ACTUAL para la PRÓXIMA visita
     date_default_timezone_set('Europe/Madrid');
 
     $hora_actual = new DateTime('now', new DateTimeZone(date_default_timezone_get()));

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/db.php';
 
-// 1. Obtener y validar el ID del anuncio de la URL
+//Obtener y validar el ID del anuncio de la URL
 $id_anuncio = $_GET['id'] ?? 0;
 $id_anuncio = (int)$id_anuncio;
 
@@ -10,14 +10,14 @@ if ($id_anuncio <= 0) {
     exit;
 }
 
-// 2. Conectar a la BD
+//Conectar a la BD
 $db = conectarDB();
 $anuncio = null;
 $fotos = [];
 $total_fotos = 0;
 
 if ($db) {
-    /* 3. Obtener "información básica del anuncio" */
+    /*Obtener "información básica del anuncio" */
     $sql_anuncio = "SELECT Titulo, Precio FROM ANUNCIOS WHERE IdAnuncio = ?";
     $stmt_anuncio = $db->prepare($sql_anuncio);
     $stmt_anuncio->bind_param("i", $id_anuncio);
@@ -29,7 +29,7 @@ if ($db) {
     }
     $stmt_anuncio->close();
 
-    /* 4. Obtener "todas las fotos" y el "número total" */
+    /*Obtener "todas las fotos" y el "número total" */
     if ($anuncio) {
         $sql_fotos = "SELECT Foto, Alternativo, Titulo FROM FOTOS WHERE Anuncio = ?";
         $stmt_fotos = $db->prepare($sql_fotos);

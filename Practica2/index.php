@@ -1,10 +1,6 @@
 <?php
 session_start();
 
-/*
- * TAREA 1 (Persona 2): Incluir el conector de BD.
- * db.php ya incluye config.php, así que solo necesitamos este.
- */
 require_once __DIR__ . '/db.php';
 
 if (!isset($_SESSION['estilo_css']) && isset($_COOKIE['estilo_css'])) {
@@ -13,21 +9,17 @@ if (!isset($_SESSION['estilo_css']) && isset($_COOKIE['estilo_css'])) {
     $_SESSION['estilo_css'] = 'normal';
 }
 
-/*
- * TAREA 1 (Persona 2): Conectar a la BD y preparar datos.
- */
+// Conectar a la BD y preparar datos.
 $db = conectarDB();
 $anuncios = []; // Array para guardar los anuncios
 
 if ($db) {
-    /*
-     * TAREA 1 (Persona 2): Preparar la consulta SQL.
-     * Requisito: Obtener resumen de los 5 últimos anuncios.
-     * Pedimos Id, Titulo, Foto(FPrincipal), Alternativo, Ciudad, Precio y Fecha(FRegistro).
-     * También pedimos el Nombre del País (NomPais) usando un JOIN con la tabla PAISES.
-     * Ordenamos por FRegistro DESC (descendente) para obtener los más nuevos.
-     * Limitamos a 5 resultados.
-     */
+    // Preparar la consulta SQL.
+    // Obtener resumen de los 5 últimos anuncios.
+    // Pedimos Id, Titulo, Foto(FPrincipal), Alternativo, Ciudad, Precio y Fecha(FRegistro).
+    // También pedimos el Nombre del País (NomPais) usando un JOIN con la tabla PAISES.
+    // Ordenamos por FRegistro DESC (descendente) para obtener los más nuevos.
+    //  Limitamos a 5 resultados.
     $sql = "SELECT a.IdAnuncio, a.Titulo, a.FPrincipal, a.Alternativo, a.Ciudad, 
                    a.Precio, a.FRegistro, p.NomPais
             FROM ANUNCIOS a
@@ -41,11 +33,11 @@ if ($db) {
     // Si la consulta fue exitosa y trajo filas, las guardamos
     if ($resultado && $resultado->num_rows > 0) {
         $anuncios = $resultado->fetch_all(MYSQLI_ASSOC);
-        $resultado->close(); // Liberamos memoria [cite: 957, 1083-1084]
+        $resultado->close();
     }
 
     // Cerramos la conexión
-    $db->close(); // [cite: 948, 1085]
+    $db->close();
 }
 
 ?>
@@ -128,17 +120,11 @@ if ($db) {
             <h2>Últimos anuncios</h2>
 
             <?php
-            /*
-             * TAREA 1 (Persona 2): Mostrar los resultados de la BD.
-             * Comprobamos si el array $anuncios tiene contenido.
-             */
+            // Mostrar los resultados de la BD
+            // Comprobamos si el array $anuncios tiene contenido.
             if (!empty($anuncios)) {
 
-                /*
-                 * TAREA 1 (Persona 2): Bucle para mostrar anuncios.
-                 * Recorremos el array y pintamos el HTML.
-                 * [cite: 1000-1001, 1024-1031]
-                 */
+                /* Bucle para mostrar anuncios */
                 foreach ($anuncios as $anuncio) {
 
                     // Formateamos la fecha de registro para que sea legible

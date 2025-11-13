@@ -124,7 +124,6 @@ $zona = 'publica';
             <label for="foto">Foto de perfil:</label>
             <input type="file" id="foto" name="foto" accept="image/*">
 
-            <!-- Campo oculto para el estilo por defecto -->
             <input type="hidden" name="estilo" value="<?php echo $estilo_por_defecto; ?>">
 
             <button type="submit">Registrarse</button>

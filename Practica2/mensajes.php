@@ -1,8 +1,4 @@
 <?php
-/*
- * MODIFICADO: Tarea 8 (Persona 2)
- * Página de "Mis Mensajes" dinámica
- */
 session_start();
 require_once __DIR__ . '/db.php';
 require_once 'verificar_sesion.php'; // Protegemos la página
@@ -18,11 +14,7 @@ $total_enviados = 0;
 $total_recibidos = 0;
 
 if ($db) {
-    /*
-     * 3. Requisito PDF: "agrupados en mensajes enviados..."
-     * Consulta para mensajes ENVIADOS
-     * Unimos con USUARIOS (para saber el Destinatario) y TIPOSMENSAJES (para el tipo)
-     */
+    /* Consulta para mensajes ENVIADOS */
     $sql_enviados = "SELECT m.Texto, m.FRegistro, tm.NomTMensaje, u_dest.NomUsuario AS Destinatario
                      FROM MENSAJES m
                      JOIN TIPOSMENSAJES tm ON m.TMensaje = tm.IdTMensaje
@@ -36,17 +28,13 @@ if ($db) {
     $res_enviados = $stmt_enviados->get_result();
 
     if ($res_enviados) {
-        $total_enviados = $res_enviados->num_rows; // Requisito PDF: "número total de mensajes enviados"
+        $total_enviados = $res_enviados->num_rows; // número total de mensajes enviados
         $mensajes_enviados = $res_enviados->fetch_all(MYSQLI_ASSOC);
         $res_enviados->close();
     }
     $stmt_enviados->close();
 
-    /*
-     * 4. Requisito PDF: "...y mensajes recibidos"
-     * Consulta para mensajes RECIBIDOS
-     * Unimos con USUARIOS (para saber el Emisor) y TIPOSMENSAJES
-     */
+    /* Consulta para mensajes RECIBIDOS */
     $sql_recibidos = "SELECT m.Texto, m.FRegistro, tm.NomTMensaje, u_orig.NomUsuario AS Emisor
                       FROM MENSAJES m
                       JOIN TIPOSMENSAJES tm ON m.TMensaje = tm.IdTMensaje
@@ -60,7 +48,7 @@ if ($db) {
     $res_recibidos = $stmt_recibidos->get_result();
 
     if ($res_recibidos) {
-        $total_recibidos = $res_recibidos->num_rows; // Requisito PDF: "número total de mensajes recibidos"
+        $total_recibidos = $res_recibidos->num_rows; // número total de mensajes recibidos
         $mensajes_recibidos = $res_recibidos->fetch_all(MYSQLI_ASSOC);
         $res_recibidos->close();
     }

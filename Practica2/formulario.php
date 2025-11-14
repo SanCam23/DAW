@@ -39,9 +39,7 @@ if ($db) {
     $db->close();
 }
 
-/*
- * Lógica de "sticky form" para que los valores de búsqueda se queden seleccionados.
- */
+/* Lógica de "sticky form" para que los valores de búsqueda se queden seleccionados */
 $tipo_anuncio  = $_GET["tipo_anuncio"] ?? "";
 $tipo_vivienda = $_GET["tipo_vivienda"] ?? "";
 $ciudad        = $_GET["ciudad"] ?? "";

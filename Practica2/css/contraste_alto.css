@@ -271,7 +271,11 @@ main {
         }
     }
 
-    #datos-busqueda{
+    #datos-busqueda {
+        background-color: grey !important;
+    }
+
+    .perfil-info {
         background-color: grey !important;
     }
 

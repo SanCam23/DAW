@@ -1,0 +1,26 @@
+        .perfil-info {
+            background-color: #f7fdfc;
+            border: 1px solid #cce3dd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 35px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .perfil-info img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #1b9986;
+        }
+
+        .perfil-info h2 {
+            margin-bottom: 10px;
+        }
+
+        .perfil-info p {
+            color: #555;
+        }

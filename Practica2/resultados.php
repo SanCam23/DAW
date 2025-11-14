@@ -25,7 +25,7 @@ if ($db) {
     /* Bucle 'while' manual */
     $res_paises = $db->query("SELECT IdPais, NomPais FROM PAISES");
     if ($res_paises) {
-        $mapa_paises = []; // Inicializamos
+        $mapa_paises = [];
         while ($fila = $res_paises->fetch_assoc()) {
             $mapa_paises[$fila['IdPais']] = $fila['NomPais'];
         }
@@ -64,10 +64,10 @@ if ($db) {
         $sql_types .= "sss"; // Tres strings
 
     } else {
-        /* Búsqueda Avanzada (desde formulario.php) */
+        /* Búsqueda Avanzada */
         $tipo_anuncio = $_GET["tipo_anuncio"] ?? "";
         $tipo_vivienda = $_GET["tipo_vivienda"] ?? "";
-        $ciudad = $_GET["ciudad"] ?? ""; // Este es el del formulario
+        $ciudad = $_GET["ciudad"] ?? "";
         $pais = $_GET["pais"] ?? "";
         $precio_min = $_GET["precio_min"] ?? "";
         $precio_max = $_GET["precio_max"] ?? "";
@@ -175,7 +175,6 @@ if ($db) {
     ?>
 
     <main>
-        <h1>HOLA</h1>
         <h2>Resultados de la búsqueda</h2>
 
         <section id="datos-busqueda">

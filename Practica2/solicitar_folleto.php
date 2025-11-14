@@ -31,7 +31,7 @@ if ($db) {
 }
 
 
-// Calculo de tarifas ---
+// Calculo de tarifas
 $tarifas = array(
     "envio" => 10,
     "paginas" => array("p1a4" => 2.0, "p5a10" => 1.8, "p11ymas" => 1.6),

@@ -17,8 +17,7 @@ if (isset($_COOKIE['ultimos_visitados']) && $_COOKIE['ultimos_visitados'] !== '[
         $anuncios_visitados = [];
 
         if ($db) {
-            /* 5. Preparamos una consulta IN () para traer solo los anuncios que están en nuestra cookie, de forma segura */
-            // Creamos los placeholders: (?,?,?,?)
+            /* 5. Preparamos una consulta IN () para traer solo los anuncios que están en nuestra cookie */
             $placeholders = implode(',', array_fill(0, count($visitados), '?'));
 
             // Creamos los tipos: "iiii"
@@ -53,10 +52,7 @@ if (isset($_COOKIE['ultimos_visitados']) && $_COOKIE['ultimos_visitados'] !== '[
         echo '<section id="ultimos-anuncios">';
         echo '<h2 style="width: 100%; text-align: center;">Últimos anuncios visitados</h2>';
 
-        /*
-         * 7. Recorremos el array de la cookie (que tiene el orden correcto)
-         * y usamos el "mapa" de anuncios que trajimos de la BD.
-         */
+        /* 7. Recorremos el array de la cookie y usamos el "mapa" de anuncios que trajimos de la BD */
         foreach ($visitados as $id) {
 
             // Si el anuncio existe en nuestro mapa, lo mostramos

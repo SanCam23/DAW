@@ -1,8 +1,4 @@
 <?php
-/*
- * NUEVO: Tarea 5 (Persona 2)
- * Página de Perfil Público de Usuario
- */
 
 require_once __DIR__ . '/db.php';
 
@@ -21,10 +17,7 @@ $usuario = null;
 $anuncios = [];
 
 if ($db) {
-    /*
-     * 3. Requisito PDF: Obtener perfil público (nombre, foto, fecha)
-     * Usamos sentencias preparadas para seguridad
-     */
+    /* Obtener perfil público (nombre, foto, fecha) */
     $sql_usuario = "SELECT NomUsuario, Foto, FRegistro FROM USUARIOS WHERE IdUsuario = ?";
     $stmt_usuario = $db->prepare($sql_usuario);
     $stmt_usuario->bind_param("i", $id_usuario);
@@ -36,9 +29,7 @@ if ($db) {
     }
     $stmt_usuario->close();
 
-    /*
-     * 4. Requisito PDF: Obtener listado simplificado de sus anuncios
-     */
+    /* Obtener listado simplificado de sus anuncios */
     if ($usuario) {
         $sql_anuncios = "SELECT a.IdAnuncio, a.Titulo, a.FPrincipal, a.Alternativo, 
                                 a.Ciudad, a.Precio, a.FRegistro, p.NomPais
@@ -81,36 +72,9 @@ $fecha_registro = date("d/m/Y", strtotime($usuario['FRegistro']));
     <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/resultados.css">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/perfil_usuario.css">
     <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
-    <style>
-        /* Estilo simple para la info del perfil */
-        .perfil-info {
-            background-color: #f7fdfc;
-            border: 1px solid #cce3dd;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 35px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
 
-        .perfil-info img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #1b9986;
-        }
-
-        .perfil-info h2 {
-            margin-bottom: 10px;
-        }
-
-        .perfil-info p {
-            color: #555;
-        }
-    </style>
 </head>
 
 <body>
@@ -155,8 +119,8 @@ $fecha_registro = date("d/m/Y", strtotime($usuario['FRegistro']));
                         <a href="detalle_anuncio.php?id=<?php echo $anuncio['IdAnuncio']; ?>">Ver detalle</a>
                     </article>
             <?php
-                } // Fin del foreach
-            } // Fin del else
+                }
+            }
             ?>
         </section>
     </main>

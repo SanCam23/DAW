@@ -1,21 +1,20 @@
 <?php
-/*
- * MODIFICADO: Tarea 4 (Persona 2)
- * Incluimos el conector a la BD
- */
 require_once __DIR__ . '/db.php';
 
-/*
- * MODIFICADO: Tarea 4 (Persona 2)
- * Conectamos a la BD para obtener los tipos de mensajes
- */
+// 1️. Recibir ID del anuncio desde GET
+$id_anuncio_destino = $_GET['id'] ?? 0;
+$id_anuncio_destino = (int)$id_anuncio_destino;
+
+if ($id_anuncio_destino <= 0) {
+    echo "<p>ID de anuncio no válido.</p>";
+    exit;
+}
+
+// 2️. Conectar y obtener tipos de mensaje
 $db = conectarDB();
 $tipos_mensaje = [];
 
 if ($db) {
-    /*
-     * Requisito PDF: "mostrar los tipos a partir de la tabla TiposMensajes"
-     */
     $sql = "SELECT IdTMensaje, NomTMensaje FROM TIPOSMENSAJES ORDER BY IdTMensaje ASC";
     $resultado = $db->query($sql);
 
@@ -26,9 +25,9 @@ if ($db) {
     $db->close();
 }
 
-// Mantenemos la lógica "sticky" para el formulario
+// 3️. Sticky form
 $mensaje_previo = $_POST['mensaje'] ?? '';
-$tipo_previo = $_POST['tipo'] ?? ''; // Para el 'selected'
+$tipo_previo = $_POST['tipo'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -43,7 +42,6 @@ $tipo_previo = $_POST['tipo'] ?? ''; // Para el 'selected'
 </head>
 
 <body>
-
     <?php
     $zona = 'publica';
     require('cabecera.php');
@@ -51,13 +49,14 @@ $tipo_previo = $_POST['tipo'] ?? ''; // Para el 'selected'
 
     <main>
         <form action="confirmacionmensaje.php" method="post">
+            <!-- 4️. Input hidden para pasar el ID del anuncio -->
+            <input type="hidden" name="id_anuncio_destino" value="<?php echo $id_anuncio_destino; ?>">
+
             <section>
                 <h2>Tipo de mensaje</h2>
-
                 <label for="tipo">Tipo:</label>
                 <select id="tipo" name="tipo">
                     <option value="">-- Seleccione un tipo --</option>
-
                     <?php if (empty($tipos_mensaje)): ?>
                         <option value="" disabled>Error al cargar tipos</option>
                     <?php else: ?>
@@ -68,7 +67,6 @@ $tipo_previo = $_POST['tipo'] ?? ''; // Para el 'selected'
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </select>
-
             </section>
 
             <section>

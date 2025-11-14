@@ -3,7 +3,7 @@
 require_once __DIR__ . '/db.php';
 
 
-/* Lógica de la cookie (se mantiene) */
+/* Lógica de la cookie */
 $cookie_name = 'ultimos_visitados';
 
 // Obtenemos el ID del anuncio de la URL
@@ -46,11 +46,6 @@ $fotos = [];
 $db = conectarDB();
 
 if ($db) {
-    /*
-     * Requisito PDF: Usamos sentencias preparadas para evitar Inyección SQL
-     * El '?' será reemplazado por $id_actual.
-     */
-
     // 1. Consulta principal del anuncio
     $sql = "SELECT a.*, p.NomPais, u.NomUsuario, ta.NomTAnuncio, tv.NomTVivienda
             FROM ANUNCIOS a
@@ -190,7 +185,7 @@ if ($anuncio === null) {
 
         <section class="contacto">
             <h3>Enviar mensaje</h3>
-            <p><a href="enviar.php">Ir al formulario de contacto</a></p>
+            <p><a href="enviar.php?id=<?php echo $anuncio['IdAnuncio']; ?>">Ir al formulario de contacto</a></p>
         </section>
 
         <?php require_once 'panel_visitados.php'; ?>

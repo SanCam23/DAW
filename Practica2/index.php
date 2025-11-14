@@ -11,15 +11,10 @@ if (!isset($_SESSION['estilo_css']) && isset($_COOKIE['estilo_css'])) {
 
 // Conectar a la BD y preparar datos.
 $db = conectarDB();
-$anuncios = []; // Array para guardar los anuncios
+$anuncios = [];
 
 if ($db) {
-    // Preparar la consulta SQL.
     // Obtener resumen de los 5 últimos anuncios.
-    // Pedimos Id, Titulo, Foto(FPrincipal), Alternativo, Ciudad, Precio y Fecha(FRegistro).
-    // También pedimos el Nombre del País (NomPais) usando un JOIN con la tabla PAISES.
-    // Ordenamos por FRegistro DESC (descendente) para obtener los más nuevos.
-    //  Limitamos a 5 resultados.
     $sql = "SELECT a.IdAnuncio, a.Titulo, a.FPrincipal, a.Alternativo, a.Ciudad, 
                    a.Precio, a.FRegistro, p.NomPais
             FROM ANUNCIOS a

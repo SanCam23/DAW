@@ -175,6 +175,7 @@ if ($db) {
     ?>
 
     <main>
+        <h1>HOLA</h1>
         <h2>Resultados de la búsqueda</h2>
 
         <section id="datos-busqueda">

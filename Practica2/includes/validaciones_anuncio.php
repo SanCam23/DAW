@@ -8,7 +8,7 @@ function validarAnuncio($titulo, $texto, $precio, $ciudad, $pais, $tipo_anuncio,
 {
     $errores = [];
 
-    // Validaciones obligatorias según PDF y sentido común
+    // Validaciones obligatorias
     if (empty(trim($titulo))) {
         $errores[] = "El título es obligatorio.";
     }

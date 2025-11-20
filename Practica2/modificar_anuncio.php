@@ -29,7 +29,7 @@ $res = $stmt_load->get_result();
 if ($fila = $res->fetch_assoc()) {
     // Rellenar variables para el formulario
     $titulo = $fila['Titulo'];
-    $texto = $fila['Texto']; // Ojo: en BD es 'Texto', en form 'descripcion'
+    $texto = $fila['Texto']; // En BD es 'Texto', en form 'descripcion'
     $precio = $fila['Precio'];
     $ciudad = $fila['Ciudad'];
     $pais = $fila['Pais'];

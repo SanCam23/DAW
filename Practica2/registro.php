@@ -31,6 +31,12 @@ if ($db) {
 // Valor por defecto para el estilo (primer estilo de la tabla)
 $estilo_por_defecto = !empty($estilos) ? $estilos[0]['IdEstilo'] : 1;
 
+// Sticky form - Recuperar datos previos si hubo error
+$datos_previos = $_SESSION['datos_previos'] ?? [];
+if (isset($_SESSION['datos_previos'])) {
+    unset($_SESSION['datos_previos']);
+}
+
 $zona = 'publica';
 ?>
 <!DOCTYPE html>
@@ -82,7 +88,8 @@ $zona = 'publica';
 
         <form id="registro-form" action="res_registro.php" method="POST" enctype="multipart/form-data">
             <label for="usuario">Nombre de usuario:</label>
-            <input type="text" id="usuario" name="usuario" placeholder="Nombre de usuario">
+            <input type="text" id="usuario" name="usuario" placeholder="Nombre de usuario" 
+                   value="<?php echo htmlspecialchars($datos_previos['usuario'] ?? ''); ?>">
 
             <label for="password">Contraseña:</label>
             <input type="password" id="password" name="password" placeholder="Contraseña">
@@ -91,21 +98,23 @@ $zona = 'publica';
             <input type="password" id="confirm_password" name="confirm_password" placeholder="Repetir contraseña">
 
             <label for="email">Correo electrónico:</label>
-            <input type="text" id="email" name="email" placeholder="tu@email.com">
+            <input type="text" id="email" name="email" placeholder="tu@email.com" 
+                   value="<?php echo htmlspecialchars($datos_previos['email'] ?? ''); ?>">
 
             <label for="sexo">Sexo:</label>
             <select id="sexo" name="sexo">
                 <option value="">Selecciona tu sexo</option>
-                <option value="0">Masculino</option>
-                <option value="1">Femenino</option>
-                <option value="2">Otro</option>
+                <option value="1" <?php echo ($datos_previos['sexo'] ?? '') == '1' ? 'selected' : ''; ?>>Masculino</option>
+                <option value="2" <?php echo ($datos_previos['sexo'] ?? '') == '2' ? 'selected' : ''; ?>>Femenino</option>
             </select>
 
             <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-            <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="dd/mm/yyyy">
+            <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="dd/mm/yyyy" 
+                   value="<?php echo htmlspecialchars($datos_previos['fecha_nacimiento'] ?? ''); ?>">
 
             <label for="ciudad">Ciudad:</label>
-            <input type="text" id="ciudad" name="ciudad">
+            <input type="text" id="ciudad" name="ciudad" 
+                   value="<?php echo htmlspecialchars($datos_previos['ciudad'] ?? ''); ?>">
 
             <label for="pais">País:</label>
             <select id="pais" name="pais">
@@ -114,7 +123,8 @@ $zona = 'publica';
                     <option value="" disabled>Error al cargar países</option>
                 <?php else: ?>
                     <?php foreach ($paises as $pais_item): ?>
-                        <option value="<?php echo $pais_item['IdPais']; ?>">
+                        <option value="<?php echo $pais_item['IdPais']; ?>"
+                            <?php echo ($datos_previos['pais'] ?? '') == $pais_item['IdPais'] ? 'selected' : ''; ?>>
                             <?php echo htmlspecialchars($pais_item['NomPais']); ?>
                         </option>
                     <?php endforeach; ?>

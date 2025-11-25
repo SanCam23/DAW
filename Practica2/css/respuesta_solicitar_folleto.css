@@ -5,166 +5,154 @@ main {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
-    h2 {
-        font-size: 2em;
-        margin-bottom: 20px;
-        text-align: center;
-        width: 100%;
-    }
-
-    p {
-        margin-bottom: 20px;
-        text-align: justify;
-    }
-
-    a {
-        color: #10bb82;
-        text-decoration: none;
-        font-weight: bold;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-
-    section {
-        margin-bottom: 30px;
-
-        h3 {
-            font-size: 1.3em;
-            color: #007a3d;
-            border-bottom: 2px solid #007a3d;
-            padding-bottom: 5px;
-            margin-bottom: 15px;
-        }
-
-        dl {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 10px 20px;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-
-            dt {
-                font-weight: bold;
-                color: #333;
-            }
-
-            dd {
-                margin: 0;
-                color: #555;
-            }
-        }
-
-        a {
-            display: inline-block;
-            text-decoration: none;
-            color: #fff;
-            background-color: #007a3d;
-            padding: 10px 20px;
-            border-radius: 6px;
-            transition: background-color 0.3s ease;
-
-            &:hover {
-                background-color: #e0e0e0;
-            }
-        }
-
-
-    }
 }
 
+h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+    color: #1b9986;
+}
+
+/* === ESTILOS DE CONFIRMACIÓN === */
+.confirmacion {
+    background-color: #e8f8f5;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #a3e4d7;
+    margin-bottom: 20px;
+}
+
+.confirmacion h2 {
+    color: #1b9986;
+    margin-top: 0;
+}
+
+.separador {
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 25px 0;
+}
+
+/* Resumen de costes */
+.resumen-costes ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.resumen-costes li {
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+    color: #555;
+}
+
+.resumen-costes li strong {
+    color: #333;
+    display: inline-block;
+    width: 200px;
+}
+
+.coste-total {
+    font-size: 1.4em;
+    text-align: center;
+    margin-top: 25px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 2px solid #1b9986;
+    color: #333;
+}
+
+.coste-total strong {
+    color: #1b9986;
+    font-size: 1.2em;
+}
+
+/* === ESTILOS DE ERRORES === */
+.contenedor-errores {
+    background-color: #ffe8e8;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ffb3b3;
+    margin-bottom: 20px;
+}
+
+.lista-errores {
+    color: #cc0000;
+    margin: 0;
+    padding-left: 20px;
+}
+
+.lista-errores li {
+    margin-bottom: 5px;
+}
+
+/* === BOTONES Y ENLACES === */
+.acciones {
+    text-align: center;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primario {
+    background-color: #66B266;
+    color: white;
+    border: none;
+}
+
+.btn-primario:hover {
+    background-color: #276927;
+}
+
+.btn-secundario {
+    background-color: #f0f0f0;
+    color: #555;
+    border: 1px solid #ccc;
+}
+
+.btn-secundario:hover {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+/* === RESPONSIVE === */
 @media (max-width: 767px) {
     main {
         max-width: 90%;
-        margin: 20px auto;
         padding: 20px;
-
-        h2 {
-            font-size: 1.6em;
-        }
-
-        p {
-            font-size: 0.95em;
-            text-align: left;
-        }
-
-        section {
-            margin-bottom: 20px;
-
-            h3 {
-                font-size: 1.1em;
-                text-align: center;
-            }
-
-            dl {
-                grid-template-columns: 1fr;
-                gap: 8px 0;
-                padding: 15px;
-
-                dt {
-                    font-size: 0.95em;
-                }
-
-                dd {
-                    font-size: 0.95em;
-                    margin-bottom: 10px;
-                }
-            }
-
-            a {
-                display: block;
-                width: 100%;
-                text-align: center;
-                padding: 12px;
-                font-size: 1em;
-                margin-top: 15px;
-            }
-        }
-
     }
-}
 
+    .resumen-costes li strong {
+        display: block;
+        width: 100%;
+        margin-bottom: 4px;
+    }
 
-@media (min-width: 768px) and (max-width: 991px) {
-    main {
-        max-width: 700px;
-        margin: 30px auto;
-        padding: 25px;
+    .acciones {
+        flex-direction: column;
+    }
 
-        h2 {
-            font-size: 1.8em;
-        }
-
-        p {
-            font-size: 1em;
-        }
-
-        section {
-            h3 {
-                font-size: 1.2em;
-            }
-
-            dl {
-                grid-template-columns: 1fr 1.5fr;
-                gap: 10px 15px;
-                padding: 18px;
-
-                dt {
-                    font-size: 1em;
-                }
-
-                dd {
-                    font-size: 1em;
-                }
-            }
-
-            a {
-                padding: 10px 18px;
-                font-size: 1em;
-            }
-        }
+    .btn {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
     }
 }

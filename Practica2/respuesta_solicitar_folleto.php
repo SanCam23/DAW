@@ -2,43 +2,23 @@
 session_start();
 require_once __DIR__ . '/db.php';
 require_once 'verificar_sesion.php';
+require_once __DIR__ . '/includes/validaciones_folleto.php';
 
-// 1. Recoger TODOS los datos del formulario
-$nombre = $_POST["nombre"] ?? "";
-$email = $_POST["email"] ?? "";
-$telefono = $_POST["telefono"] ?? "";
-$calle = $_POST["calle"] ?? "";
-$numero = $_POST["numero"] ?? "";
-$cp = $_POST["cp"] ?? "";
-$localidad = $_POST["localidad"] ?? "";
-$provincia = $_POST["provincia"] ?? "";
-$pais = $_POST["pais"] ?? "";
-$color_portada = $_POST["color"] ?? "#000000";
-$copias = max(1, (int) ($_POST["copias"] ?? 1));
-$resolucion = (int) ($_POST["resolucion"] ?? 150);
-$id_anuncio = $_POST["anuncio"] ?? "";
-$fecha_deseada = $_POST["fecha"] ?? "";
-$impresion = $_POST["impresion_color"] ?? "bn";
-$mostrar_precio_raw = isset($_POST["mostrar_precio"]) ? 1 : 0;
-$mostrar_precio_txt = ($mostrar_precio_raw == 1) ? "Sí" : "No";
-$texto_adicional = $_POST["texto"] ?? "";
+// Configuración del cálculo (Constantes)
+const FOTOS_POR_PAGINA = 3; 
+const PRECIO_ENVIO = 10;
 
-$direccion_completa = "$calle, $numero, $cp, $localidad, $provincia, $pais";
+// Tarifas
+$tarifas = [
+    "paginas" => ["p1a4" => 2.0, "p5a10" => 1.8, "p11ymas" => 1.6],
+    "color" => ["bn" => 0, "color" => 0.5],
+    "resol" => ["baja" => 0, "alta" => 0.2]
+];
 
-// 2. Lógica de cálculo de costes
-$tarifas = array(
-    "envio" => 10,
-    "paginas" => array("p1a4" => 2.0, "p5a10" => 1.8, "p11ymas" => 1.6),
-    "color" => array("bn" => 0, "color" => 0.5),
-    "resol" => array("baja" => 0, "alta" => 0.2)
-);
-$paginas_ficticias = 8;
-$fotos_ficticias = 12;
-$resolucion_tipo = ($resolucion > 300) ? "alta" : "baja";
-
-function calcularCoste($pags, $fotos, $color, $resol, $t)
-{
+// Función de cálculo de coste
+function calcularCoste($pags, $num_fotos, $modo_color, $modo_resol, $t) {
     $costePaginas = 0;
+    
     if ($pags <= 4) {
         $costePaginas = $pags * $t["paginas"]["p1a4"];
     } elseif ($pags <= 10) {
@@ -49,171 +29,181 @@ function calcularCoste($pags, $fotos, $color, $resol, $t)
         $costePaginas += 6 * $t["paginas"]["p5a10"];
         $costePaginas += ($pags - 10) * $t["paginas"]["p11ymas"];
     }
-    $costeColor = ($color == "color") ? $fotos * $t["color"]["color"] : 0;
-    $costeResol = ($resol == "alta") ? $fotos * $t["resol"]["alta"] : 0;
-    return $t["envio"] + $costePaginas + $costeColor + $costeResol;
+
+    $costeColor = ($modo_color === "color") ? $num_fotos * $t["color"]["color"] : 0;
+    $costeResol = ($modo_resol === "alta") ? $num_fotos * $t["resol"]["alta"] : 0;
+
+    return PRECIO_ENVIO + $costePaginas + $costeColor + $costeResol;
 }
 
-$coste_unitario = calcularCoste($paginas_ficticias, $fotos_ficticias, $impresion, $resolucion_tipo, $tarifas);
-$coste_total = $coste_unitario * $copias;
-
-// 3. Convertir fecha deseada a formato SQL (Y-m-d)
-$fecha_sql = null;
-if (preg_match("/^(\d{2})\/(\d{2})\/(\d{4})$/", $fecha_deseada, $partes)) {
-    // Formato dd/mm/yyyy -> yyyy-mm-dd
-    $fecha_sql = "{$partes[3]}-{$partes[2]}-{$partes[1]}";
-}
-
-// 4. Lógica de INSERT en la BD
-$db = conectarDB();
 $errores = [];
-$anuncio_nombre = "No especificado";
+$exito = false;
+$coste_total = 0;
+$datos_resumen = [];
 
-if (!$db) {
-    $errores[] = "Error al conectar con la base de datos.";
-} else {
-    // Primero, obtenemos el nombre del anuncio para mostrarlo
-    if (!empty($id_anuncio)) {
-        $sql_nombre = "SELECT Titulo FROM ANUNCIOS WHERE IdAnuncio = ?";
-        $stmt_nombre = $db->prepare($sql_nombre);
-        $stmt_nombre->bind_param("i", $id_anuncio);
-        $stmt_nombre->execute();
-        $res_nombre = $stmt_nombre->get_result();
-        if ($res_nombre->num_rows > 0) {
-            $anuncio_nombre = $res_nombre->fetch_assoc()['Titulo'];
+// 1. Recoger datos del POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Saneamiento básico
+    $datos = [
+        'nombre' => trim($_POST['nombre'] ?? ''),
+        'email' => trim($_POST['email'] ?? ''),
+        'telefono' => trim($_POST['telefono'] ?? ''),
+        'calle' => trim($_POST['calle'] ?? ''),
+        'numero' => trim($_POST['numero'] ?? ''),
+        'cp' => trim($_POST['cp'] ?? ''),
+        'localidad' => trim($_POST['localidad'] ?? ''),
+        'provincia' => trim($_POST['provincia'] ?? ''),
+        'pais' => $_POST['pais'] ?? '',
+        'anuncio' => $_POST['anuncio'] ?? '',
+        'copias' => (int)($_POST['copias'] ?? 1),
+        'resolucion' => (int)($_POST['resolucion'] ?? 150),
+        'color' => $_POST['color'] ?? '#000000',
+        'impresion_color' => $_POST['impresion_color'] ?? 'bn',
+        'texto' => trim($_POST['texto'] ?? ''),
+        'fecha' => $_POST['fecha'] ?? '',
+        'mostrar_precio' => isset($_POST['mostrar_precio']) ? 1 : 0
+    ];
+
+    // 2. Validar datos formulario
+    $errores = validarSolicitudFolleto($datos);
+
+    // 3. Lógica de Negocio
+    if (empty($errores)) {
+        $db = conectarDB();
+        
+        // A. Obtener datos reales del anuncio
+        $id_anuncio = (int)$datos['anuncio'];
+        $usuario_id = $_SESSION['usuario_id'];
+
+        $sql_info = "SELECT Titulo FROM ANUNCIOS WHERE IdAnuncio = ? AND Usuario = ?";
+        $stmt = $db->prepare($sql_info);
+        $stmt->bind_param("ii", $id_anuncio, $usuario_id);
+        $stmt->execute();
+        $res_info = $stmt->get_result();
+        
+        if ($fila_anuncio = $res_info->fetch_assoc()) {
+            $titulo_anuncio = $fila_anuncio['Titulo'];
+            
+            // Contar fotos reales
+            $sql_count = "SELECT COUNT(*) as total FROM FOTOS WHERE Anuncio = ?";
+            $stmt_count = $db->prepare($sql_count);
+            $stmt_count->bind_param("i", $id_anuncio);
+            $stmt_count->execute();
+            $res_count = $stmt_count->get_result();
+            $fila_count = $res_count->fetch_assoc();
+            
+            $num_fotos_reales = (int)$fila_count['total'];
+            $stmt_count->close();
+
+            // Calcular páginas reales (Mínimo 1 pág)
+            $num_paginas_reales = ($num_fotos_reales > 0) ? ceil($num_fotos_reales / FOTOS_POR_PAGINA) : 1;
+
+            // Calcular Coste
+            $modo_resol = ($datos['resolucion'] > 300) ? "alta" : "baja";
+            $coste_unitario = calcularCoste($num_paginas_reales, $num_fotos_reales, $datos['impresion_color'], $modo_resol, $tarifas);
+            $coste_total = $coste_unitario * $datos['copias'];
+
+            $datos_resumen = [
+                'titulo' => $titulo_anuncio,
+                'num_fotos' => $num_fotos_reales,
+                'num_paginas' => $num_paginas_reales,
+                'coste_unitario' => $coste_unitario
+            ];
+
+            // B. Insertar en BD
+            $fecha_sql = null;
+            if (preg_match("/^(\d{2})\/(\d{2})\/(\d{4})$/", $datos['fecha'], $partes)) {
+                $fecha_sql = "{$partes[3]}-{$partes[2]}-{$partes[1]}";
+            }
+
+            $direccion_completa = "{$datos['calle']}, {$datos['numero']}, {$datos['cp']}, {$datos['localidad']}, {$datos['provincia']}, {$datos['pais']}";
+            $es_color = ($datos['impresion_color'] === 'color') ? 1 : 0;
+
+            $sql_insert = "INSERT INTO SOLICITUDES 
+                           (Anuncio, Texto, Nombre, Email, Direccion, Telefono, Color, Copias, 
+                            Resolucion, Fecha, IColor, IPrecio, Coste, FRegistro)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+            
+            $stmt_ins = $db->prepare($sql_insert);
+            $stmt_ins->bind_param("issssssiisidd", 
+                $id_anuncio, $datos['texto'], $datos['nombre'], $datos['email'], 
+                $direccion_completa, $datos['telefono'], $datos['color'], $datos['copias'],
+                $datos['resolucion'], $fecha_sql, $es_color, $datos['mostrar_precio'], $coste_total
+            );
+
+            if ($stmt_ins->execute()) {
+                $exito = true;
+            } else {
+                $errores[] = "Error al guardar la solicitud: " . $stmt_ins->error;
+            }
+            $stmt_ins->close();
+
+        } else {
+            $errores[] = "El anuncio seleccionado no existe o no te pertenece.";
         }
-        $stmt_nombre->close();
-    } else {
-        $errores[] = "No se seleccionó un anuncio válido.";
+        $stmt->close();
+        $db->close();
     }
-
-
-    /* Insertar en la tabla SOLICITUDES */
-    $sql_insert = "INSERT INTO SOLICITUDES 
-                   (Anuncio, Texto, Nombre, Email, Direccion, Telefono, Color, Copias, 
-                    Resolucion, Fecha, IColor, IPrecio, Coste, FRegistro)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-
-    $stmt_insert = $db->prepare($sql_insert);
-
-    $es_color = ($impresion == "color") ? 1 : 0;
-
-    $stmt_insert->bind_param(
-        "issssssiisiid",
-        $id_anuncio,
-        $texto_adicional,
-        $nombre,
-        $email,
-        $direccion_completa,
-        $telefono,
-        $color_portada,
-        $copias,
-        $resolucion,
-        $fecha_sql,
-        $es_color,
-        $mostrar_precio_raw,
-        $coste_total
-    );
-
-    if (empty($errores) && !$stmt_insert->execute()) {
-        $errores[] = "Error al guardar la solicitud: " . $stmt_insert->error;
-    }
-
-    if ($stmt_insert) {
-        $stmt_insert->close();
-    }
-    $db->close();
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Respuesta Solicitud Folleto - VENTAPLUS</title>
+    <title>Respuesta Solicitud - VENTAPLUS</title>
     <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/respuesta_solicitar_folleto.css">
-    <link rel="stylesheet" type="text/css" href="css/print_respuesta_solicitar_folleto.css" media="print">
+    <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
 </head>
-
 <body>
-    <?php
-    $zona = 'privada';
-    require('cabecera.php');
-    ?>
+    <?php require('cabecera.php'); ?>
 
     <main>
-
-        <?php if (empty($errores)): ?>
-
-            <h2>Solicitud de folleto recibida</h2>
-            <p>Gracias **<?php echo htmlspecialchars($nombre); ?>**— su solicitud de folleto ha sido registrada correctamente. A continuación se muestran los datos
-                introducidos y el coste calculado.</p>
-
-            <section aria-labelledby="datos-titulo">
-                <h3 id="datos-titulo">Datos del folleto y envío</h3>
-                <dl>
-                    <dt>Nombre</dt>
-                    <dd><?php echo htmlspecialchars($nombre); ?></dd>
-                    <dt>Correo electrónico</dt>
-                    <dd><?php echo htmlspecialchars($email); ?></dd>
-                    <dt>Teléfono</dt>
-                    <dd><?php echo htmlspecialchars($telefono); ?></dd>
-                    <dt>Dirección de envío</dt>
-                    <dd><?php echo htmlspecialchars($direccion_completa); ?></dd>
-                    <dt>Anuncio seleccionado</dt>
-                    <dd><?php echo htmlspecialchars($anuncio_nombre); ?> (ID: <?php echo $id_anuncio; ?>)</dd>
-                    <dt>Color de portada</dt>
-                    <dd><?php echo htmlspecialchars($color_portada); ?></dd>
-                    <dt>Número de copias</dt>
-                    <dd><?php echo $copias; ?></dd>
-                    <dt>Resolución elegida</dt>
-                    <dd><?php echo $resolucion; ?> DPI (Tipo: <?php echo $resolucion_tipo == "alta" ? "Alta" : "Baja"; ?>)</dd>
-                    <dt>Tipo de Impresión</dt>
-                    <dd><?php echo ($impresion == "color") ? "Color" : "Blanco y negro"; ?></dd>
-                    <dt>Mostrar precio en folleto</dt>
-                    <dd><?php echo $mostrar_precio_txt; ?></dd>
-                    <dt>Fecha deseada de recepción</dt>
-                    <dd><?php echo htmlspecialchars($fecha_deseada); ?></dd>
-                    <dt>Texto adicional</dt>
-                    <dd><?php echo nl2br(htmlspecialchars($texto_adicional)); ?></dd>
-                </dl>
-            </section>
-
-            <section aria-labelledby="ficticios-titulo">
-                <h3 id="ficticios-titulo">Detalles Ficticios del Anuncio</h3>
-                <p>
-                    *Para el cálculo del coste, se han usado los siguientes valores ficticios del anuncio:<br>
-                    **Número de páginas:** <?php echo $paginas_ficticias; ?> páginas<br>
-                    **Número de fotos:** <?php echo $fotos_ficticias; ?> fotos
+        <?php if ($exito): ?>
+            <section class="confirmacion">
+                <h2>¡Solicitud Registrada!</h2>
+                <p>Gracias <strong><?php echo htmlspecialchars($datos['nombre']); ?></strong>, hemos procesado tu pedido correctamente.</p>
+                
+                <hr class="separador">
+                
+                <h3>Detalles del Coste</h3>
+                <div class="resumen-costes">
+                    <ul>
+                        <li><strong>Anuncio:</strong> <?php echo htmlspecialchars($datos_resumen['titulo']); ?></li>
+                        <li><strong>Fotos encontradas:</strong> <?php echo $datos_resumen['num_fotos']; ?></li>
+                        <li><strong>Páginas calculadas:</strong> <?php echo $datos_resumen['num_paginas']; ?> (a <?php echo FOTOS_POR_PAGINA; ?> fotos/pág)</li>
+                        <li><strong>Coste unitario:</strong> <?php echo number_format($datos_resumen['coste_unitario'], 2); ?> €</li>
+                        <li><strong>Copias:</strong> <?php echo $datos['copias']; ?></li>
+                    </ul>
+                </div>
+                
+                <p class="coste-total">
+                    <strong>Coste Total: <?php echo number_format($coste_total, 2); ?> €</strong> 
                 </p>
-            </section>
 
-            <section aria-labelledby="coste-titulo">
-                <h3 id="coste-titulo">Coste final del folleto publicitario</h3>
-                <p>
-                    **Coste unitario por folleto:** <?php echo number_format($coste_unitario, 2, ',', '.'); ?> €<br>
-                    **Número de copias:** <?php echo $copias; ?><br>
-                    <strong class="coste-total">Coste TOTAL (<?php echo $copias; ?> copias):</strong> <?php echo number_format($coste_total, 2, ',', '.'); ?> €
-                </p>
+                <div class="acciones">
+                    <a href="solicitar_folleto.php" class="btn btn-primario">Solicitar otro</a>
+                    <a href="misanuncios.php" class="btn btn-secundario">Volver a mis anuncios</a>
+                </div>
             </section>
 
         <?php else: ?>
-            <h2>Error al procesar la solicitud</h2>
-            <p>Se han producido los siguientes errores:</p>
-            <ul style="color: red; margin: 20px 40px;">
-                <?php foreach ($errores as $error): ?>
-                    <li><?php echo $error; ?></li>
-                <?php endforeach; ?>
-            </ul>
+            <section class="errores">
+                <h2>Error en la solicitud</h2>
+                <div class="contenedor-errores">
+                    <ul class="lista-errores">
+                        <?php foreach ($errores as $e): ?>
+                            <li><?php echo htmlspecialchars($e); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <div class="acciones">
+                    <a href="solicitar_folleto.php" class="btn btn-secundario">Volver al formulario</a>
+                </div>
+            </section>
         <?php endif; ?>
-
-        <a href="solicitar_folleto.php" class="volver-formulario">Volver al formulario</a>
     </main>
 
     <?php require('pie.php'); ?>
 </body>
-
 </html>

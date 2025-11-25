@@ -47,13 +47,19 @@ $zona = 'privada';
     <?php require('cabecera.php'); ?>
 
     <main>
+        <?php if (isset($_GET['borrado']) && $_GET['borrado'] == 'exito'): ?>
+            <div
+                style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px; text-align: center; border: 1px solid #c3e6cb;">
+                Anuncio eliminado correctamente.
+            </div>
+        <?php endif; ?>
         <section id="ultimos-anuncios">
             <h2>Mis anuncios (<?php echo $total_anuncios; ?>)</h2>
 
             <?php if ($total_anuncios > 0): ?>
                 <?php foreach ($anuncios as $anuncio):
                     $fecha = date("d/m/Y", strtotime($anuncio['FRegistro']));
-                ?>
+                    ?>
                     <article class="anuncio">
                         <figure>
                             <img src="<?php echo !empty($anuncio['FPrincipal']) ? htmlspecialchars($anuncio['FPrincipal']) : 'img/sin_foto.png'; ?>"
@@ -68,7 +74,8 @@ $zona = 'privada';
                             <a href="ver_anuncio.php?id=<?php echo $anuncio['IdAnuncio']; ?>">Ver</a>
                             <a href="modificar_anuncio.php?id=<?php echo $anuncio['IdAnuncio']; ?>">Modificar</a>
                             <a href="añadir_foto.php?id=<?php echo $anuncio['IdAnuncio']; ?>">+ Foto</a>
-                            <a href="#" style="background-color: #d9534f;">Eliminar</a>
+                            <a href="eliminar_anuncio.php?id=<?php echo $anuncio['IdAnuncio']; ?>"
+                                style="background-color: #d9534f;">Eliminar</a>
                         </div>
                     </article>
                 <?php endforeach; ?>

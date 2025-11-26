@@ -290,6 +290,10 @@ main {
     .alerta-borrado {
         background-color: grey !important;
     }
+
+    .info-basica{
+        background-color: grey !important;
+    }
 }
 
 footer {

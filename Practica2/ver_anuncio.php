@@ -20,7 +20,7 @@ $fotos = [];
 if ($db && isset($_SESSION['usuario_id'])) {
     $usuario_id = $_SESSION['usuario_id'];
 
-    // Consulta que verifica que el anuncio pertenece al usuario logueado
+    // Consulta del anuncio
     $sql = "SELECT a.*, p.NomPais, u.NomUsuario, ta.NomTAnuncio, tv.NomTVivienda
             FROM ANUNCIOS a
             LEFT JOIN PAISES p ON a.Pais = p.IdPais
@@ -39,7 +39,7 @@ if ($db && isset($_SESSION['usuario_id'])) {
     }
     $stmt->close();
 
-    // Obtener fotos de la galería si el anuncio existe y pertenece al usuario
+    // Obtener fotos de la galería
     if ($anuncio) {
         $sql_fotos = "SELECT Foto, Alternativo, Titulo FROM FOTOS WHERE Anuncio = ?";
         $stmt_fotos = $db->prepare($sql_fotos);
@@ -55,7 +55,6 @@ if ($db && isset($_SESSION['usuario_id'])) {
     $db->close();
 }
 
-// Si el anuncio no existe o no pertenece al usuario
 if ($anuncio === null) {
     echo "Anuncio no encontrado o no tienes permisos para verlo.";
     exit;
@@ -69,26 +68,21 @@ if ($anuncio === null) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Detalle del anuncio del usuario en VENTAPLUS.">
-    <meta name="keywords" content="mis anuncios, viviendas, pisos, venta, alquiler">
-    <meta name="author" content="Santino Campessi Lojo">
-    <meta name="author" content="Mario Laguna Contreras">
-    <title><?php echo $anuncio['Titulo']; ?> - VENTAPLUS</title>
+    <title><?php echo htmlspecialchars($anuncio['Titulo']); ?> - VENTAPLUS</title>
     <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/ver_anuncio.css">
-    <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
 </head>
 
 <body>
-    <?php
-    $zona = 'privada';
-    require('cabecera.php');
-    ?>
+    <?php require('cabecera.php'); ?>
 
     <main>
         <section class="col-izquierda">
-            <h2><?php echo $anuncio['Titulo']; ?></h2>
+            <h2><?php echo htmlspecialchars($anuncio['Titulo']); ?></h2>
+            
             <figure class="foto-principal">
-                <img src="<?php echo $anuncio['FPrincipal']; ?>" alt="<?php echo $anuncio['Alternativo']; ?>">
+                <img src="<?php echo htmlspecialchars($anuncio['FPrincipal']); ?>" 
+                     alt="<?php echo htmlspecialchars($anuncio['Alternativo']); ?>">
             </figure>
 
             <section class="galeria">
@@ -96,38 +90,47 @@ if ($anuncio === null) {
                 <?php if (empty($fotos)): ?>
                     <p>No hay más fotos en la galería.</p>
                 <?php else: ?>
-                    <?php foreach ($fotos as $foto): ?>
+                    <?php 
+                    $fotos_mostradas = 0;
+                    foreach ($fotos as $foto): 
+                        // FILTRO: Si la foto de la galería es la misma que la principal, NO la mostramos aquí
+                        if ($foto['Foto'] === $anuncio['FPrincipal']) {
+                            continue; 
+                        }
+                        $fotos_mostradas++;
+                    ?>
                         <figure>
-                            <img src="<?php echo $foto['Foto']; ?>" alt="<?php echo $foto['Alternativo']; ?>">
+                            <img src="<?php echo htmlspecialchars($foto['Foto']); ?>" 
+                                 alt="<?php echo htmlspecialchars($foto['Alternativo']); ?>">
                         </figure>
                     <?php endforeach; ?>
+
+                    <?php if ($fotos_mostradas === 0): ?>
+                        <p>No hay más fotos adicionales.</p>
+                    <?php endif; ?>
                 <?php endif; ?>
             </section>
 
-            <?php if (!empty($fotos)): ?>
-                <p>
-                    <a href="ver_fotos_privada.php?id=<?php echo $anuncio['IdAnuncio']; ?>">
-                        Ver todas las fotos (<?php echo count($fotos); ?>)
-                    </a>
-                </p>
-            <?php endif; ?>
+            <p>
+                <a href="ver_fotos_privada.php?id=<?php echo $anuncio['IdAnuncio']; ?>">
+                    Gestionar fotos / Ver todas
+                </a>
+            </p>
         </section>
 
         <section class="col-derecha">
             <section class="info-general">
                 <h3>Información general</h3>
-                <p><strong><?php echo $anuncio['Titulo']; ?></strong></p>
-                <p>Tipo de anuncio: <?php echo $anuncio['NomTAnuncio']; ?></p>
-                <p>Tipo de vivienda: <?php echo $anuncio['NomTVivienda']; ?></p>
+                <p><strong><?php echo htmlspecialchars($anuncio['Titulo']); ?></strong></p>
+                <p>Tipo: <?php echo htmlspecialchars($anuncio['NomTAnuncio']); ?> de <?php echo htmlspecialchars($anuncio['NomTVivienda']); ?></p>
                 <p>Fecha: <?php echo date("d/m/Y", strtotime($anuncio['FRegistro'])); ?></p>
-                <p>Ciudad: <?php echo $anuncio['Ciudad']; ?></p>
-                <p>País: <?php echo $anuncio['NomPais']; ?></p>
+                <p>Ubicación: <?php echo htmlspecialchars($anuncio['Ciudad']); ?> (<?php echo htmlspecialchars($anuncio['NomPais']); ?>)</p>
                 <p>Precio: <?php echo number_format($anuncio['Precio'], 0, ',', '.'); ?> €</p>
             </section>
 
             <section class="descripcion">
                 <h3>Descripción</h3>
-                <p><?php echo nl2br($anuncio['Texto']); ?></p>
+                <p><?php echo nl2br(htmlspecialchars($anuncio['Texto'])); ?></p>
             </section>
 
             <section class="caracteristicas">
@@ -145,17 +148,11 @@ if ($anuncio === null) {
                 </ul>
             </section>
 
-            <p>
-                <a href="mensajes_anuncio.php?id=<?php echo $anuncio['IdAnuncio']; ?>">
-                    Ver mensajes recibidos
-                </a>
-            </p>
-
+            <p><a href="mensajes_anuncio.php?id=<?php echo $anuncio['IdAnuncio']; ?>">Ver mensajes recibidos</a></p>
             <p><a href="añadir_foto.php?id=<?php echo $anuncio['IdAnuncio']; ?>">Añadir foto a este anuncio</a></p>
         </section>
     </main>
 
     <?php require('pie.php'); ?>
 </body>
-
 </html>

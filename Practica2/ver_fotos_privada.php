@@ -3,7 +3,7 @@ require_once __DIR__ . '/db.php';
 
 //Obtener y validar el ID del anuncio de la URL
 $id_anuncio = $_GET['id'] ?? 0;
-$id_anuncio = (int)$id_anuncio;
+$id_anuncio = (int) $id_anuncio;
 
 if ($id_anuncio <= 0) {
     header("Location: 404.php");
@@ -31,7 +31,7 @@ if ($db) {
 
     /*Obtener "todas las fotos" y el "número total" */
     if ($anuncio) {
-        $sql_fotos = "SELECT Foto, Alternativo, Titulo FROM FOTOS WHERE Anuncio = ?";
+        $sql_fotos = "SELECT IdFoto, Foto, Alternativo, Titulo FROM FOTOS WHERE Anuncio = ?";
         $stmt_fotos = $db->prepare($sql_fotos);
         $stmt_fotos->bind_param("i", $id_anuncio);
         $stmt_fotos->execute();
@@ -93,10 +93,19 @@ if ($anuncio === null) {
             <?php else: ?>
                 <?php foreach ($fotos as $foto): ?>
                     <figure>
-                        <img src="<?php echo htmlspecialchars($foto["Foto"]); ?>" alt="<?php echo htmlspecialchars($foto["Alternativo"]); ?>">
-                        <?php if (!empty($foto['Titulo'])): ?>
-                            <figcaption><?php echo htmlspecialchars($foto['Titulo']); ?></figcaption>
-                        <?php endif; ?>
+                        <img src="<?php echo htmlspecialchars($foto["Foto"]); ?>"
+                            alt="<?php echo htmlspecialchars($foto["Alternativo"]); ?>">
+
+                        <figcaption>
+                            <?php if (!empty($foto['Titulo'])): ?>
+                                <strong><?php echo htmlspecialchars($foto['Titulo']); ?></strong><br>
+                            <?php endif; ?>
+
+                            <a href="eliminar_foto.php?id=<?php echo $foto['IdFoto']; ?>"
+                                style="color: #dc3545; font-size: 0.9em; text-decoration: underline;">
+                                Eliminar
+                            </a>
+                        </figcaption>
                     </figure>
                 <?php endforeach; ?>
             <?php endif; ?>

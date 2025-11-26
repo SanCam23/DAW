@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/validaciones.php';
+require_once __DIR__ . '/includes/validaciones.php';
 require_once __DIR__ . '/db.php';
 
 // Recoger datos del formulario
@@ -72,7 +72,7 @@ if ($resultado_validacion !== true) {
                 $ciudad = empty($ciudad) ? null : $ciudad;
                 $pais = empty($pais) ? null : $pais;
                 
-                $stmt_insert->bind_param("sssisiii", 
+                $stmt_insert->bind_param("sssissii", 
                     $usuario, 
                     $password_hash, 
                     $email, 

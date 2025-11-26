@@ -86,38 +86,38 @@ if ($acceso_concedido) {
 
     // Lógica para "Recordarme" con tokens seguros
     if ($recordarme) {
-        // Generar token seguro
-        $token = bin2hex(random_bytes(32));
-        $expiracion = time() + (90 * 24 * 60 * 60); // 90 días
+    // Generar token seguro
+    $token = bin2hex(random_bytes(32));
+    $expiracion = time() + (90 * 24 * 60 * 60); // 90 días
 
-        // Crear cookie con token
-        setcookie('recordarme_token', $token, [
-            'expires' => $expiracion,
-            'path' => '/',
-            'secure' => false,
-            'httponly' => true,
-            'samesite' => 'Lax'
-        ]);
+    // Crear cookie con token
+    setcookie('recordarme_token', $token, [
+        'expires' => $expiracion,
+        'path' => '/',
+        'secure' => false,
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
 
-        // Guardar asociación token-usuario en servidor
-        $token_data = $usuario . ':' . $token . ':' . $expiracion . "\n";
-        file_put_contents('tokens.txt', $token_data, FILE_APPEND | LOCK_EX);
+    // Guardar asociación token-ID_USUARIO en servidor (NO nombre de usuario)
+    $token_data = $id_usuario . ':' . $token . ':' . $expiracion . "\n";
+    file_put_contents('tokens.txt', $token_data, FILE_APPEND | LOCK_EX);
 
-        // También guardar timestamp de última visita para la cookie
-        setcookie('ultima_visita_timestamp', $hora_actual_ts, [
-            'expires' => $expiracion,
-            'path' => '/',
-            'httponly' => true
-        ]);
-        
-        $expiracion_estilo = time() + (90 * 24 * 60 * 60);
-        setcookie('estilo_css', $fichero_estilo, [
-            'expires' => $expiracion_estilo,
-            'path' => '/',
-            'httponly' => false,
-            'samesite' => 'Lax'
-        ]);
-    }
+    // También guardar timestamp de última visita para la cookie
+    setcookie('ultima_visita_timestamp', $hora_actual_ts, [
+        'expires' => $expiracion,
+        'path' => '/',
+        'httponly' => true
+    ]);
+    
+    $expiracion_estilo = time() + (90 * 24 * 60 * 60);
+    setcookie('estilo_css', $fichero_estilo, [
+        'expires' => $expiracion_estilo,
+        'path' => '/',
+        'httponly' => false,
+        'samesite' => 'Lax'
+    ]);
+}
 
     // Redirigir a página destino o menú principal
     if (isset($_SESSION['pagina_destino'])) {

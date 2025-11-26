@@ -135,7 +135,7 @@ if ($stmt_update->execute()) {
     // Actualizar variables de sesión con los nuevos datos
     $_SESSION['nombre_usuario'] = $nombre_usuario;
     
-    // --- NUEVA LÓGICA: Solo limpiar cookies si cambió usuario o contraseña ---
+    // Solo limpiar cookies si cambió usuario o contraseña
     
     // Obtener el nombre de usuario actual de la BD para comparar
     $sql_nombre_actual = "SELECT NomUsuario FROM USUARIOS WHERE IdUsuario = ?";

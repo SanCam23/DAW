@@ -83,7 +83,7 @@ $zona = 'privada';
 
     <main>
         <section class="confirmacion">
-            <h2>✅ Datos actualizados correctamente</h2>
+            <h2>Datos actualizados correctamente</h2>
             <p><?php echo htmlspecialchars($mensaje_especifico); ?></p>
         </section>
 

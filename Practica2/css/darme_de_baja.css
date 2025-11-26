@@ -1,0 +1,207 @@
+/* darme_de_baja.css */
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.mensaje-error {
+    background: #ffebee;
+    border: 1px solid #f44336;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 25px;
+}
+
+.mensaje-error ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.mensaje-error li {
+    color: #c62828;
+    margin-bottom: 5px;
+}
+
+/* Resumen de datos */
+.resumen-datos {
+    background: #fff3e0;
+    border: 1px solid #ff9800;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.resumen-datos h3 {
+    color: #e65100;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ff9800;
+    padding-bottom: 10px;
+}
+
+.advertencia {
+    background: #fff8e1;
+    border: 1px solid #ffd54f;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #e65100;
+}
+
+/* Estadísticas */
+.estadisticas {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+    justify-content: center;
+}
+
+.estadistica {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    min-width: 120px;
+}
+
+.estadistica .numero {
+    display: block;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #e65100;
+    margin-bottom: 5px;
+}
+
+.estadistica .texto {
+    color: #666;
+    font-size: 0.9em;
+}
+
+/* Lista de anuncios */
+.lista-anuncios {
+    background: white;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.lista-anuncios h4 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.anuncio-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.anuncio-item:last-child {
+    border-bottom: none;
+}
+
+.anuncio-item strong {
+    color: #333;
+}
+
+/* Confirmación de baja */
+.confirmacion-baja {
+    background: #ffebee;
+    border: 1px solid #f44336;
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.confirmacion-baja h3 {
+    color: #c62828;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.confirmacion-baja label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.confirmacion-baja input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1em;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.confirmacion-baja input[type="password"]:focus {
+    outline: none;
+    border-color: #f44336;
+    box-shadow: 0 0 5px rgba(244, 67, 54, 0.3);
+}
+
+.acciones {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-eliminar {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-eliminar:hover {
+    background: #d32f2f;
+}
+
+.btn-cancelar {
+    background: #757575;
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    transition: background 0.3s;
+}
+
+.btn-cancelar:hover {
+    background: #616161;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .estadisticas {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .estadistica {
+        min-width: auto;
+    }
+    
+    .acciones {
+        flex-direction: column;
+    }
+    
+    .btn-eliminar, .btn-cancelar {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .anuncio-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}

@@ -39,11 +39,11 @@ if ($db && isset($_SESSION['usuario_id'])) {
     $stmt_anuncios->bind_param("i", $usuario_id);
     $stmt_anuncios->execute();
     $resultado_anuncios = $stmt_anuncios->get_result();
-    
+
     if ($resultado_anuncios) {
         $anuncios_usuario = $resultado_anuncios->fetch_all(MYSQLI_ASSOC);
         $total_anuncios = count($anuncios_usuario);
-        
+
         // Calcular total de fotos
         foreach ($anuncios_usuario as $anuncio) {
             $total_fotos += $anuncio['num_fotos'];
@@ -57,7 +57,7 @@ if ($db && isset($_SESSION['usuario_id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password_actual = $_POST['password_actual'] ?? '';
     $confirmar_baja = isset($_POST['confirmar_baja']);
-    
+
     if (empty($password_actual)) {
         $errores[] = "Debe introducir su contraseña actual para confirmar la baja.";
     } else {
@@ -68,30 +68,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_verificar->bind_param("i", $_SESSION['usuario_id']);
         $stmt_verificar->execute();
         $resultado_verificar = $stmt_verificar->get_result();
-        
+
         if ($fila = $resultado_verificar->fetch_assoc()) {
             if (!password_verify($password_actual, $fila['Clave'])) {
                 $errores[] = "La contraseña actual es incorrecta.";
             } else if ($confirmar_baja) {
                 // CONFIRMACIÓN - ELIMINAR USUARIO Y DATOS
                 $db->begin_transaction();
-                
+
                 try {
                     $usuario_id = $_SESSION['usuario_id'];
-                    
+
                     // 1. Obtener IDs de anuncios del usuario
                     $sql_anuncios_ids = "SELECT IdAnuncio FROM ANUNCIOS WHERE Usuario = ?";
                     $stmt_anuncios_ids = $db->prepare($sql_anuncios_ids);
                     $stmt_anuncios_ids->bind_param("i", $usuario_id);
                     $stmt_anuncios_ids->execute();
                     $resultado_anuncios_ids = $stmt_anuncios_ids->get_result();
-                    
+
                     $anuncios_ids = [];
                     while ($fila_anuncio = $resultado_anuncios_ids->fetch_assoc()) {
                         $anuncios_ids[] = $fila_anuncio['IdAnuncio'];
                     }
                     $stmt_anuncios_ids->close();
-                    
+
                     // 2. Eliminar mensajes
                     if (!empty($anuncios_ids)) {
                         $placeholders = str_repeat('?,', count($anuncios_ids) - 1) . '?';
@@ -101,14 +101,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $stmt_mensajes->execute();
                         $stmt_mensajes->close();
                     }
-                    
+
                     // También eliminar mensajes donde el usuario es origen o destino
                     $sql_mensajes_usuario = "DELETE FROM MENSAJES WHERE UsuOrigen = ? OR UsuDestino = ?";
                     $stmt_mensajes_usuario = $db->prepare($sql_mensajes_usuario);
                     $stmt_mensajes_usuario->bind_param("ii", $usuario_id, $usuario_id);
                     $stmt_mensajes_usuario->execute();
                     $stmt_mensajes_usuario->close();
-                    
+
                     // 3. Eliminar fotos de los anuncios
                     if (!empty($anuncios_ids)) {
                         $placeholders = str_repeat('?,', count($anuncios_ids) - 1) . '?';
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $stmt_fotos->execute();
                         $stmt_fotos->close();
                     }
-                    
+
                     // 4. Eliminar solicitudes de los anuncios
                     if (!empty($anuncios_ids)) {
                         $placeholders = str_repeat('?,', count($anuncios_ids) - 1) . '?';
@@ -128,24 +128,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $stmt_solicitudes->execute();
                         $stmt_solicitudes->close();
                     }
-                    
+
                     // 5. Eliminar anuncios del usuario
                     $sql_eliminar_anuncios = "DELETE FROM ANUNCIOS WHERE Usuario = ?";
                     $stmt_anuncios = $db->prepare($sql_eliminar_anuncios);
                     $stmt_anuncios->bind_param("i", $usuario_id);
                     $stmt_anuncios->execute();
                     $stmt_anuncios->close();
-                    
+
                     // 6. Eliminar el usuario
                     $sql_eliminar_usuario = "DELETE FROM USUARIOS WHERE IdUsuario = ?";
                     $stmt_usuario = $db->prepare($sql_eliminar_usuario);
                     $stmt_usuario->bind_param("i", $usuario_id);
                     $stmt_usuario->execute();
                     $stmt_usuario->close();
-                    
+
                     // Confirmar transacción
                     $db->commit();
-                    
+
                     // Limpiar sesión y cookies
                     session_destroy();
                     $cookies_a_limpiar = ['recordarme_token', 'ultima_visita_timestamp', 'estilo_css'];
@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             setcookie($cookie_name, '', time() - 3600, '/');
                         }
                     }
-                    
+
                     // Limpiar tokens
                     if (file_exists('tokens.txt')) {
                         $tokens = file('tokens.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -167,11 +167,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
                         file_put_contents('tokens.txt', implode("\n", $nuevos_tokens) . "\n");
                     }
-                    
+
                     // Redirigir a página de baja completada
                     header("Location: baja_completada.php");
                     exit();
-                    
                 } catch (Exception $e) {
                     $db->rollback();
                     $errores[] = "Error al eliminar la cuenta: " . $e->getMessage();
@@ -226,7 +225,7 @@ $zona = 'privada';
         <section class="resumen-datos">
             <h3>Resumen de sus datos</h3>
             <div class="advertencia">
-                <strong>⚠️ Atención:</strong> Esta acción es irreversible. Se eliminarán todos sus datos.
+                <strong>Atención:</strong> Esta acción es irreversible. Se eliminarán todos sus datos.
             </div>
 
             <div class="estadisticas">
@@ -241,15 +240,15 @@ $zona = 'privada';
             </div>
 
             <?php if (!empty($anuncios_usuario)): ?>
-            <div class="lista-anuncios">
-                <h4>Sus anuncios:</h4>
-                <?php foreach ($anuncios_usuario as $anuncio): ?>
-                    <div class="anuncio-item">
-                        <strong><?php echo htmlspecialchars($anuncio['Titulo']); ?></strong>
-                        - <?php echo $anuncio['num_fotos']; ?> foto(s)
-                    </div>
-                <?php endforeach; ?>
-            </div>
+                <div class="lista-anuncios">
+                    <h4>Sus anuncios:</h4>
+                    <?php foreach ($anuncios_usuario as $anuncio): ?>
+                        <div class="anuncio-item">
+                            <strong><?php echo htmlspecialchars($anuncio['Titulo']); ?></strong>
+                            - <?php echo $anuncio['num_fotos']; ?> foto(s)
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </section>
 
@@ -258,9 +257,9 @@ $zona = 'privada';
             <h3>Confirmar baja</h3>
             <form action="darme_de_baja.php" method="POST">
                 <label for="password_actual">Contraseña actual:</label>
-                <input type="password" id="password_actual" name="password_actual" 
-                       placeholder="Introduzca su contraseña para confirmar" required>
-                
+                <input type="password" id="password_actual" name="password_actual"
+                    placeholder="Introduzca su contraseña para confirmar" required>
+
                 <div class="acciones">
                     <button type="submit" name="confirmar_baja" value="1" class="btn-eliminar">
                         Confirmar baja definitiva

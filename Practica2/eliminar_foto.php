@@ -6,12 +6,11 @@ require_once __DIR__ . '/db.php';
 $zona = 'privada';
 $db = conectarDB();
 
-// 1. Validar ID
+// Validar ID
 $id_foto = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
 $usuario_id = $_SESSION['usuario_id'];
 
-// 2. Consultar datos de la foto y verificar propiedad
-// MODIFICADO: Añadimos a.FPrincipal a la selección para comparar después
+// Consultar datos de la foto y verificar propiedad
 $sql = "SELECT f.IdFoto, f.Foto, f.Titulo, f.Anuncio, a.Titulo as TituloAnuncio, a.FPrincipal 
         FROM FOTOS f 
         JOIN ANUNCIOS a ON f.Anuncio = a.IdAnuncio 
@@ -32,16 +31,14 @@ if (!$foto) {
 
 $error = "";
 
-// 3. Procesar el borrado (POST)
+// Procesar borrado tras confirmación
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
-    
+
     $db->begin_transaction();
     try {
-        // A. Comprobar si la foto a borrar es la Foto Principal del anuncio
+        // Comprobar si la foto a borrar es la foto principal del anuncio
         if ($foto['Foto'] === $foto['FPrincipal']) {
-            // Actualizamos el anuncio para quitar la referencia a la foto borrada
-            // FPrincipal -> NULL
-            // Alternativo -> "Pendiente de imagen" (ya que es NOT NULL en BD)
+            // Actualizar anuncio para quitar referencia a la foto borrada
             $sql_update = "UPDATE ANUNCIOS SET FPrincipal = NULL, Alternativo = 'Pendiente de imagen' WHERE IdAnuncio = ?";
             $stmt_upd = $db->prepare($sql_update);
             $stmt_upd->bind_param("i", $foto['Anuncio']);
@@ -49,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
             $stmt_upd->close();
         }
 
-        // B. Borrar de la tabla FOTOS
+        // Borrar de la tabla FOTOS
         $stmt_del = $db->prepare("DELETE FROM FOTOS WHERE IdFoto = ?");
         $stmt_del->bind_param("i", $id_foto);
         $stmt_del->execute();
@@ -60,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
         // Redirigimos al detalle del anuncio al que pertenecía la foto
         header("Location: ver_anuncio.php?id=" . $foto['Anuncio']);
         exit;
-
     } catch (Exception $e) {
         $db->rollback();
         $error = "Error al eliminar: " . $e->getMessage();
@@ -71,18 +67,20 @@ $db->close();
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Eliminar Foto - VENTAPLUS</title>
     <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/eliminar_foto.css">
 </head>
+
 <body>
     <?php require('cabecera.php'); ?>
 
     <main class="confirmacion-foto">
         <h2>Eliminar Foto</h2>
-        
+
         <p>Estás a punto de eliminar la foto <strong>"<?php echo htmlspecialchars($foto['Titulo']); ?>"</strong> del anuncio:</p>
         <p><em><?php echo htmlspecialchars($foto['TituloAnuncio']); ?></em></p>
 
@@ -91,7 +89,7 @@ $db->close();
         </div>
 
         <p>¿Estás seguro? Esta acción no se puede deshacer.</p>
-        
+
         <?php if ($foto['Foto'] === $foto['FPrincipal']): ?>
             <p style="color: #e67e22; font-size: 0.9em;">
                 <strong>Nota:</strong> Esta es la foto de portada actual. Al borrarla, el anuncio se quedará sin imagen principal.
@@ -111,4 +109,5 @@ $db->close();
 
     <?php require('pie.php'); ?>
 </body>
+
 </html>

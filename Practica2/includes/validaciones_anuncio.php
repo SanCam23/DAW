@@ -1,14 +1,11 @@
 <?php
 
-/**
- * Valida los datos obligatorios de un anuncio.
- * Devuelve un array de errores.
- */
+// Validar datos obligatorios de un anuncio
 function validarAnuncio($titulo, $texto, $precio, $ciudad, $pais, $tipo_anuncio, $tipo_vivienda)
 {
     $errores = [];
 
-    // Validaciones obligatorias
+    // Validar campos obligatorios
     if (empty(trim($titulo))) {
         $errores[] = "El título es obligatorio.";
     }

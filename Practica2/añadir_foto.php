@@ -18,13 +18,13 @@ $nombre_fichero_manual = ""; // Para el mensaje de aviso
 $titulo_foto = "";
 $alt_foto = "";
 
-// 1. Verificar que el anuncio existe y pertenece al usuario logueado
+// Verificar que el anuncio existe y pertenece al usuario
 $anuncio_valido = false;
 $titulo_anuncio = "";
 $tiene_portada = false;
 
 if ($id_anuncio) {
-    // Consultamos si el anuncio es del usuario y si ya tiene foto principal
+    // Consultar si el anuncio es del usuario y tiene foto principal
     $stmt = $db->prepare("SELECT Titulo, FPrincipal FROM ANUNCIOS WHERE IdAnuncio = ? AND Usuario = ?");
     $stmt->bind_param("ii", $id_anuncio, $usuario_id);
     $stmt->execute();
@@ -34,8 +34,7 @@ if ($id_anuncio) {
         $anuncio_valido = true;
         $titulo_anuncio = $fila['Titulo'];
 
-        // Comprobamos si tiene una foto principal real asignada
-        // (Ignoramos si es el texto provisional 'Pendiente de imagen')
+        // Comprobar si tiene una foto principal asignada
         if (!empty($fila['FPrincipal']) && $fila['FPrincipal'] !== 'Pendiente de imagen') {
             $tiene_portada = true;
         }
@@ -49,16 +48,15 @@ if (!$anuncio_valido) {
     exit();
 }
 
-// 2. Procesar el formulario POST
+// Procesar formulario POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titulo_foto = trim($_POST['titulo'] ?? '');
     $alt_foto = trim($_POST['alt'] ?? '');
 
-    // A. Validar datos de texto (función externa)
+    // Validar datos de texto
     $errores = validarDatosFoto($titulo_foto, $alt_foto);
 
-    // B. Validar que se ha seleccionado un archivo
-    // Aunque no lo guardemos físicamente, necesitamos su nombre para la BD.
+    // Validar que se ha seleccionado un archivo
     if (!isset($_FILES['fichero']) || $_FILES['fichero']['error'] === UPLOAD_ERR_NO_FILE) {
         $errores[] = "Debes seleccionar un archivo de imagen.";
     } elseif ($_FILES['fichero']['error'] !== UPLOAD_ERR_OK) {
@@ -68,27 +66,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Si no hay errores, procedemos a la inserción en BD
     if (empty($errores)) {
 
-        // Obtenemos solo el nombre del archivo (sin moverlo, cumpliendo el PDF)
+        // Obtener nombre del archivo
         $nombre_archivo = basename($_FILES['fichero']['name']);
 
-        // Construimos la ruta que se guardará en la BD
-        // NOTA: Usamos time() para evitar duplicados de nombre en la BD, 
-        // aunque el fichero físico tendrás que renombrarlo tú al subirlo a mano.
+        // Construir ruta para guardar en BD
+        // Nota: Usar time() para evitar duplicados en la BD
         $nombre_unico = time() . "_" . $nombre_archivo;
         $ruta_bd = "img/" . $nombre_unico;
-        $nombre_fichero_manual = $nombre_unico; // Para mostrarselo al usuario
+        $nombre_fichero_manual = $nombre_unico;
 
-        // Inserción en base de datos
+        // Insertar en base de datos
         $db->begin_transaction();
         try {
-            // 1. Insertar en la tabla FOTOS
+            // Insertar en la tabla FOTOS
             $sql_insert = "INSERT INTO FOTOS (Titulo, Foto, Alternativo, Anuncio) VALUES (?, ?, ?, ?)";
             $stmt_ins = $db->prepare($sql_insert);
             $stmt_ins->bind_param("sssi", $titulo_foto, $ruta_bd, $alt_foto, $id_anuncio);
             $stmt_ins->execute();
             $stmt_ins->close();
 
-            // 2. Si el anuncio no tenía portada, actualizamos la tabla ANUNCIOS
+            // Si el anuncio no tenía portada, actualizar ANUNCIOS
             if (!$tiene_portada) {
                 $sql_update = "UPDATE ANUNCIOS SET FPrincipal = ?, Alternativo = ? WHERE IdAnuncio = ?";
                 $stmt_upd = $db->prepare($sql_update);
@@ -128,8 +125,8 @@ $db->close();
                 <p>La foto se ha registrado asociada al anuncio: <strong><?php echo htmlspecialchars($titulo_anuncio); ?></strong></p>
 
                 <div style="background-color: #fff3cd; border: 1px solid #ffeeba; padding: 15px; margin: 15px 0; border-radius: 5px; color: #856404;">
-                    <strong>⚠️ RECORDATORIO IMPORTANTE (Práctica 10):</strong><br>
-                    Como indica el enunciado, el almacenamiento automático no está implementado.
+                    <strong>RECORDATORIO:</strong><br>
+                    Nota: Subida de archivos manual, no se mueve al servidor automáticamente.
                     <br><br>
                     Debes copiar <strong>manualmente</strong> tu archivo de imagen a la carpeta <code>Practica2/img/</code> con el siguiente nombre para que se vea correctamente:
                     <br><br>

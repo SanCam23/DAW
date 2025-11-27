@@ -79,10 +79,10 @@ if ($anuncio === null) {
     <main>
         <section class="col-izquierda">
             <h2><?php echo htmlspecialchars($anuncio['Titulo']); ?></h2>
-            
+
             <figure class="foto-principal">
-                <img src="<?php echo htmlspecialchars($anuncio['FPrincipal']); ?>" 
-                     alt="<?php echo htmlspecialchars($anuncio['Alternativo']); ?>">
+                <img src="<?php echo htmlspecialchars($anuncio['FPrincipal']); ?>"
+                    alt="<?php echo htmlspecialchars($anuncio['Alternativo']); ?>">
             </figure>
 
             <section class="galeria">
@@ -90,18 +90,18 @@ if ($anuncio === null) {
                 <?php if (empty($fotos)): ?>
                     <p>No hay más fotos en la galería.</p>
                 <?php else: ?>
-                    <?php 
+                    <?php
                     $fotos_mostradas = 0;
-                    foreach ($fotos as $foto): 
-                        // FILTRO: Si la foto de la galería es la misma que la principal, NO la mostramos aquí
+                    foreach ($fotos as $foto):
+                        // Filtrar: No mostrar la foto principal en la galería
                         if ($foto['Foto'] === $anuncio['FPrincipal']) {
-                            continue; 
+                            continue;
                         }
                         $fotos_mostradas++;
                     ?>
                         <figure>
-                            <img src="<?php echo htmlspecialchars($foto['Foto']); ?>" 
-                                 alt="<?php echo htmlspecialchars($foto['Alternativo']); ?>">
+                            <img src="<?php echo htmlspecialchars($foto['Foto']); ?>"
+                                alt="<?php echo htmlspecialchars($foto['Alternativo']); ?>">
                         </figure>
                     <?php endforeach; ?>
 
@@ -155,4 +155,5 @@ if ($anuncio === null) {
 
     <?php require('pie.php'); ?>
 </body>
+
 </html>

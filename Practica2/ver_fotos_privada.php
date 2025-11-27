@@ -1,9 +1,9 @@
 <?php
-session_start(); // Importante: sesión iniciada para verificar acceso
+session_start();
 require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/includes/funciones_fotos.php'; // Importamos la nueva librería
+require_once __DIR__ . '/includes/funciones_fotos.php';
 
-// Protección de sesión
+// Verificar sesión activa
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: index.php");
     exit;
@@ -20,7 +20,7 @@ $db = conectarDB();
 $datos = null;
 
 if ($db) {
-    // Reutilizamos la misma lógica de obtención de datos
+    // Obtener datos de la galería
     $datos = obtenerDatosGaleria($db, $id_anuncio);
     $db->close();
 }
@@ -36,12 +36,14 @@ $total_fotos = $datos['total'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Gestionar Fotos - <?php echo htmlspecialchars($anuncio['Titulo']); ?></title>
     <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/ver_fotos.css">
 </head>
+
 <body>
     <?php
     $zona = 'privada';
@@ -60,12 +62,13 @@ $total_fotos = $datos['total'];
             </div>
         </section>
 
-        <?php 
-        // Renderizamos la galería en MODO EDICIÓN (true) para ver el botón Eliminar
-        renderizarGaleria($fotos, true); 
+        <?php
+        // Renderizar galería en modo edición
+        renderizarGaleria($fotos, true);
         ?>
     </main>
 
     <?php require('pie.php'); ?>
 </body>
+
 </html>

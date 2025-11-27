@@ -15,7 +15,7 @@ if (!empty($nuevo_estilo_id)) {
     $stmt->bind_param("i", $nuevo_estilo_id);
     $stmt->execute();
     $resultado = $stmt->get_result();
-    
+
     if ($resultado && $resultado->num_rows > 0) {
         $estilo_info = $resultado->fetch_assoc();
         $nuevo_estilo_nombre = $estilo_info['Nombre'];
@@ -59,9 +59,9 @@ $clase_contraste = ($nuevo_estilo_nombre === 'Alto Contraste') ? 'inicio' : '';
                     <strong>Estilo:</strong> <?php echo htmlspecialchars($nuevo_estilo_nombre); ?>
                 </div>
                 <?php if (!empty($nuevo_estilo_descripcion)): ?>
-                <div class="estilo-descripcion">
-                    <strong>Descripción:</strong> <?php echo htmlspecialchars($nuevo_estilo_descripcion); ?>
-                </div>
+                    <div class="estilo-descripcion">
+                        <strong>Descripción:</strong> <?php echo htmlspecialchars($nuevo_estilo_descripcion); ?>
+                    </div>
                 <?php endif; ?>
                 <div class="estilo-aplicacion">
                     <strong>Se aplica en:</strong> Todas las páginas del sitio web

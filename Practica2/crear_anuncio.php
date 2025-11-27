@@ -72,7 +72,7 @@ $db->close();
                 <ul>
                     <li><strong>Título:</strong> <?php echo htmlspecialchars($titulo); ?></li>
                     <li><strong>Ciudad:</strong> <?php echo htmlspecialchars($ciudad); ?></li>
-                    <li><strong>Precio:</strong> <?php echo number_format($precio, 2); ?> €</li>
+                    <li><strong>Precio:</strong> <?php echo number_format($precio, 2, ',', '.'); ?> €</li>
                 </ul>
                 <p>Ahora puedes añadir la primera foto a tu anuncio:</p>
                 <a href="añadir_foto.php?id=<?php echo $id_nuevo_anuncio; ?>" class="boton-crear">Añadir Foto</a>

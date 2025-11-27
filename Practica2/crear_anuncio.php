@@ -7,13 +7,13 @@ require_once __DIR__ . '/includes/validaciones_anuncio.php';
 $zona = 'privada';
 $db = conectarDB();
 
-// Inicializar variables vacías
+// Inicializar variables
 $titulo = $texto = $precio = $ciudad = $pais = $tipo_anuncio = $tipo_vivienda = "";
 $errores = [];
 $exito = false;
 $id_nuevo_anuncio = 0;
 
-// Cargar datos para los desplegables
+// Cargar datos para desplegables
 $paises = $db->query("SELECT IdPais, NomPais FROM PAISES ORDER BY NomPais")->fetch_all(MYSQLI_ASSOC);
 $tipos_anuncio = $db->query("SELECT IdTAnuncio, NomTAnuncio FROM TIPOSANUNCIOS ORDER BY NomTAnuncio")->fetch_all(MYSQLI_ASSOC);
 $tipos_vivienda = $db->query("SELECT IdTVivienda, NomTVivienda FROM TIPOSVIVIENDAS ORDER BY NomTVivienda")->fetch_all(MYSQLI_ASSOC);
@@ -30,8 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errores = validarAnuncio($titulo, $texto, $precio, $ciudad, $pais, $tipo_anuncio, $tipo_vivienda);
 
     if (empty($errores)) {
-        // Insertar en BD
-        // Nota: 'Alternativo' es NOT NULL, ponemos un texto temporal.
+        // Insertar en base de datos
         $alt_temp = "Pendiente de imagen";
         $usuario_id = $_SESSION['usuario_id'];
 

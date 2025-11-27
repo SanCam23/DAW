@@ -12,7 +12,7 @@ $id_usuario = $_SESSION['usuario_id'];
 $errores = [];
 $exito = false;
 
-// Cargar desplegables
+// Cargar datos para desplegables
 $paises = $db->query("SELECT IdPais, NomPais FROM PAISES ORDER BY NomPais")->fetch_all(MYSQLI_ASSOC);
 $tipos_anuncio = $db->query("SELECT IdTAnuncio, NomTAnuncio FROM TIPOSANUNCIOS ORDER BY NomTAnuncio")->fetch_all(MYSQLI_ASSOC);
 $tipos_vivienda = $db->query("SELECT IdTVivienda, NomTVivienda FROM TIPOSVIVIENDAS ORDER BY NomTVivienda")->fetch_all(MYSQLI_ASSOC);
@@ -20,16 +20,16 @@ $tipos_vivienda = $db->query("SELECT IdTVivienda, NomTVivienda FROM TIPOSVIVIEND
 // Variables iniciales
 $titulo = $texto = $precio = $ciudad = $pais = $tipo_anuncio = $tipo_vivienda = "";
 
-// 1. CARGAR DATOS ACTUALES
+// Cargar datos actuales del anuncio
 $stmt_load = $db->prepare("SELECT * FROM ANUNCIOS WHERE IdAnuncio = ? AND Usuario = ?");
 $stmt_load->bind_param("ii", $id_anuncio, $id_usuario);
 $stmt_load->execute();
 $res = $stmt_load->get_result();
 
 if ($fila = $res->fetch_assoc()) {
-    // Rellenar variables para el formulario
+    // Rellenar variables del formulario
     $titulo = $fila['Titulo'];
-    $texto = $fila['Texto']; // En BD es 'Texto', en form 'descripcion'
+    $texto = $fila['Texto'];
     $precio = $fila['Precio'];
     $ciudad = $fila['Ciudad'];
     $pais = $fila['Pais'];
@@ -41,7 +41,7 @@ if ($fila = $res->fetch_assoc()) {
 }
 $stmt_load->close();
 
-// 2. PROCESAR ACTUALIZACIÓN
+// Procesar actualización
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulo = trim($_POST["titulo"]);
     $texto = trim($_POST["descripcion"]);

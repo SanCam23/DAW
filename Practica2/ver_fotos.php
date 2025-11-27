@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/includes/funciones_fotos.php'; // Importamos la nueva librería
+require_once __DIR__ . '/includes/funciones_fotos.php';
 
 $id_anuncio = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
@@ -13,7 +13,7 @@ $db = conectarDB();
 $datos = null;
 
 if ($db) {
-    // Usamos la función compartida
+    // Obtener datos de la galería
     $datos = obtenerDatosGaleria($db, $id_anuncio);
     $db->close();
 }
@@ -29,12 +29,14 @@ $total_fotos = $datos['total'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Fotos de <?php echo htmlspecialchars($anuncio['Titulo']); ?> - VENTAPLUS</title>
     <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/ver_fotos.css">
 </head>
+
 <body>
     <?php
     $zona = 'publica';
@@ -50,12 +52,13 @@ $total_fotos = $datos['total'];
             <p><a href="detalle_anuncio.php?id=<?php echo $id_anuncio; ?>">&laquo; Volver al anuncio</a></p>
         </section>
 
-        <?php 
-        // Renderizamos la galería en modo NO edición (false)
-        renderizarGaleria($fotos, false); 
+        <?php
+        // Renderizar galería en modo NO edición
+        renderizarGaleria($fotos, false);
         ?>
     </main>
 
     <?php require('pie.php'); ?>
 </body>
+
 </html>

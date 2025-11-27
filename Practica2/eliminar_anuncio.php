@@ -6,11 +6,11 @@ require_once __DIR__ . '/db.php';
 $zona = 'privada';
 $db = conectarDB();
 
-// 1. Validar ID y Propiedad del anuncio
+// Validar ID y propiedad del anuncio
 $id_anuncio = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
 $usuario_id = $_SESSION['usuario_id'];
 
-// Consultamos si existe y es del usuario
+// Consultar si existe y es del usuario
 $stmt = $db->prepare("SELECT Titulo FROM ANUNCIOS WHERE IdAnuncio = ? AND Usuario = ?");
 $stmt->bind_param("ii", $id_anuncio, $usuario_id);
 $stmt->execute();
@@ -19,40 +19,39 @@ $anuncio = $res->fetch_assoc();
 $stmt->close();
 
 if (!$anuncio) {
-    // Si no existe o no es suyo, volvemos al listado sin hacer nada
+    // Redirigir si no existe o no es suyo
     header("Location: misanuncios.php");
     exit;
 }
 
 $mensaje_error = "";
 
-// 2. Procesar Borrado (Solo si se confirma por POST)
+// Procesar borrado tras confirmación
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
-    
-    // Iniciamos transacción para borrado en cascada manual
+
+    // Iniciar transacción para borrado en cascada
     $db->begin_transaction();
     try {
-        // A. Borrar Solicitudes de Folleto asociadas
+        // Borrar solicitudes de folleto asociadas
         $db->query("DELETE FROM SOLICITUDES WHERE Anuncio = $id_anuncio");
 
-        // B. Borrar Mensajes asociados
+        // Borrar mensajes asociados
         $db->query("DELETE FROM MENSAJES WHERE Anuncio = $id_anuncio");
 
-        // C. Borrar Fotos asociadas (Solo de la BD)
+        // Borrar fotos asociadas
         $db->query("DELETE FROM FOTOS WHERE Anuncio = $id_anuncio");
 
-        // D. Finalmente, borrar el Anuncio
+        // Borrar el anuncio
         $stmt_del = $db->prepare("DELETE FROM ANUNCIOS WHERE IdAnuncio = ?");
         $stmt_del->bind_param("i", $id_anuncio);
         $stmt_del->execute();
         $stmt_del->close();
 
         $db->commit();
-        
+
         // Redirigir con éxito
         header("Location: misanuncios.php?borrado=exito");
         exit;
-
     } catch (Exception $e) {
         $db->rollback();
         $mensaje_error = "Error al eliminar: " . $e->getMessage();
@@ -62,12 +61,14 @@ $db->close();
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Eliminar Anuncio - VENTAPLUS</title>
     <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/eliminar_anuncio.css">
 </head>
+
 <body>
     <?php require('cabecera.php'); ?>
 
@@ -78,9 +79,10 @@ $db->close();
             <p><strong>"<?php echo htmlspecialchars($anuncio['Titulo']); ?>"</strong>?</p>
             <br>
             <p>Esta acción borrará también todas las fotos, mensajes y solicitudes asociadas.<br>
-            <strong>Esta operación no se puede deshacer.</strong></p>
-            
-            <?php if($mensaje_error): ?>
+                <strong>Esta operación no se puede deshacer.</strong>
+            </p>
+
+            <?php if ($mensaje_error): ?>
                 <p class="mensaje-error"><?php echo htmlspecialchars($mensaje_error); ?></p>
             <?php endif; ?>
 
@@ -94,4 +96,5 @@ $db->close();
 
     <?php require('pie.php'); ?>
 </body>
+
 </html>

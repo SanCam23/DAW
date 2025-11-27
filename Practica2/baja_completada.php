@@ -18,10 +18,12 @@ $zona = 'publica';
             text-align: center;
             padding: 40px 20px;
         }
+
         .baja-completada h2 {
             color: #4caf50;
             margin-bottom: 20px;
         }
+
         .acciones {
             margin-top: 30px;
             display: flex;
@@ -29,6 +31,7 @@ $zona = 'publica';
             justify-content: center;
             flex-wrap: wrap;
         }
+
         .btn {
             padding: 12px 25px;
             background: #4caf50;
@@ -36,6 +39,7 @@ $zona = 'publica';
             text-decoration: none;
             border-radius: 6px;
         }
+
         .btn.registrar {
             background: #2196f3;
         }
@@ -47,10 +51,10 @@ $zona = 'publica';
 
     <main>
         <section class="baja-completada">
-            <h2>✅ Baja completada</h2>
+            <h2>Baja completada</h2>
             <p>Su cuenta y todos sus datos asociados han sido eliminados correctamente.</p>
             <p>Lamentamos que nos deje. Esperamos volver a verle pronto.</p>
-            
+
             <div class="acciones">
                 <a href="index.php" class="btn">Volver al inicio</a>
                 <a href="registro.php" class="btn registrar">Crear nueva cuenta</a>

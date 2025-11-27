@@ -125,7 +125,7 @@ $db->close();
                 <p>La foto se ha registrado asociada al anuncio: <strong><?php echo htmlspecialchars($titulo_anuncio); ?></strong></p>
 
                 <div style="background-color: #fff3cd; border: 1px solid #ffeeba; padding: 15px; margin: 15px 0; border-radius: 5px; color: #856404;">
-                    <strong>⚠️ RECORDATORIO:</strong><br>
+                    <strong>RECORDATORIO:</strong><br>
                     Nota: Subida de archivos manual, no se mueve al servidor automáticamente.
                     <br><br>
                     Debes copiar <strong>manualmente</strong> tu archivo de imagen a la carpeta <code>Practica2/img/</code> con el siguiente nombre para que se vea correctamente:

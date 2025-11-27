@@ -149,7 +149,7 @@ $clase_contraste = ($estilo_actual === 'Alto Contraste') ? 'inicio' : '';
                             <p class="fichero">Archivo: <?php echo $estilo['Fichero']; ?></p>
                             
                             <?php if ($estilo['IdEstilo'] == $estilo_actual_id): ?>
-                                <div class="estado-activo">✓ Actualmente activo</div>
+                                <div class="estado-activo"> Actualmente activo</div>
                             <?php else: ?>
                                 <form action="configurar.php" method="POST">
                                     <input type="hidden" name="cambiar_estilo" value="<?php echo $estilo['IdEstilo']; ?>">

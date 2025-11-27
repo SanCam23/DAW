@@ -103,21 +103,18 @@ if ($resultado_validacion !== true) {
                     }
                     $stmt_estilo->close();
                     
-                    // INICIAR SESIÓN AUTOMÁTICAMENTE (igual que en acceso.php)
+                    // INICIAR SESIÓN AUTOMÁTICAMENTE
                     $_SESSION['usuario_autenticado'] = true;
                     $_SESSION['nombre_usuario'] = $usuario;
                     $_SESSION['usuario_id'] = $usuario_id;
                     $_SESSION['estilo_css'] = $fichero_estilo;
                     
-                    // Configurar última visita (igual que en acceso.php)
+                    // Configurar última visita
                     unset($_SESSION['visita_para_mostrar']);
                     date_default_timezone_set('Europe/Madrid');
                     $hora_actual = new DateTime('now', new DateTimeZone(date_default_timezone_get()));
                     $hora_actual_str = $hora_actual->format('Y-m-d H:i:s');
                     $_SESSION['ultima_visita'] = $hora_actual_str;
-                    
-                    // No establecemos cookies de "Recordarme" en registro automático
-                    // El usuario puede activarlo manualmente en el futuro si quiere
                     
                     $stmt_insert->close();
                     $db->close();

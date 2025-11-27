@@ -2,9 +2,6 @@
 
 /**
  * Valida el nombre de usuario
- * - Sólo letras del alfabeto inglés y números
- * - No puede comenzar con número
- * - Longitud mínima 3 caracteres y máxima 15
  */
 
 function validarUsuario($usuario) {
@@ -33,9 +30,6 @@ function validarUsuario($usuario) {
 
 /**
  * Valida la contraseña
- * - Sólo letras del alfabeto inglés, números, guion y guion bajo
- * - Al menos una mayúscula, una minúscula y un número
- * - Longitud mínima 6 caracteres y máxima 15
  */
 function validarPassword($password) {
     if (empty($password)) {
@@ -112,7 +106,7 @@ function validarEmail($email) {
         return "El dominio del email debe tener entre 1 y 255 caracteres.";
     }
     
-    // Validar caracteres de parte-local según PDF
+    // Validar caracteres de parte-local
     // Letras mayúsculas/minúsculas, dígitos, caracteres: !#$%&'*+-/=?^_`{|}~ y punto
     if (!preg_match('/^[a-zA-Z0-9!#$%&\'*+\-\/=?^_`{|}~.]+$/', $parte_local)) {
         return "La parte local del email contiene caracteres no permitidos.";
@@ -211,26 +205,8 @@ function validarFechaNacimiento($fecha_nacimiento) {
 }
 
 /**
- * Valida campos opcionales
- */
-function validarCampoOpcional($campo, $longitud_maxima = 255) {
-    $campo = trim($campo);
-    
-    if (!empty($campo) && strlen($campo) > $longitud_maxima) {
-        return "El campo no puede superar los $longitud_maxima caracteres.";
-    }
-    
-    // Saneamiento básico - eliminar caracteres potencialmente peligrosos
-    $campo_saneado = filter_var($campo, FILTER_SANITIZE_STRING);
-    
-    return $campo_saneado;
-}
-
-/**
- * Función principal que valida todos los datos del formulario
- * @param array $datos Array con los datos del formulario
- * @param bool $es_actualizacion Si es true, la contraseña no es obligatoria
- * @return array Array con errores o true si todo es válido
+ * Valida todos los campos del formulario de usuario
+ * $es_actualizacion: indica si es una actualización de datos (true) o un nuevo registro (false)
  */
 function validarFormularioUsuario($datos, $es_actualizacion = false) {
     $errores = [];

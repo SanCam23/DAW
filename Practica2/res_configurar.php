@@ -48,7 +48,7 @@ $clase_contraste = ($nuevo_estilo_nombre === 'Alto Contraste') ? 'inicio' : '';
 
     <main class="<?php echo $clase_contraste; ?>">
         <section class="confirmacion-cambio">
-            <h2>✅ Estilo configurado correctamente</h2>
+            <h2>Estilo configurado correctamente</h2>
             <p>Tu estilo visual ha sido actualizado exitosamente.</p>
         </section>
 

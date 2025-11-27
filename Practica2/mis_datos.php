@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nueva_password = $_POST['nueva_password'] ?? '';
     $confirmar_password = $_POST['confirmar_password'] ?? '';
     
-    // 1. VERIFICAR CONTRASEÑA ACTUAL (requerida según PDF)
+    // VERIFICAR CONTRASEÑA ACTUAL
     if (empty($password_actual)) {
         $errores['password_actual'] = "Debe introducir su contraseña actual para confirmar los cambios.";
     } else {
@@ -40,15 +40,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($fila = $resultado_verificar->fetch_assoc()) {
             if (!password_verify($password_actual, $fila['Clave'])) {
                 $errores['password_actual'] = "La contraseña actual es incorrecta.";
+            } else {
+                // Guardar nombre actual para usar después
+                $nombre_usuario_actual_bd = $fila['NomUsuario'];
             }
         }
         $stmt_verificar->close();
     }
     
-    // 2. VALIDAR DATOS (usando nuestro fichero de validaciones)
+    // VALIDAR DATOS (usando fichero validaciones)
     if (empty($errores)) {
         $datos_formulario = [
-            'usuario' => $nombre_usuario, // Usar el nuevo nombre de usuario del formulario
+            'usuario' => $nombre_usuario,
             'email' => $email,
             'sexo' => $sexo,
             'fecha_nacimiento' => $fecha_nacimiento,
@@ -68,22 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     
-    // 3. VERIFICAR SI EL NUEVO NOMBRE DE USUARIO YA EXISTE (si se cambió)
+    // VERIFICAR SI EL NUEVO NOMBRE DE USUARIO YA EXISTE (si se cambió)
     if (empty($errores)) {
-        // Obtener el nombre de usuario actual de la BD
-        $sql_nombre_actual = "SELECT NomUsuario FROM USUARIOS WHERE IdUsuario = ?";
-        $stmt_nombre_actual = $db->prepare($sql_nombre_actual);
-        $stmt_nombre_actual->bind_param("i", $usuario_id);
-        $stmt_nombre_actual->execute();
-        $resultado_nombre_actual = $stmt_nombre_actual->get_result();
-        $nombre_usuario_actual = '';
-        if ($fila_nombre = $resultado_nombre_actual->fetch_assoc()) {
-            $nombre_usuario_actual = $fila_nombre['NomUsuario'];
-        }
-        $stmt_nombre_actual->close();
-        
         // Solo verificar si el nombre de usuario es diferente al actual
-        if ($nombre_usuario !== $nombre_usuario_actual) {
+        if ($nombre_usuario !== $nombre_usuario_actual_bd) {
             $sql_check_usuario = "SELECT IdUsuario FROM USUARIOS WHERE NomUsuario = ? AND IdUsuario != ?";
             $stmt_check = $db->prepare($sql_check_usuario);
             $stmt_check->bind_param("si", $nombre_usuario, $usuario_id);
@@ -97,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     
-    // 4. ACTUALIZAR EN BD SI NO HAY ERRORES
+    // ACTUALIZAR EN BD SI NO HAY ERRORES
     if (empty($errores)) {
         // Preparar datos para UPDATE
         $fecha_mysql = DateTime::createFromFormat('d/m/Y', $fecha_nacimiento)->format('Y-m-d');
@@ -123,78 +114,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Ejecutar UPDATE
         $stmt_update = $db->prepare($sql_update);
-        // Ejecutar UPDATE
-    $stmt_update = $db->prepare($sql_update);
-    if ($stmt_update) {
-        $stmt_update->bind_param($tipos, ...$parametros);
-        
-        // En la sección de actualización exitosa, REEMPLAZA todo desde:
-if ($stmt_update->execute()) {
-    $mensaje_exito = "Datos actualizados correctamente.";
-    
-    // Actualizar variables de sesión con los nuevos datos
-    $_SESSION['nombre_usuario'] = $nombre_usuario;
-    
-    // Solo limpiar cookies si cambió usuario o contraseña
-    
-    // Obtener el nombre de usuario actual de la BD para comparar
-    $sql_nombre_actual = "SELECT NomUsuario FROM USUARIOS WHERE IdUsuario = ?";
-    $stmt_nombre_actual = $db->prepare($sql_nombre_actual);
-    $stmt_nombre_actual->bind_param("i", $usuario_id);
-    $stmt_nombre_actual->execute();
-    $resultado_nombre_actual = $stmt_nombre_actual->get_result();
-    $nombre_usuario_actual_bd = '';
-    if ($fila_nombre = $resultado_nombre_actual->fetch_assoc()) {
-        $nombre_usuario_actual_bd = $fila_nombre['NomUsuario'];
-    }
-    $stmt_nombre_actual->close();
-    
-    // Determinar si cambió usuario o contraseña
-    $cambio_usuario = ($nombre_usuario !== $nombre_usuario_actual_bd);
-    $cambio_password = !empty($nueva_password);
-    
-    // Solo limpiar cookies si cambió usuario O contraseña
-    if ($cambio_usuario || $cambio_password) {
-        // Limpiar tokens del archivo
-        if (file_exists('tokens.txt')) {
-            $tokens = file('tokens.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            $nuevos_tokens = [];
+        if ($stmt_update) {
+            $stmt_update->bind_param($tipos, ...$parametros);
             
-            foreach ($tokens as $linea) {
-                list($token_usuario_id, $token_guardado, $expiracion_guardada) = explode(':', $linea);
-                // Mantener solo tokens de otros usuarios
-                if ($token_usuario_id != $usuario_id) {
-                    $nuevos_tokens[] = $linea;
-                }
-            }
-            
-            file_put_contents('tokens.txt', implode("\n", $nuevos_tokens) . "\n");
-        }
+            if ($stmt_update->execute()) {
+                // ACTUALIZACIÓN EXITOSA
+                
+                // Actualizar variables de sesión con los nuevos datos
+                $_SESSION['nombre_usuario'] = $nombre_usuario;
+                
+                // Determinar si cambió usuario o contraseña (USANDO variable ya calculada)
+                $cambio_usuario = ($nombre_usuario !== $nombre_usuario_actual_bd);
+                $cambio_password = !empty($nueva_password);
+                
+                // Solo limpiar cookies si cambió usuario O contraseña
+                if ($cambio_usuario || $cambio_password) {
+                    // Limpiar tokens del archivo
+                    if (file_exists('tokens.txt')) {
+                        $tokens = file('tokens.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                        $nuevos_tokens = [];
+                        
+                        foreach ($tokens as $linea) {
+                            list($token_usuario_id, $token_guardado, $expiracion_guardada) = explode(':', $linea);
+                            // Mantener solo tokens de otros usuarios
+                            if ($token_usuario_id != $usuario_id) {
+                                $nuevos_tokens[] = $linea;
+                            }
+                        }
+                        
+                        file_put_contents('tokens.txt', implode("\n", $nuevos_tokens) . "\n");
+                    }
 
-        // Limpiar también las cookies relacionadas
-        $cookies_a_limpiar = ['recordarme_token', 'ultima_visita_timestamp', 'estilo_css'];
-        foreach ($cookies_a_limpiar as $cookie_name) {
-            if (isset($_COOKIE[$cookie_name])) {
-                setcookie($cookie_name, '', [
-                    'expires' => time() - 3600,
-                    'path' => '/',
-                    'httponly' => ($cookie_name !== 'estilo_css')
-                ]);
+                    // Limpiar también las cookies relacionadas
+                    $cookies_a_limpiar = ['recordarme_token', 'ultima_visita_timestamp', 'estilo_css'];
+                    foreach ($cookies_a_limpiar as $cookie_name) {
+                        if (isset($_COOKIE[$cookie_name])) {
+                            setcookie($cookie_name, '', [
+                                'expires' => time() - 3600,
+                                'path' => '/',
+                                'httponly' => ($cookie_name !== 'estilo_css')
+                            ]);
+                        }
+                    }
+                    
+                    // Redirigir con mensaje específico
+                    header("Location: res_mis_datos.php?mensaje=" . urlencode("Datos actualizados correctamente. Debido a cambios en sus credenciales, deberá volver a iniciar sesión en caso de haber seleccionado la opción recordarme, una vez vuelva a entrar."));
+                    exit();
+                } else {
+                    // Solo cambió otros datos, mantener cookies
+                    header("Location: res_mis_datos.php?mensaje=" . urlencode("Datos actualizados correctamente."));
+                    exit();
+                }
+                
+            } else {
+                $errores[] = "Error al actualizar los datos en la base de datos: " . $stmt_update->error;
             }
-        }
-        
-        // Redirigir con mensaje específico
-        header("Location: res_mis_datos.php?mensaje=" . urlencode("Datos actualizados correctamente. Debido a cambios en sus credenciales, deberá volver a iniciar sesión."));
-        exit();
-    } else {
-        // Solo cambió otros datos, mantener cookies
-        header("Location: res_mis_datos.php?mensaje=" . urlencode("Datos actualizados correctamente."));
-        exit();
-    }
-    
-} else {
-    $errores[] = "Error al actualizar los datos en la base de datos: " . $stmt_update->error;
-}
             $stmt_update->close();
         } else {
             $errores[] = "Error al preparar la consulta de actualización.";
@@ -202,7 +176,7 @@ if ($stmt_update->execute()) {
     }
 }
 
-// Obtener datos actualizados del usuario desde la BD
+// Obtener datos actualizados del usuario desde la BD (para mostrar el formulario)
 if ($db && isset($_SESSION['usuario_id'])) {
     $usuario_id = $_SESSION['usuario_id'];
 

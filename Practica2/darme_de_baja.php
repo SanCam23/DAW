@@ -11,7 +11,7 @@ $total_fotos = 0;
 $total_anuncios = 0;
 $errores = [];
 
-// Obtener datos del usuario y sus anuncios
+// Obtener datos del usuario y sus anuncios para el resumen visual
 if ($db && isset($_SESSION['usuario_id'])) {
     $usuario_id = $_SESSION['usuario_id'];
 
@@ -79,64 +79,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 try {
                     $usuario_id = $_SESSION['usuario_id'];
 
-                    // 1. Obtener IDs de anuncios del usuario
-                    $sql_anuncios_ids = "SELECT IdAnuncio FROM ANUNCIOS WHERE Usuario = ?";
-                    $stmt_anuncios_ids = $db->prepare($sql_anuncios_ids);
-                    $stmt_anuncios_ids->bind_param("i", $usuario_id);
-                    $stmt_anuncios_ids->execute();
-                    $resultado_anuncios_ids = $stmt_anuncios_ids->get_result();
+                    // --- 1. LIMPIEZA DE ARCHIVOS FÍSICOS ---
+                    
+                    // 1.1. Eliminar foto de perfil del usuario
+                    $sql_foto_perfil = "SELECT Foto FROM USUARIOS WHERE IdUsuario = ?";
+                    $stmt_perfil = $db->prepare($sql_foto_perfil);
+                    $stmt_perfil->bind_param("i", $usuario_id);
+                    $stmt_perfil->execute();
+                    $stmt_perfil->bind_result($foto_perfil);
+                    $stmt_perfil->fetch();
+                    $stmt_perfil->close();
 
-                    $anuncios_ids = [];
-                    while ($fila_anuncio = $resultado_anuncios_ids->fetch_assoc()) {
-                        $anuncios_ids[] = $fila_anuncio['IdAnuncio'];
-                    }
-                    $stmt_anuncios_ids->close();
-
-                    // 2. Eliminar mensajes
-                    if (!empty($anuncios_ids)) {
-                        $placeholders = str_repeat('?,', count($anuncios_ids) - 1) . '?';
-                        $sql_mensajes = "DELETE FROM MENSAJES WHERE Anuncio IN ($placeholders)";
-                        $stmt_mensajes = $db->prepare($sql_mensajes);
-                        $stmt_mensajes->bind_param(str_repeat('i', count($anuncios_ids)), ...$anuncios_ids);
-                        $stmt_mensajes->execute();
-                        $stmt_mensajes->close();
+                    if (!empty($foto_perfil) && file_exists($foto_perfil)) {
+                        unlink($foto_perfil);
                     }
 
-                    // También eliminar mensajes donde el usuario es origen o destino
+                    // 1.2. Eliminar todas las fotos de los anuncios del usuario
+                    // Hacemos JOIN para obtener fotos de anuncios que pertenecen al usuario
+                    $sql_fotos_anuncios = "SELECT f.Foto 
+                                           FROM FOTOS f 
+                                           JOIN ANUNCIOS a ON f.Anuncio = a.IdAnuncio 
+                                           WHERE a.Usuario = ?";
+                    
+                    $stmt_fotos = $db->prepare($sql_fotos_anuncios);
+                    $stmt_fotos->bind_param("i", $usuario_id);
+                    $stmt_fotos->execute();
+                    $res_fotos = $stmt_fotos->get_result();
+
+                    while ($foto = $res_fotos->fetch_assoc()) {
+                        $ruta_archivo = $foto['Foto'];
+                        if (!empty($ruta_archivo) && file_exists($ruta_archivo)) {
+                            unlink($ruta_archivo);
+                        }
+                    }
+                    $stmt_fotos->close();
+                    
+                    // --- 2. BORRADO DE REGISTROS EN BD ---
+
+                    // 2.1. Eliminar mensajes donde el usuario es origen o destino
+                    // Esto es necesario porque no hay cascada en la relación de usuarios en mensajes
                     $sql_mensajes_usuario = "DELETE FROM MENSAJES WHERE UsuOrigen = ? OR UsuDestino = ?";
                     $stmt_mensajes_usuario = $db->prepare($sql_mensajes_usuario);
                     $stmt_mensajes_usuario->bind_param("ii", $usuario_id, $usuario_id);
                     $stmt_mensajes_usuario->execute();
                     $stmt_mensajes_usuario->close();
 
-                    // 3. Eliminar fotos de los anuncios
-                    if (!empty($anuncios_ids)) {
-                        $placeholders = str_repeat('?,', count($anuncios_ids) - 1) . '?';
-                        $sql_fotos = "DELETE FROM FOTOS WHERE Anuncio IN ($placeholders)";
-                        $stmt_fotos = $db->prepare($sql_fotos);
-                        $stmt_fotos->bind_param(str_repeat('i', count($anuncios_ids)), ...$anuncios_ids);
-                        $stmt_fotos->execute();
-                        $stmt_fotos->close();
-                    }
-
-                    // 4. Eliminar solicitudes de los anuncios
-                    if (!empty($anuncios_ids)) {
-                        $placeholders = str_repeat('?,', count($anuncios_ids) - 1) . '?';
-                        $sql_solicitudes = "DELETE FROM SOLICITUDES WHERE Anuncio IN ($placeholders)";
-                        $stmt_solicitudes = $db->prepare($sql_solicitudes);
-                        $stmt_solicitudes->bind_param(str_repeat('i', count($anuncios_ids)), ...$anuncios_ids);
-                        $stmt_solicitudes->execute();
-                        $stmt_solicitudes->close();
-                    }
-
-                    // 5. Eliminar anuncios del usuario
+                    // 2.2. Eliminar anuncios del usuario
+                    // Gracias al ON DELETE CASCADE configurado, esto borrará automáticamente 
+                    // los registros de fotos, mensajes del anuncio y solicitudes.
                     $sql_eliminar_anuncios = "DELETE FROM ANUNCIOS WHERE Usuario = ?";
                     $stmt_anuncios = $db->prepare($sql_eliminar_anuncios);
                     $stmt_anuncios->bind_param("i", $usuario_id);
                     $stmt_anuncios->execute();
                     $stmt_anuncios->close();
 
-                    // 6. Eliminar el usuario
+                    // 2.3. Eliminar el usuario
                     $sql_eliminar_usuario = "DELETE FROM USUARIOS WHERE IdUsuario = ?";
                     $stmt_usuario = $db->prepare($sql_eliminar_usuario);
                     $stmt_usuario->bind_param("i", $usuario_id);
@@ -155,12 +152,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
                     }
 
-                    // Limpiar tokens
+                    // Limpiar tokens persistentes
                     if (file_exists('tokens.txt')) {
                         $tokens = file('tokens.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
                         $nuevos_tokens = [];
                         foreach ($tokens as $linea) {
-                            list($token_usuario_id, $token_guardado, $expiracion_guardada) = explode(':', $linea);
+                            list($token_usuario_id, , ) = explode(':', $linea);
                             if ($token_usuario_id != $usuario_id) {
                                 $nuevos_tokens[] = $linea;
                             }
@@ -197,12 +194,10 @@ $zona = 'privada';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Darme de baja - VENTAPLUS">
-    <meta name="keywords" content="baja, eliminar cuenta, usuario, VENTAPLUS">
-    <meta name="author" content="Santino Campessi Lojo">
-    <meta name="author" content="Mario Laguna Contreras">
     <title>Darme de baja - VENTAPLUS</title>
     <?php require('estilos.php'); ?>
     <link rel="stylesheet" href="css/darme_de_baja.css">
+    <link rel="stylesheet" type="text/css" href="css/print_formulario.css" media="print">
 </head>
 
 <body>
@@ -221,11 +216,10 @@ $zona = 'privada';
             </div>
         <?php endif; ?>
 
-        <!-- Resumen de datos según PDF -->
         <section class="resumen-datos">
             <h3>Resumen de sus datos</h3>
             <div class="advertencia">
-                <strong>Atención:</strong> Esta acción es irreversible. Se eliminarán todos sus datos.
+                <strong>Atención:</strong> Esta acción es irreversible. Se eliminarán todos sus datos, incluyendo sus <?php echo $total_anuncios; ?> anuncios y <?php echo $total_fotos; ?> fotos.
             </div>
 
             <div class="estadisticas">
@@ -252,7 +246,6 @@ $zona = 'privada';
             <?php endif; ?>
         </section>
 
-        <!-- Formulario de confirmación según PDF -->
         <section class="confirmacion-baja">
             <h3>Confirmar baja</h3>
             <form action="darme_de_baja.php" method="POST">

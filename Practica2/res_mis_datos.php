@@ -91,7 +91,7 @@ $zona = 'privada';
             <h3>Sus datos actualizados:</h3>
             
             <div class="foto-perfil">
-                <img src="<?php echo $usuario['Foto'] ?: 'img/default-profile.png'; ?>" alt="Foto de perfil">
+                <img src="<?php echo !empty($usuario['Foto']) ? htmlspecialchars($usuario['Foto']) : 'img/sin_fto.webp'; ?>" alt="Foto de perfil">
             </div>
 
             <div class="datos-lista">

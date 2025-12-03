@@ -189,7 +189,7 @@ if (!empty($errores)) {
                 </figure>
             <?php else: ?>
                 <figure>
-                    <img src="img/sin_fto.webp" alt="Sin foto de perfil"
+                    <img src="<?php echo !empty($ruta_foto_bd) ? htmlspecialchars($ruta_foto_bd) : 'img/sin_fto.webp'; ?>" alt="Foto de perfil"
                         style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; opacity: 0.7;">
                     <figcaption>No has seleccionado foto (se usará el icono por defecto)</figcaption>
                 </figure>

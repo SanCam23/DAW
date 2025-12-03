@@ -85,11 +85,9 @@ $fecha_registro = date("d/m/Y", strtotime($usuario['FRegistro']));
 
     <main>
         <section class="perfil-info">
-            <?php if (!empty($usuario['Foto'])): ?>
-                <figure>
-                    <img src="<?php echo htmlspecialchars($usuario['Foto']); ?>" alt="Foto de perfil de <?php echo htmlspecialchars($usuario['NomUsuario']); ?>">
-                </figure>
-            <?php endif; ?>
+            <figure>
+                <img src="<?php echo !empty($usuario['Foto']) ? htmlspecialchars($usuario['Foto']) : 'img/sin_fto.webp'; ?>" alt="Foto de perfil de <?php echo htmlspecialchars($usuario['NomUsuario']); ?>">
+            </figure>
 
             <div>
                 <h2><?php echo htmlspecialchars($usuario['NomUsuario']); ?></h2>

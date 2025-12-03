@@ -19,7 +19,6 @@ $anuncio = $res->fetch_assoc();
 $stmt->close();
 
 if (!$anuncio) {
-    // Redirigir si no existe o no es suyo
     header("Location: misanuncios.php");
     exit;
 }
@@ -29,22 +28,38 @@ $mensaje_error = "";
 // Procesar borrado tras confirmación
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
 
-    // Iniciar transacción para borrado en cascada
     $db->begin_transaction();
     try {
-        // Borrar solicitudes de folleto asociadas
-        $db->query("DELETE FROM SOLICITUDES WHERE Anuncio = $id_anuncio");
+        // --- 1. LIMPIEZA DE ARCHIVOS FÍSICOS (Persona 2) ---
+        // Seguimos necesitando esto porque la BD no puede borrar archivos del disco
+        $sql_fotos = "SELECT Foto FROM FOTOS WHERE Anuncio = ?";
+        $stmt_fotos = $db->prepare($sql_fotos);
+        $stmt_fotos->bind_param("i", $id_anuncio);
+        $stmt_fotos->execute();
+        $res_fotos = $stmt_fotos->get_result();
 
-        // Borrar mensajes asociados
-        $db->query("DELETE FROM MENSAJES WHERE Anuncio = $id_anuncio");
+        while ($foto = $res_fotos->fetch_assoc()) {
+            $ruta_archivo = $foto['Foto'];
+            if (!empty($ruta_archivo) && file_exists($ruta_archivo)) {
+                if (!unlink($ruta_archivo)) {
+                    // Opcional: Lanzar error si no se puede borrar el archivo
+                    // throw new Exception("Error al borrar el archivo físico.");
+                }
+            }
+        }
+        $stmt_fotos->close();
+        // ----------------------------------------------------
 
-        // Borrar fotos asociadas
-        $db->query("DELETE FROM FOTOS WHERE Anuncio = $id_anuncio");
-
-        // Borrar el anuncio
+        // --- 2. BORRADO EN BD (Ahora Automático) ---
+        // Al borrar el anuncio, el motor SQL borrará automáticamente (ON DELETE CASCADE)
+        // todos los registros relacionados en las tablas MENSAJES, SOLICITUDES y FOTOS.
+        
         $stmt_del = $db->prepare("DELETE FROM ANUNCIOS WHERE IdAnuncio = ?");
         $stmt_del->bind_param("i", $id_anuncio);
-        $stmt_del->execute();
+        
+        if (!$stmt_del->execute()) {
+            throw new Exception("Error al eliminar el anuncio: " . $stmt_del->error);
+        }
         $stmt_del->close();
 
         $db->commit();
@@ -54,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
         exit;
     } catch (Exception $e) {
         $db->rollback();
-        $mensaje_error = "Error al eliminar: " . $e->getMessage();
+        $mensaje_error = "Error: " . $e->getMessage();
     }
 }
 $db->close();

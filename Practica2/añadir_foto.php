@@ -3,6 +3,7 @@ session_start();
 require_once 'verificar_sesion.php';
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/includes/validaciones_foto.php';
+require_once __DIR__ . '/includes/gestor_imagenes.php';
 
 $zona = 'privada';
 $db = conectarDB();
@@ -12,7 +13,6 @@ $id_anuncio = $_GET['id'] ?? $_POST['anuncio_id'] ?? 0;
 $usuario_id = $_SESSION['usuario_id'];
 $errores = [];
 $mensaje_exito = "";
-$nombre_fichero_manual = ""; // Para el mensaje de aviso
 
 // Variables para el formulario
 $titulo_foto = "";
@@ -34,7 +34,7 @@ if ($id_anuncio) {
         $anuncio_valido = true;
         $titulo_anuncio = $fila['Titulo'];
 
-        // Comprobar si tiene una foto principal asignada
+        // Comprobar si tiene una foto principal asignada válida
         if (!empty($fila['FPrincipal']) && $fila['FPrincipal'] !== 'Pendiente de imagen') {
             $tiene_portada = true;
         }
@@ -56,32 +56,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validar datos de texto
     $errores = validarDatosFoto($titulo_foto, $alt_foto);
 
-    // Validar que se ha seleccionado un archivo
-    if (!isset($_FILES['fichero']) || $_FILES['fichero']['error'] === UPLOAD_ERR_NO_FILE) {
+    // Procesar la subida de la imagen
+    $ruta_foto_bd = null;
+    $resultado_subida = subirImagen($_FILES['fichero'] ?? null);
+
+    if ($resultado_subida['error']) {
+        $errores[] = $resultado_subida['error'];
+    } elseif ($resultado_subida['ruta']) {
+        $ruta_foto_bd = $resultado_subida['ruta'];
+    } else {
         $errores[] = "Debes seleccionar un archivo de imagen.";
-    } elseif ($_FILES['fichero']['error'] !== UPLOAD_ERR_OK) {
-        $errores[] = "Error en la subida del archivo. Código: " . $_FILES['fichero']['error'];
     }
 
     // Si no hay errores, procedemos a la inserción en BD
-    if (empty($errores)) {
+    if (empty($errores) && $ruta_foto_bd) {
 
-        // Obtener nombre del archivo
-        $nombre_archivo = basename($_FILES['fichero']['name']);
-
-        // Construir ruta para guardar en BD
-        // Nota: Usar time() para evitar duplicados en la BD
-        $nombre_unico = time() . "_" . $nombre_archivo;
-        $ruta_bd = "img/" . $nombre_unico;
-        $nombre_fichero_manual = $nombre_unico;
-
-        // Insertar en base de datos
         $db->begin_transaction();
         try {
             // Insertar en la tabla FOTOS
             $sql_insert = "INSERT INTO FOTOS (Titulo, Foto, Alternativo, Anuncio) VALUES (?, ?, ?, ?)";
             $stmt_ins = $db->prepare($sql_insert);
-            $stmt_ins->bind_param("sssi", $titulo_foto, $ruta_bd, $alt_foto, $id_anuncio);
+            $stmt_ins->bind_param("sssi", $titulo_foto, $ruta_foto_bd, $alt_foto, $id_anuncio);
             $stmt_ins->execute();
             $stmt_ins->close();
 
@@ -89,15 +84,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$tiene_portada) {
                 $sql_update = "UPDATE ANUNCIOS SET FPrincipal = ?, Alternativo = ? WHERE IdAnuncio = ?";
                 $stmt_upd = $db->prepare($sql_update);
-                $stmt_upd->bind_param("ssi", $ruta_bd, $alt_foto, $id_anuncio);
+                $stmt_upd->bind_param("ssi", $ruta_foto_bd, $alt_foto, $id_anuncio);
                 $stmt_upd->execute();
                 $stmt_upd->close();
             }
 
             $db->commit();
-            $mensaje_exito = "Inserción realizada en la base de datos.";
+            $mensaje_exito = "La fotografía se ha añadido correctamente a la galería.";
+            
+            // Limpiar campos del formulario para nueva entrada
+            $titulo_foto = "";
+            $alt_foto = "";
+            
         } catch (Exception $e) {
             $db->rollback();
+            // Si falló la BD, eliminar la foto subida para mantener consistencia
+            if (file_exists($ruta_foto_bd)) {
+                unlink($ruta_foto_bd);
+            }
             $errores[] = "Error al guardar en la base de datos: " . $e->getMessage();
         }
     }
@@ -123,15 +127,6 @@ $db->close();
             <section class="confirmacion">
                 <h3><?php echo $mensaje_exito; ?></h3>
                 <p>La foto se ha registrado asociada al anuncio: <strong><?php echo htmlspecialchars($titulo_anuncio); ?></strong></p>
-
-                <div style="background-color: #fff3cd; border: 1px solid #ffeeba; padding: 15px; margin: 15px 0; border-radius: 5px; color: #856404;">
-                    <strong>RECORDATORIO:</strong><br>
-                    Nota: Subida de archivos manual, no se mueve al servidor automáticamente.
-                    <br><br>
-                    Debes copiar <strong>manualmente</strong> tu archivo de imagen a la carpeta <code>Practica2/img/</code> con el siguiente nombre para que se vea correctamente:
-                    <br><br>
-                    <code style="background: #fff; padding: 5px; border: 1px solid #ccc; font-weight: bold;"><?php echo htmlspecialchars($nombre_fichero_manual); ?></code>
-                </div>
 
                 <a href="misanuncios.php" class="boton-crear">Volver a mis anuncios</a>
                 <br><br>

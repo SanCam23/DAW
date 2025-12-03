@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once __DIR__ . '/includes/validaciones.php';
+// INCLUIMOS EL NUEVO GESTOR
+require_once __DIR__ . '/includes/gestor_imagenes.php'; 
 require_once __DIR__ . '/db.php';
 
 // Recoger datos del formulario
@@ -32,33 +34,21 @@ $resultado_validacion = validarFormularioUsuario($datos_formulario, false);
 if ($resultado_validacion !== true) {
     $errores = $resultado_validacion;
 } else {
-    // Lógica de subida de foto
+    // --- Lógica de subida de foto REUTILIZABLE ---
     $ruta_foto_bd = null;
 
-    // Comprobar si se ha subido un fichero sin errores
-    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+    // Llamamos a la función genérica pasando el input 'foto'
+    // Esta función maneja validación, nombre único y movimiento
+    $resultado_subida = subirImagen($_FILES['foto'] ?? null);
 
-        $nombre_original = basename($_FILES['foto']['name']);
-        $extension = pathinfo($nombre_original, PATHINFO_EXTENSION);
-
-        // Validar formato de imagen
-        $tipos_permitidos = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-        if (!in_array(strtolower($extension), $tipos_permitidos)) {
-            $errores[] = "El formato de la imagen no es válido. Use JPG, PNG, GIF o WEBP.";
-        } else {
-            // Generar nombre único para evitar colisiones
-            $nombre_unico = time() . "_" . uniqid() . "." . $extension;
-
-            $directorio_destino = "img/";
-            $ruta_final_fichero = $directorio_destino . $nombre_unico;
-
-            if (move_uploaded_file($_FILES['foto']['tmp_name'], $ruta_final_fichero)) {
-                $ruta_foto_bd = $ruta_final_fichero;
-            } else {
-                $errores[] = "Hubo un error al guardar la imagen en el servidor.";
-            }
-        }
+    if ($resultado_subida['error']) {
+        // Si la función devuelve error, lo añadimos
+        $errores[] = $resultado_subida['error'];
+    } elseif ($resultado_subida['ruta']) {
+        // Si devuelve ruta, es que se subió bien
+        $ruta_foto_bd = $resultado_subida['ruta'];
     }
+    // ---------------------------------------------
 
     // Si no hay errores, conectar a BD
     if (empty($errores)) {

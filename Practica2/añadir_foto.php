@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Procesar la subida de la imagen
     $ruta_foto_bd = null;
-    $resultado_subida = subirImagen($_FILES['fichero'] ?? null);
+    $resultado_subida = subirImagen($_FILES['fichero'] ?? null, RUTA_FOTOS_ANUNCIOS);
 
     if ($resultado_subida['error']) {
         $errores[] = $resultado_subida['error'];
@@ -91,11 +91,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $db->commit();
             $mensaje_exito = "La fotografía se ha añadido correctamente a la galería.";
-            
+
             // Limpiar campos del formulario para nueva entrada
             $titulo_foto = "";
             $alt_foto = "";
-            
+
         } catch (Exception $e) {
             $db->rollback();
             // Si falló la BD, eliminar la foto subida para mantener consistencia
@@ -126,7 +126,8 @@ $db->close();
         <?php if ($mensaje_exito): ?>
             <section class="confirmacion">
                 <h3><?php echo $mensaje_exito; ?></h3>
-                <p>La foto se ha registrado asociada al anuncio: <strong><?php echo htmlspecialchars($titulo_anuncio); ?></strong></p>
+                <p>La foto se ha registrado asociada al anuncio:
+                    <strong><?php echo htmlspecialchars($titulo_anuncio); ?></strong></p>
 
                 <a href="misanuncios.php" class="boton-crear">Volver a mis anuncios</a>
                 <br><br>
@@ -135,12 +136,14 @@ $db->close();
 
         <?php else: ?>
             <h2>Añadir foto al anuncio</h2>
-            <p style="text-align: center; margin-bottom: 20px;">Estás añadiendo una foto a: <strong><?php echo htmlspecialchars($titulo_anuncio); ?></strong></p>
+            <p style="text-align: center; margin-bottom: 20px;">Estás añadiendo una foto a:
+                <strong><?php echo htmlspecialchars($titulo_anuncio); ?></strong></p>
 
             <?php if (!empty($errores)): ?>
                 <div class="errores">
                     <ul>
-                        <?php foreach ($errores as $e) echo "<li>$e</li>"; ?>
+                        <?php foreach ($errores as $e)
+                            echo "<li>$e</li>"; ?>
                     </ul>
                 </div>
             <?php endif; ?>
@@ -155,13 +158,14 @@ $db->close();
                     <input type="file" id="fichero" name="fichero" accept="image/*" required><br><br>
 
                     <label for="titulo">Título de la foto*:</label><br>
-                    <input type="text" id="titulo" name="titulo"
-                        value="<?php echo htmlspecialchars($titulo_foto); ?>" required><br><br>
+                    <input type="text" id="titulo" name="titulo" value="<?php echo htmlspecialchars($titulo_foto); ?>"
+                        required><br><br>
 
                     <label for="alt">Texto Alternativo*:</label><br>
-                    <span class="nota-campo" style="font-size: 0.9em; color: #666;">(Mínimo 10 caracteres, no empezar por 'foto' o 'imagen')</span>
-                    <input type="text" id="alt" name="alt"
-                        value="<?php echo htmlspecialchars($alt_foto); ?>" required><br><br>
+                    <span class="nota-campo" style="font-size: 0.9em; color: #666;">(Mínimo 10 caracteres, no empezar por
+                        'foto' o 'imagen')</span>
+                    <input type="text" id="alt" name="alt" value="<?php echo htmlspecialchars($alt_foto); ?>"
+                        required><br><br>
 
                     <button type="submit">Añadir Foto</button>
                 </fieldset>

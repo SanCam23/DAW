@@ -16,7 +16,7 @@ $mensaje_exito = '';
 // Procesar formulario si se envió
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario_id = $_SESSION['usuario_id'];
-    
+
     // Recogida de datos del formulario
     $nombre_usuario = $_POST['nombre_usuario'] ?? '';
     $email = $_POST['email'] ?? '';
@@ -27,10 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password_actual = $_POST['password_actual'] ?? '';
     $nueva_password = $_POST['nueva_password'] ?? '';
     $confirmar_password = $_POST['confirmar_password'] ?? '';
-    
+
     // Verificar contraseña actual y obtener foto actual
     $foto_actual_bd = null; // Guarda la ruta de la foto antes de actualizar
-    
+
     if (empty($password_actual)) {
         $errores['password_actual'] = "Debe introducir su contraseña actual para confirmar los cambios.";
     } else {
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_verificar->bind_param("i", $usuario_id);
         $stmt_verificar->execute();
         $resultado_verificar = $stmt_verificar->get_result();
-        
+
         if ($fila = $resultado_verificar->fetch_assoc()) {
             if (!password_verify($password_actual, $fila['Clave'])) {
                 $errores['password_actual'] = "La contraseña actual es incorrecta.";
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $stmt_verificar->close();
     }
-    
+
     // Validación de datos de texto
     if (empty($errores)) {
         $datos_formulario = [
@@ -62,19 +62,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'fecha_nacimiento' => $fecha_nacimiento,
             'ciudad' => $ciudad
         ];
-        
+
         if (!empty($nueva_password)) {
             $datos_formulario['password'] = $nueva_password;
             $datos_formulario['confirmar_password'] = $confirmar_password;
         }
-        
+
         $resultado_validacion = validarFormularioUsuario($datos_formulario, true);
-        
+
         if ($resultado_validacion !== true) {
             $errores = array_merge($errores, $resultado_validacion);
         }
     }
-    
+
     // Comprobación de duplicados de nombre de usuario
     if (empty($errores)) {
         if ($nombre_usuario !== $nombre_usuario_actual_bd) {
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt_check->bind_param("si", $nombre_usuario, $usuario_id);
             $stmt_check->execute();
             $resultado_check = $stmt_check->get_result();
-            
+
             if ($resultado_check && $resultado_check->num_rows > 0) {
                 $errores['nombre_usuario'] = "El nombre de usuario ya está en uso.";
             }
@@ -96,49 +96,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $borrar_foto_fisica = false;        // Bandera para borrar el archivo anterior
 
     if (empty($errores)) {
-    // Subida de nueva foto (tiene prioridad sobre borrar)
+        // Subida de nueva foto (tiene prioridad sobre borrar)
         if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
-            $resultado_subida = subirImagen($_FILES['foto']);
-            
+            $resultado_subida = subirImagen($_FILES['foto'], RUTA_FOTOS_PERFIL);
+
             if ($resultado_subida['error']) {
                 $errores['foto'] = $resultado_subida['error'];
             } elseif ($resultado_subida['ruta']) {
                 $nueva_ruta_foto = $resultado_subida['ruta'];
                 $borrar_foto_fisica = true; // Marcar para borrar la vieja si todo sale bien
             }
-        } 
-    // Borrar foto actual (solo si no se sube una nueva)
+        }
+        // Borrar foto actual (solo si no se sube una nueva)
         elseif (isset($_POST['borrar_foto']) && $_POST['borrar_foto'] == '1') {
             $nueva_ruta_foto = null; // En BD será NULL
             $borrar_foto_fisica = true;
         }
     }
-    
+
     // Actualización de datos en la base de datos
     if (empty($errores)) {
         $fecha_mysql = DateTime::createFromFormat('d/m/Y', $fecha_nacimiento)->format('Y-m-d');
         $ciudad = empty(trim($ciudad)) ? null : trim($ciudad);
         $pais_form = empty($pais_form) ? null : $pais_form;
-        
-    // Construcción de la consulta dinámica para actualizar usuario
+
+        // Construcción de la consulta dinámica para actualizar usuario
         $sql_update = "UPDATE USUARIOS SET NomUsuario = ?, Email = ?, Sexo = ?, FNacimiento = ?, Ciudad = ?, Pais = ?, Foto = ?";
         $tipos = "sssssis";
         $parametros = [$nombre_usuario, $email, $sexo, $fecha_mysql, $ciudad, $pais_form, $nueva_ruta_foto];
-        
+
         if (!empty($nueva_password)) {
             $sql_update .= ", Clave = ?";
             $tipos .= "s";
             $parametros[] = password_hash($nueva_password, PASSWORD_DEFAULT);
         }
-        
+
         $sql_update .= " WHERE IdUsuario = ?";
         $tipos .= "i";
         $parametros[] = $usuario_id;
-        
+
         $stmt_update = $db->prepare($sql_update);
         if ($stmt_update) {
             $stmt_update->bind_param($tipos, ...$parametros);
-            
+
             if ($stmt_update->execute()) {
                 // Si se debe borrar la foto anterior y existe, se elimina físicamente
                 if ($borrar_foto_fisica && !empty($foto_actual_bd) && $foto_actual_bd !== $nueva_ruta_foto) {
@@ -148,11 +148,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 $_SESSION['nombre_usuario'] = $nombre_usuario;
-                
+
                 // Lógica de cookies (sesión/recordarme) si cambian credenciales
                 $cambio_usuario = ($nombre_usuario !== $nombre_usuario_actual_bd);
                 $cambio_password = !empty($nueva_password);
-                
+
                 if ($cambio_usuario || $cambio_password) {
                     // Limpieza de tokens y cookies
                     if (file_exists('tokens.txt')) {
@@ -160,20 +160,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $nuevos_tokens = [];
                         foreach ($tokens as $linea) {
                             list($token_uid, , ) = explode(':', $linea);
-                            if ($token_uid != $usuario_id) $nuevos_tokens[] = $linea;
+                            if ($token_uid != $usuario_id)
+                                $nuevos_tokens[] = $linea;
                         }
                         file_put_contents('tokens.txt', implode("\n", $nuevos_tokens) . "\n");
                     }
                     $cookies = ['recordarme_token', 'ultima_visita_timestamp', 'estilo_css'];
                     foreach ($cookies as $c) {
-                        if (isset($_COOKIE[$c])) setcookie($c, '', time() - 3600, '/', "", false, ($c!=='estilo_css'));
+                        if (isset($_COOKIE[$c]))
+                            setcookie($c, '', time() - 3600, '/', "", false, ($c !== 'estilo_css'));
                     }
                     header("Location: res_mis_datos.php?mensaje=" . urlencode("Datos y foto actualizados. Credenciales cambiadas, vuelva a iniciar sesión si es necesario."));
                 } else {
                     header("Location: res_mis_datos.php?mensaje=" . urlencode("Datos actualizados correctamente."));
                 }
                 exit();
-                
+
             } else {
                 $errores[] = "Error al actualizar BD: " . $stmt_update->error;
             }
@@ -192,7 +194,8 @@ if ($db && isset($_SESSION['usuario_id'])) {
     $stmt->bind_param("i", $usuario_id);
     $stmt->execute();
     $res = $stmt->get_result();
-    if ($res && $res->num_rows > 0) $usuario = $res->fetch_assoc();
+    if ($res && $res->num_rows > 0)
+        $usuario = $res->fetch_assoc();
     $stmt->close();
 
     $res_paises = $db->query("SELECT IdPais, NomPais FROM PAISES ORDER BY NomPais ASC");
@@ -203,7 +206,10 @@ if ($db && isset($_SESSION['usuario_id'])) {
     $db->close();
 }
 
-if ($usuario === null) { echo "Error cargando usuario."; exit; }
+if ($usuario === null) {
+    echo "Error cargando usuario.";
+    exit;
+}
 
 // Formateo de datos para mostrar en el formulario
 $fecha_nac = $usuario['FNacimiento'] ? date("d/m/Y", strtotime($usuario['FNacimiento'])) : '';
@@ -213,6 +219,7 @@ $zona = 'privada';
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -221,6 +228,7 @@ $zona = 'privada';
     <link rel="stylesheet" href="css/mis_datos.css">
     <link rel="stylesheet" type="text/css" href="css/print_formulario.css" media="print">
 </head>
+
 <body>
     <?php require('cabecera.php'); ?>
 
@@ -233,14 +241,16 @@ $zona = 'privada';
 
         <?php if (!empty($errores)): ?>
             <div class="mensaje-error">
-                <ul><?php foreach ($errores as $e) echo "<li>$e</li>"; ?></ul>
+                <ul><?php foreach ($errores as $e)
+                    echo "<li>$e</li>"; ?></ul>
             </div>
         <?php endif; ?>
 
         <section class="info-actual">
             <h3>Mis datos actuales</h3>
             <div class="foto-perfil">
-                <img src="<?php echo !empty($usuario['Foto']) ? htmlspecialchars($usuario['Foto']) : 'img/sin_fto.webp'; ?>" alt="Foto de perfil">
+                <img src="<?php echo !empty($usuario['Foto']) ? htmlspecialchars($usuario['Foto']) : 'img/sin_fto.webp'; ?>"
+                    alt="Foto de perfil">
             </div>
             <div class="datos-actuales">
                 <p><strong>Usuario:</strong> <?php echo htmlspecialchars($usuario['NomUsuario']); ?></p>
@@ -258,8 +268,9 @@ $zona = 'privada';
             <h3>Modificar mis datos</h3>
 
             <label for="nombre_usuario">Nombre de usuario:</label>
-            <input type="text" id="nombre_usuario" name="nombre_usuario" value="<?php echo htmlspecialchars($usuario['NomUsuario']); ?>">
-            
+            <input type="text" id="nombre_usuario" name="nombre_usuario"
+                value="<?php echo htmlspecialchars($usuario['NomUsuario']); ?>">
+
             <label for="email">Correo electrónico:</label>
             <input type="text" id="email" name="email" value="<?php echo htmlspecialchars($usuario['Email']); ?>">
 
@@ -271,10 +282,12 @@ $zona = 'privada';
             </select>
 
             <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-            <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" value="<?php echo $fecha_nac; ?>" placeholder="dd/mm/yyyy">
+            <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" value="<?php echo $fecha_nac; ?>"
+                placeholder="dd/mm/yyyy">
 
             <label for="ciudad">Ciudad:</label>
-            <input type="text" id="ciudad" name="ciudad" value="<?php echo htmlspecialchars($usuario['Ciudad'] ?? ''); ?>">
+            <input type="text" id="ciudad" name="ciudad"
+                value="<?php echo htmlspecialchars($usuario['Ciudad'] ?? ''); ?>">
 
             <label for="pais">País:</label>
             <select id="pais" name="pais">
@@ -291,14 +304,16 @@ $zona = 'privada';
             <input type="password" id="nueva_password" name="nueva_password" placeholder="Dejar vacío para no cambiar">
 
             <label for="confirmar_password">Repetir nueva contraseña:</label>
-            <input type="password" id="confirmar_password" name="confirmar_password" placeholder="Repetir nueva contraseña">
+            <input type="password" id="confirmar_password" name="confirmar_password"
+                placeholder="Repetir nueva contraseña">
 
             <h4>Foto de Perfil</h4>
             <label for="foto">Subir nueva foto:</label>
             <input type="file" id="foto" name="foto" accept="image/*">
-            
+
             <?php if (!empty($usuario['Foto'])): ?>
-                <div style="margin-top: 10px; padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 5px;">
+                <div
+                    style="margin-top: 10px; padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 5px;">
                     <label style="display:inline; font-weight:normal; color: #856404;">
                         <input type="checkbox" name="borrar_foto" value="1" style="width:auto; margin-right:5px;">
                         Eliminar foto de perfil actual
@@ -308,7 +323,8 @@ $zona = 'privada';
 
             <h4>Confirmación de seguridad</h4>
             <label for="password_actual">Contraseña actual (Obligatoria):</label>
-            <input type="password" id="password_actual" name="password_actual" placeholder="Introduce tu contraseña actual" required>
+            <input type="password" id="password_actual" name="password_actual"
+                placeholder="Introduce tu contraseña actual" required>
 
             <button type="submit">Guardar cambios</button>
         </form>
@@ -320,4 +336,5 @@ $zona = 'privada';
 
     <?php require('pie.php'); ?>
 </body>
+
 </html>

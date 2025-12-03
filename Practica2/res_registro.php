@@ -2,7 +2,7 @@
 session_start();
 require_once __DIR__ . '/includes/validaciones.php';
 // INCLUIMOS EL NUEVO GESTOR
-require_once __DIR__ . '/includes/gestor_imagenes.php'; 
+require_once __DIR__ . '/includes/gestor_imagenes.php';
 require_once __DIR__ . '/db.php';
 
 // Recoger datos del formulario
@@ -39,7 +39,7 @@ if ($resultado_validacion !== true) {
 
     // Llamamos a la función genérica pasando el input 'foto'
     // Esta función maneja validación, nombre único y movimiento
-    $resultado_subida = subirImagen($_FILES['foto'] ?? null);
+    $resultado_subida = subirImagen($_FILES['foto'] ?? null, RUTA_FOTOS_PERFIL);
 
     if ($resultado_subida['error']) {
         // Si la función devuelve error, lo añadimos
@@ -131,7 +131,8 @@ if ($resultado_validacion !== true) {
                         $errores[] = "Error al insertar el usuario en la base de datos: " . $stmt_insert->error;
                     }
 
-                    if (isset($stmt_insert) && $stmt_insert) $stmt_insert->close();
+                    if (isset($stmt_insert) && $stmt_insert)
+                        $stmt_insert->close();
                 } else {
                     $errores[] = "Error al preparar la consulta de inserción.";
                 }
@@ -170,7 +171,8 @@ if (!empty($errores)) {
     <link rel="alternate stylesheet" href="css/contraste_letra.css" title="Letra Grande+Alto contraste">
     <link rel="stylesheet" type="text/css" href="css/print_formulario.css" media="print">
     <link rel="stylesheet" href="css/fontello.css">
-    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -184,12 +186,14 @@ if (!empty($errores)) {
             <h3>Tu foto de perfil:</h3>
             <?php if ($ruta_foto_bd && file_exists($ruta_foto_bd)): ?>
                 <figure>
-                    <img src="<?php echo htmlspecialchars($ruta_foto_bd); ?>" alt="Foto de perfil de <?php echo htmlspecialchars($usuario); ?>"
+                    <img src="<?php echo htmlspecialchars($ruta_foto_bd); ?>"
+                        alt="Foto de perfil de <?php echo htmlspecialchars($usuario); ?>"
                         style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 3px solid #1b9986;">
                 </figure>
             <?php else: ?>
                 <figure>
-                    <img src="<?php echo !empty($ruta_foto_bd) ? htmlspecialchars($ruta_foto_bd) : 'img/sin_fto.webp'; ?>" alt="Foto de perfil"
+                    <img src="<?php echo !empty($ruta_foto_bd) ? htmlspecialchars($ruta_foto_bd) : 'img/sin_fto.webp'; ?>"
+                        alt="Foto de perfil"
                         style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; opacity: 0.7;">
                     <figcaption>No has seleccionado foto (se usará el icono por defecto)</figcaption>
                 </figure>

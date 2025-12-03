@@ -12,11 +12,10 @@ $sexo = $_POST["sexo"] ?? "";
 $fecha_nacimiento = $_POST["fecha_nacimiento"] ?? "";
 $ciudad = $_POST["ciudad"] ?? "";
 $pais = $_POST["pais"] ?? "";
-$estilo = $_POST["estilo"] ?? 1; // Estilo por defecto
+$estilo = $_POST["estilo"] ?? 1;
 
 $errores = [];
 
-// Preparar datos para validación
 $datos_formulario = [
     'usuario' => $usuario,
     'password' => $password,
@@ -27,119 +26,135 @@ $datos_formulario = [
     'ciudad' => $ciudad
 ];
 
-// Validar todos los campos usando nuestro fichero de validaciones
+// Validar datos del formulario
 $resultado_validacion = validarFormularioUsuario($datos_formulario, false);
 
 if ($resultado_validacion !== true) {
-    // Hay errores de validación
     $errores = $resultado_validacion;
 } else {
-    // Validación exitosa, proceder con inserción en BD
-    
-    // Conectar a la base de datos
-    $db = conectarDB();
-    if (!$db) {
-        $errores[] = "Error al conectar con la base de datos.";
-    } else {
-        // Verificar si el usuario ya existe
-        $sql_check_user = "SELECT IdUsuario FROM USUARIOS WHERE NomUsuario = ? OR Email = ?";
-        $stmt_check = $db->prepare($sql_check_user);
-        $stmt_check->bind_param("ss", $usuario, $email);
-        $stmt_check->execute();
-        $resultado_check = $stmt_check->get_result();
-        
-        if ($resultado_check && $resultado_check->num_rows > 0) {
-            $errores[] = "El nombre de usuario o email ya existen.";
-        }
-        $stmt_check->close();
-        
-        // Si no hay errores, insertar el nuevo usuario
-        if (empty($errores)) {
-            // Convertir fecha de dd/mm/yyyy a yyyy-mm-dd para MySQL
-            $fecha_mysql = DateTime::createFromFormat('d/m/Y', $fecha_nacimiento)->format('Y-m-d');
-            
-            // Hash de la contraseña
-            $password_hash = password_hash($password, PASSWORD_DEFAULT);
-            
-            // Preparar la inserción
-            $sql_insert = "INSERT INTO USUARIOS (NomUsuario, Clave, Email, Sexo, FNacimiento, Ciudad, Pais, Estilo, FRegistro) 
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-            
-            $stmt_insert = $db->prepare($sql_insert);
-            
-            if ($stmt_insert) {
-                // Asignar valores por defecto si están vacíos
-                $ciudad = empty($ciudad) ? null : $ciudad;
-                $pais = empty($pais) ? null : $pais;
-                
-                $stmt_insert->bind_param("sssissii", 
-                    $usuario, 
-                    $password_hash, 
-                    $email, 
-                    $sexo, 
-                    $fecha_mysql, 
-                    $ciudad, 
-                    $pais, 
-                    $estilo
-                );
-                
-                if ($stmt_insert->execute()) {
-                    // Registro exitoso - obtener el ID del nuevo usuario
-                    $usuario_id = $stmt_insert->insert_id;
-                    
-                    // Obtener el estilo del usuario para la sesión
-                    $sql_estilo = "SELECT e.Fichero FROM USUARIOS u 
-                                INNER JOIN ESTILOS e ON u.Estilo = e.IdEstilo 
-                                WHERE u.IdUsuario = ?";
-                    $stmt_estilo = $db->prepare($sql_estilo);
-                    $stmt_estilo->bind_param("i", $usuario_id);
-                    $stmt_estilo->execute();
-                    $resultado_estilo = $stmt_estilo->get_result();
-                    
-                    $fichero_estilo = 'general'; // Valor por defecto
-                    
-                    if ($fila_estilo = $resultado_estilo->fetch_assoc()) {
-                        $fichero_estilo = pathinfo($fila_estilo['Fichero'], PATHINFO_FILENAME);
-                    }
-                    $stmt_estilo->close();
-                    
-                    // INICIAR SESIÓN AUTOMÁTICAMENTE
-                    $_SESSION['usuario_autenticado'] = true;
-                    $_SESSION['nombre_usuario'] = $usuario;
-                    $_SESSION['usuario_id'] = $usuario_id;
-                    $_SESSION['estilo_css'] = $fichero_estilo;
-                    
-                    // Configurar última visita
-                    unset($_SESSION['visita_para_mostrar']);
-                    date_default_timezone_set('Europe/Madrid');
-                    $hora_actual = new DateTime('now', new DateTimeZone(date_default_timezone_get()));
-                    $hora_actual_str = $hora_actual->format('Y-m-d H:i:s');
-                    $_SESSION['ultima_visita'] = $hora_actual_str;
-                    
-                    $stmt_insert->close();
-                    $db->close();
-                    
-                    // Redirigir al menú de usuario registrado
-                    header("Location: menu_usuario_registrado.php");
-                    exit();
-                }else {
-                    $errores[] = "Error al insertar el usuario en la base de datos: " . $stmt_insert->error;
-                }
-                
-                $stmt_insert->close();
+    // Lógica de subida de foto
+    $ruta_foto_bd = null;
+
+    // Comprobar si se ha subido un fichero sin errores
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+
+        $nombre_original = basename($_FILES['foto']['name']);
+        $extension = pathinfo($nombre_original, PATHINFO_EXTENSION);
+
+        // Validar formato de imagen
+        $tipos_permitidos = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        if (!in_array(strtolower($extension), $tipos_permitidos)) {
+            $errores[] = "El formato de la imagen no es válido. Use JPG, PNG, GIF o WEBP.";
+        } else {
+            // Generar nombre único para evitar colisiones
+            $nombre_unico = time() . "_" . uniqid() . "." . $extension;
+
+            $directorio_destino = "img/";
+            $ruta_final_fichero = $directorio_destino . $nombre_unico;
+
+            if (move_uploaded_file($_FILES['foto']['tmp_name'], $ruta_final_fichero)) {
+                $ruta_foto_bd = $ruta_final_fichero;
             } else {
-                $errores[] = "Error al preparar la consulta de inserción.";
+                $errores[] = "Hubo un error al guardar la imagen en el servidor.";
             }
         }
-        
-        $db->close();
+    }
+
+    // Si no hay errores, conectar a BD
+    if (empty($errores)) {
+        $db = conectarDB();
+        if (!$db) {
+            $errores[] = "Error al conectar con la base de datos.";
+        } else {
+            // Verificar si el usuario ya existe
+            $sql_check_user = "SELECT IdUsuario FROM USUARIOS WHERE NomUsuario = ? OR Email = ?";
+            $stmt_check = $db->prepare($sql_check_user);
+            $stmt_check->bind_param("ss", $usuario, $email);
+            $stmt_check->execute();
+            $resultado_check = $stmt_check->get_result();
+
+            if ($resultado_check && $resultado_check->num_rows > 0) {
+                $errores[] = "El nombre de usuario o email ya existen.";
+            }
+            $stmt_check->close();
+
+            if (empty($errores)) {
+                // Preparar datos para inserción
+                $fecha_mysql = DateTime::createFromFormat('d/m/Y', $fecha_nacimiento)->format('Y-m-d');
+                $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+                $sql_insert = "INSERT INTO USUARIOS (NomUsuario, Clave, Email, Sexo, FNacimiento, Ciudad, Pais, Estilo, Foto, FRegistro) 
+                               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+
+                $stmt_insert = $db->prepare($sql_insert);
+
+                if ($stmt_insert) {
+                    $ciudad = empty($ciudad) ? null : $ciudad;
+                    $pais = empty($pais) ? null : $pais;
+
+                    $stmt_insert->bind_param(
+                        "sssissiis",
+                        $usuario,
+                        $password_hash,
+                        $email,
+                        $sexo,
+                        $fecha_mysql,
+                        $ciudad,
+                        $pais,
+                        $estilo,
+                        $ruta_foto_bd
+                    );
+
+                    if ($stmt_insert->execute()) {
+                        $usuario_id = $stmt_insert->insert_id;
+
+                        // Obtener estilo del usuario
+                        $sql_estilo = "SELECT e.Fichero FROM USUARIOS u 
+                                    INNER JOIN ESTILOS e ON u.Estilo = e.IdEstilo 
+                                    WHERE u.IdUsuario = ?";
+                        $stmt_estilo = $db->prepare($sql_estilo);
+                        $stmt_estilo->bind_param("i", $usuario_id);
+                        $stmt_estilo->execute();
+                        $resultado_estilo = $stmt_estilo->get_result();
+
+                        $fichero_estilo = 'general';
+
+                        if ($fila_estilo = $resultado_estilo->fetch_assoc()) {
+                            $fichero_estilo = pathinfo($fila_estilo['Fichero'], PATHINFO_FILENAME);
+                        }
+                        $stmt_estilo->close();
+
+                        // Iniciar sesión automáticamente
+                        $_SESSION['usuario_autenticado'] = true;
+                        $_SESSION['nombre_usuario'] = $usuario;
+                        $_SESSION['usuario_id'] = $usuario_id;
+                        $_SESSION['estilo_css'] = $fichero_estilo;
+                        $_SESSION['foto_usuario'] = $ruta_foto_bd;
+
+                        // Configurar última visita
+                        unset($_SESSION['visita_para_mostrar']);
+                        date_default_timezone_set('Europe/Madrid');
+                        $hora_actual = new DateTime('now', new DateTimeZone(date_default_timezone_get()));
+                        $hora_actual_str = $hora_actual->format('Y-m-d H:i:s');
+                        $_SESSION['ultima_visita'] = $hora_actual_str;
+                    } else {
+                        $errores[] = "Error al insertar el usuario en la base de datos: " . $stmt_insert->error;
+                    }
+
+                    if (isset($stmt_insert) && $stmt_insert) $stmt_insert->close();
+                } else {
+                    $errores[] = "Error al preparar la consulta de inserción.";
+                }
+            }
+            $db->close();
+        }
     }
 }
 
 // Si hay errores, redirigir de vuelta al formulario
 if (!empty($errores)) {
     $_SESSION['error_registro'] = implode(" ", $errores);
-    $_SESSION['datos_previos'] = $datos_formulario; // Para sticky form
+    $_SESSION['datos_previos'] = $datos_formulario;
     header("Location: registro.php");
     exit();
 }
@@ -175,39 +190,57 @@ if (!empty($errores)) {
         <h2>Registro completado correctamente</h2>
         <p>Gracias por registrarte, <strong><?php echo htmlspecialchars($usuario); ?></strong>.</p>
 
+        <section id="foto-registro" style="text-align: center; margin: 20px 0;">
+            <h3>Tu foto de perfil:</h3>
+            <?php if ($ruta_foto_bd && file_exists($ruta_foto_bd)): ?>
+                <figure>
+                    <img src="<?php echo htmlspecialchars($ruta_foto_bd); ?>" alt="Foto de perfil de <?php echo htmlspecialchars($usuario); ?>"
+                        style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 3px solid #1b9986;">
+                </figure>
+            <?php else: ?>
+                <figure>
+                    <img src="img/sin_fto.webp" alt="Sin foto de perfil"
+                        style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; opacity: 0.7;">
+                    <figcaption>No has seleccionado foto (se usará el icono por defecto)</figcaption>
+                </figure>
+            <?php endif; ?>
+        </section>
         <section id="datos-registro">
             <h3>Datos de tu cuenta:</h3>
             <dl>
                 <dt>Usuario:</dt>
                 <dd><?php echo htmlspecialchars($usuario); ?></dd>
-                
+
                 <dt>Correo electrónico:</dt>
                 <dd><?php echo htmlspecialchars($email); ?></dd>
-                
+
                 <dt>Sexo:</dt>
                 <dd>
-                    <?php 
-                    switch($sexo) {
-                        case '0': echo 'Masculino'; break;
-                        case '1': echo 'Femenino'; break;
-                        case '2': echo 'Otro'; break;
-                        default: echo 'No especificado';
+                    <?php
+                    switch ($sexo) {
+                        case '1':
+                            echo 'Masculino';
+                            break;
+                        case '2':
+                            echo 'Femenino';
+                            break;
+                        default:
+                            echo 'No especificado';
                     }
                     ?>
                 </dd>
-                
+
                 <dt>Fecha de nacimiento:</dt>
                 <dd><?php echo htmlspecialchars($fecha_nacimiento); ?></dd>
-                
+
                 <dt>Ciudad:</dt>
                 <dd><?php echo !empty($ciudad) ? htmlspecialchars($ciudad) : 'No especificada'; ?></dd>
-                
+
                 <dt>País:</dt>
                 <dd>
                     <?php
                     if (!empty($pais)) {
-                        // Aquí podrías hacer una consulta para obtener el nombre del país
-                        echo "País ID: " . htmlspecialchars($pais);
+                        echo "Registrado (ID: " . htmlspecialchars($pais) . ")";
                     } else {
                         echo 'No especificado';
                     }
@@ -218,7 +251,7 @@ if (!empty($errores)) {
 
         <div class="acciones">
             <a href="index.php" class="btn volver">Volver al inicio</a>
-            <a href="index.php" class="btn login">Iniciar sesión</a>
+            <a href="menu_usuario_registrado.php" class="btn volver">Ir a mi menú privado</a>
         </div>
     </main>
 

@@ -9,12 +9,24 @@ if (!isset($_SESSION['estilo_css']) && isset($_COOKIE['estilo_css'])) {
     $_SESSION['estilo_css'] = 'normal';
 }
 
+// Incluir las nuevas lógicas
+require_once __DIR__ . '/logica_consejos.php';
+require_once __DIR__ . '/logica_anuncios_escogidos.php';
+
 // Conectar a la BD y preparar datos.
 $db = conectarDB();
 $anuncios = [];
+$anuncioEscogido = null;
+$consejo = null;
 
 if ($db) {
-    // Obtener resumen de los 5 últimos anuncios.
+    // 1. Obtener anuncio escogido aleatorio
+    $anuncioEscogido = obtenerAnuncioEscogidoAleatorio($db);
+    
+    // 2. Obtener consejo aleatorio
+    $consejo = obtenerConsejoAleatorio();
+    
+    // 3. Obtener resumen de los 5 últimos anuncios.
     $sql = "SELECT a.IdAnuncio, a.Titulo, a.FPrincipal, a.Alternativo, a.Ciudad, 
                    a.Precio, a.FRegistro, p.NomPais
             FROM ANUNCIOS a
@@ -102,6 +114,18 @@ if ($db) {
         <?php if (isset($_SESSION['visita_para_mostrar'])): ?>
             <p id="visita">Su última visita fue el <?php echo $_SESSION['visita_para_mostrar']; ?></p>
         <?php endif; ?>
+
+        <!-- SECCIÓN NUEVA: Anuncio Escogido -->
+        <section id="anuncio-escogido" class="seccion-destacada">
+            <h2> Anuncio Escogido por Expertos</h2>
+            <?php echo mostrarAnuncioEscogidoHTML($anuncioEscogido); ?>
+        </section>
+
+        <!-- SECCIÓN NUEVA: Consejo del día -->
+        <section id="consejo-del-dia" class="seccion-destacada">
+            <h2> Consejo de Compra/Venta</h2>
+            <?php echo mostrarConsejoHTML($consejo); ?>
+        </section>
 
         <section id="busqueda-rapida">
             <form action="resultados.php" method="get">

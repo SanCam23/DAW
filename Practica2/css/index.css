@@ -58,6 +58,149 @@ main {
     margin: 20px auto;
     padding: 0 15px;
 
+    /* ============================================
+       NUEVAS SECCIONES: Anuncio Escogido y Consejo
+       ============================================ */
+    .seccion-destacada {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .seccion-destacada h2 {
+        color: #1b9986;
+        border-bottom: 2px solid #1b9986;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-size: 1.5em;
+    }
+
+    /* Estilos para el anuncio escogido - IMAGEN DEBAJO DEL TÍTULO */
+    #anuncio-escogido .anuncio-escogido {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #anuncio-escogido .anuncio-escogido figure {
+        width: 100%;
+        text-align: center;
+    }
+
+    #anuncio-escogido .anuncio-escogido figure img {
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        border-radius: 5px;
+        margin: 0 auto;
+    }
+
+    #anuncio-escogido .anuncio-escogido .info-anuncio {
+        width: 100%;
+    }
+
+    #anuncio-escogido .anuncio-escogido h4 {
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 1.4em;
+        text-align: center;
+    }
+
+    #anuncio-escogido .anuncio-escogido .expert-opinion {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-left: 4px solid #1b9986;
+        margin: 15px 0;
+    }
+
+    #anuncio-escogido .anuncio-escogido .expert-opinion blockquote {
+        font-style: italic;
+        color: #555;
+        margin: 10px 0 0 0;
+        padding-left: 10px;
+    }
+
+    #anuncio-escogido .anuncio-escogido .btn-ver-detalle {
+        display: block;
+        width: fit-content;
+        margin: 15px auto 0;
+        background-color: #1b9986;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
+        transition: background-color 0.3s;
+    }
+
+    #anuncio-escogido .anuncio-escogido .btn-ver-detalle:hover {
+        background-color: #147c6b;
+    }
+
+    /* Estilos para el consejo */
+    #consejo-del-dia .consejo {
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    #consejo-del-dia .importancia-alta {
+        border-left: 4px solid #e74c3c;
+        background-color: #ffeaea;
+    }
+
+    #consejo-del-dia .importancia-media {
+        border-left: 4px solid #f39c12;
+        background-color: #fff8e1;
+    }
+
+    #consejo-del-dia .importancia-baja {
+        border-left: 4px solid #2ecc71;
+        background-color: #e8f8f1;
+    }
+
+    #consejo-del-dia .consejo .importancia {
+        font-weight: bold;
+        padding: 2px 8px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+
+    #consejo-del-dia .importancia-alta .importancia {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+    #consejo-del-dia .importancia-media .importancia {
+        background-color: #f39c12;
+        color: white;
+    }
+
+    #consejo-del-dia .importancia-baja .importancia {
+        background-color: #2ecc71;
+        color: white;
+    }
+
+    #consejo-del-dia .consejo .descripcion-consejo {
+        font-size: 1.1em;
+        line-height: 1.6;
+        margin-top: 10px;
+    }
+
+    /* Mensajes de error específicos para nuevas secciones */
+    .seccion-destacada .mensaje-error {
+        background-color: #ffe6e6;
+        border: 1px solid #ff9999;
+        color: #b30000;
+        padding: 15px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
     #busqueda-rapida {
         background: linear-gradient(45deg, #c4fff0, #1b9986);
         padding: 15px;
@@ -174,6 +317,25 @@ main {
             button {
                 width: 100%;
             }
+        }
+
+        /* Responsive para nuevas secciones */
+        #anuncio-escogido .anuncio-escogido figure img {
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 4/3;
+        }
+        
+        .seccion-destacada h2 {
+            font-size: 1.3em;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        #anuncio-escogido .anuncio-escogido figure img {
+            aspect-ratio: 3/2;
         }
     }
 }

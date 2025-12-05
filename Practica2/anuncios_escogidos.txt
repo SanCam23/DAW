@@ -1,0 +1,6 @@
+# Formato: IdAnuncio|Persona|Comentario
+1|Juan Lopez|No se puede encontrar nada mejor por ese precio en el centro de Madrid
+3|Pedro Pérez|Nos lo quitan de las manos, parece que los regalamos
+5|María García|Oportunidad única, ideal para inversión
+2|Ana Martínez|Excelente relación calidad-precio, además, en buena zona
+4|Carlos Ruiz|Perfecto para oficina en zona céntrica

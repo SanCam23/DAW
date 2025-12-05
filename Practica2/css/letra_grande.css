@@ -238,3 +238,57 @@ footer {
     }
 }
 
+/* ============================================
+   ESTILOS PARA NUEVAS SECCIONES (LETRA GRANDE)
+   ============================================ */
+
+.seccion-destacada {
+    font-size: 1.1em;
+}
+
+.seccion-destacada h2 {
+    font-size: 1.6em;
+}
+
+/* Anuncio Escogido - LETRA GRANDE */
+#anuncio-escogido .anuncio-escogido {
+    font-size: 1.1em;
+}
+
+#anuncio-escogido .anuncio-escogido h4 {
+    font-size: 1.4em;
+}
+
+#anuncio-escogido .anuncio-escogido .expert-opinion {
+    font-size: 1.1em;
+}
+
+#anuncio-escogido .anuncio-escogido .expert-opinion blockquote {
+    font-size: 1.1em;
+}
+
+#anuncio-escogido .anuncio-escogido .btn-ver-detalle {
+    font-size: 1.1em;
+    padding: 12px 24px;
+}
+
+/* Consejo del día - LETRA GRANDE */
+#consejo-del-dia .consejo {
+    font-size: 1.1em;
+}
+
+#consejo-del-dia .consejo .importancia {
+    font-size: 1.1em;
+}
+
+#consejo-del-dia .consejo .descripcion-consejo {
+    font-size: 1.1em;
+    line-height: 1.8;
+}
+
+/* Mensajes de error - LETRA GRANDE */
+.seccion-destacada .mensaje-error {
+    font-size: 1.1em;
+    padding: 15px;
+}
+

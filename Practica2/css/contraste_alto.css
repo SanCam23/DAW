@@ -294,6 +294,21 @@ main {
     .info-basica{
         background-color: grey !important;
     }
+
+    .seccion-destacada {
+        background-color: grey !important;
+    }
+
+    .expert-opinion{
+        background-color: grey !important;
+        blockquote {
+            color: #ffeb3b !important;
+        }
+    }
+
+    .consejo.importancia-media {
+        background-color: grey !important;
+    }
 }
 
 footer {

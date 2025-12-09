@@ -254,6 +254,22 @@ main {
             }
         }
     }
+
+    .seccion-destacada {
+        background-color: grey !important;
+    }
+
+    .info-anuncio {
+        color: #000 !important;
+    }
+
+    .expert-opinion {
+        background-color: grey !important;
+
+        blockquote {
+            color: #ffeb3b !important;
+        }
+    }
 }
 
 footer {

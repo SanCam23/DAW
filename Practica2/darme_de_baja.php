@@ -117,7 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // --- 2. BORRADO DE REGISTROS EN BD ---
 
                     // 2.1. Eliminar mensajes donde el usuario es origen o destino
-                    // Esto es necesario porque no hay cascada en la relación de usuarios en mensajes
                     $sql_mensajes_usuario = "DELETE FROM MENSAJES WHERE UsuOrigen = ? OR UsuDestino = ?";
                     $stmt_mensajes_usuario = $db->prepare($sql_mensajes_usuario);
                     $stmt_mensajes_usuario->bind_param("ii", $usuario_id, $usuario_id);
@@ -125,8 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt_mensajes_usuario->close();
 
                     // 2.2. Eliminar anuncios del usuario
-                    // Gracias al ON DELETE CASCADE configurado, esto borrará automáticamente 
-                    // los registros de fotos, mensajes del anuncio y solicitudes.
+                    // registros de fotos, mensajes del anuncio y solicitudes.
                     $sql_eliminar_anuncios = "DELETE FROM ANUNCIOS WHERE Usuario = ?";
                     $stmt_anuncios = $db->prepare($sql_eliminar_anuncios);
                     $stmt_anuncios->bind_param("i", $usuario_id);
@@ -204,7 +202,7 @@ $zona = 'privada';
     <?php require('cabecera.php'); ?>
 
     <main>
-        <h2>🗑️ Darme de baja</h2>
+        <h2>Darme de baja</h2>
 
         <?php if (!empty($errores)): ?>
             <div class="mensaje-error">

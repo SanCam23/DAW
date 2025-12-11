@@ -34,21 +34,15 @@ $resultado_validacion = validarFormularioUsuario($datos_formulario, false);
 if ($resultado_validacion !== true) {
     $errores = $resultado_validacion;
 } else {
-    // --- Lógica de subida de foto REUTILIZABLE ---
     $ruta_foto_bd = null;
 
-    // Llamamos a la función genérica pasando el input 'foto'
-    // Esta función maneja validación, nombre único y movimiento
     $resultado_subida = subirImagen($_FILES['foto'] ?? null, RUTA_FOTOS_PERFIL);
 
     if ($resultado_subida['error']) {
-        // Si la función devuelve error, lo añadimos
         $errores[] = $resultado_subida['error'];
     } elseif ($resultado_subida['ruta']) {
-        // Si devuelve ruta, es que se subió bien
         $ruta_foto_bd = $resultado_subida['ruta'];
     }
-    // ---------------------------------------------
 
     // Si no hay errores, conectar a BD
     if (empty($errores)) {

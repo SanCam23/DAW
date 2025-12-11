@@ -47,14 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
         }
 
         // --- Borrado físico del archivo ---
-        // Verificamos que la ruta no esté vacía y que el archivo exista antes de intentar borrarlo
         if (!empty($foto['Foto']) && file_exists($foto['Foto'])) {
             if (!unlink($foto['Foto'])) {
                 // Si falla el borrado físico, lanzamos excepción para deshacer los cambios en BD
                 throw new Exception("No se pudo eliminar el archivo del servidor.");
             }
         }
-        // ----------------------------------
 
         // Borrar de la tabla FOTOS
         $stmt_del = $db->prepare("DELETE FROM FOTOS WHERE IdFoto = ?");

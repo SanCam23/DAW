@@ -30,8 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
 
     $db->begin_transaction();
     try {
-        // --- 1. LIMPIEZA DE ARCHIVOS FÍSICOS (Persona 2) ---
-        // Seguimos necesitando esto porque la BD no puede borrar archivos del disco
+        // --- 1. LIMPIEZA DE ARCHIVOS FÍSICOS ---
         $sql_fotos = "SELECT Foto FROM FOTOS WHERE Anuncio = ?";
         $stmt_fotos = $db->prepare($sql_fotos);
         $stmt_fotos->bind_param("i", $id_anuncio);
@@ -41,19 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
         while ($foto = $res_fotos->fetch_assoc()) {
             $ruta_archivo = $foto['Foto'];
             if (!empty($ruta_archivo) && file_exists($ruta_archivo)) {
-                if (!unlink($ruta_archivo)) {
-                    // Opcional: Lanzar error si no se puede borrar el archivo
-                    // throw new Exception("Error al borrar el archivo físico.");
-                }
+                unlink($ruta_archivo);
             }
         }
         $stmt_fotos->close();
-        // ----------------------------------------------------
 
-        // --- 2. BORRADO EN BD (Ahora Automático) ---
-        // Al borrar el anuncio, el motor SQL borrará automáticamente (ON DELETE CASCADE)
-        // todos los registros relacionados en las tablas MENSAJES, SOLICITUDES y FOTOS.
-        
+        // --- 2. BORRADO EN BD ---
+        // registros relacionados en las tablas MENSAJES, SOLICITUDES y FOTOS.
         $stmt_del = $db->prepare("DELETE FROM ANUNCIOS WHERE IdAnuncio = ?");
         $stmt_del->bind_param("i", $id_anuncio);
         

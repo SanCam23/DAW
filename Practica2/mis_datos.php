@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         // Borrar foto actual (solo si no se sube una nueva)
         elseif (isset($_POST['borrar_foto']) && $_POST['borrar_foto'] == '1') {
-            $nueva_ruta_foto = null; // En BD será NULL
+            $nueva_ruta_foto = null;
             $borrar_foto_fisica = true;
         }
     }
